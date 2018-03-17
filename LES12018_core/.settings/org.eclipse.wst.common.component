@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="UTF-8"?><project-modules id="moduleCoreId" project-version="1.5.0">
+    <wb-module deploy-name="LES12018_core">
+        <wb-resource deploy-path="/" source-path="/src"/>
+        <dependent-module archiveName="LES12018_Dominio.jar" deploy-path="/" handle="module:/resource/LES12018_Dominio/LES12018_Dominio">
+            <dependency-type>uses</dependency-type>
+        </dependent-module>
+    </wb-module>
+</project-modules>
