@@ -1,0 +1,110 @@
+@CHARSET "ISO-8859-1";
+
+button {
+	opacity:0.9;
+	cursor: pointer;
+}
+
+h1{
+	font-size: 25px;
+	margin-bottom: 20px;
+	margin-top: 15px;
+	margin-left: 15px;
+}
+
+::placeholder {
+	opacity: 0.5;
+	font-style: italic;
+}
+
+legend {
+	font-family: sans serif;
+	color: #000000;
+	font-size: 20px;
+}
+
+.campos-livro {
+	position: relative;
+	margin-top: 5px;
+	margin-right: 51px;
+	width: 350px;
+}
+
+.select-categoria {
+	position: absolute;
+	margin-left: 4px;
+	margin-top: 5px;
+}
+
+.input-sinopse {
+	height: 80px;
+	margin-bottom: -5px;
+	
+}
+.titulos-label {
+	display: inline-block;
+	margin-top: 15px;
+	margin-right: 55px;
+	width: 350px;
+}
+
+.separador{
+	margin-left: 31px;
+	width: 132px;
+}
+
+.no-space-break{
+    white-space:nowrap;
+  }
+  
+.select{
+  	width: 55px;
+  	margin-left: 28px;
+  	margin-right: 20px;
+  }
+  
+.label-fisicas{
+	width: 49px;
+	margin-right: 45px;
+}
+
+.input-fisicas{
+	width: 45px;
+	margin-right: 45px;
+}
+
+.input-altern {
+	margin-right: 30px;
+	width: 154px;
+}
+
+.label-altern{
+	display: inline-block;
+	width: 152px;
+	margin-right: 34px;	
+}
+
+
+.label-altern2 {
+	display: inline-block;
+	width: 100px;
+	margin-right: 5px;
+}
+
+#fieldset-main {
+	padding-top: 0px;
+	padding-bottom: 15px;
+	padding-left: 15px;
+	padding-right: 15px;
+	margin: 25px;
+	margin-bottom: 35px;
+	border-color: #000000;
+}
+
+#field-imgs{
+	margin-top: 15px;
+	border-color: #000000;
+	border-width: 2px;
+	width: 400px;
+	height: 150px;
+}
