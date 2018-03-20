@@ -2,6 +2,15 @@
     <wb-module deploy-name="LES12018_web">
         <wb-resource deploy-path="/" source-path="/WebContent" tag="defaultRootSource"/>
         <wb-resource deploy-path="/WEB-INF/classes" source-path="/src"/>
+        <dependent-module archiveName="LES12018_core.jar" deploy-path="/WEB-INF/lib" handle="module:/resource/LES12018_core/LES12018_core">
+            <dependency-type>uses</dependency-type>
+        </dependent-module>
+        <dependent-module archiveName="mysql-connector-java-5.1.45-bin.jar" deploy-path="/WEB-INF/lib" handle="module:/classpath/lib/C:/Users/ruben/Downloads/Programação/mysql-connector-java-5.1.45/mysql-connector-java-5.1.45-bin.jar">
+            <dependency-type>uses</dependency-type>
+        </dependent-module>
+        <dependent-module archiveName="LES12018_Dominio.jar" deploy-path="/WEB-INF/lib" handle="module:/resource/LES12018_Dominio/LES12018_Dominio">
+            <dependency-type>uses</dependency-type>
+        </dependent-module>
         <property name="context-root" value="LES12018_web"/>
         <property name="java-output-path" value="/LES12018_web/build/classes"/>
     </wb-module>

@@ -1,6 +1,6 @@
 package les12018.dominio;
 
-public class Autor extends EntidadeDominio{
+public class CatInativacao extends EntidadeDominio{
 	private String Nome;
 
 	public String getNome() {

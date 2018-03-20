@@ -3,7 +3,6 @@
 	<name>LES12018_core</name>
 	<comment></comment>
 	<projects>
-		<project>LES12018_Dominio</project>
 	</projects>
 	<buildSpec>
 		<buildCommand>

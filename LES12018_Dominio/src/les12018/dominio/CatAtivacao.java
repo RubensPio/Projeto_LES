@@ -1,6 +1,6 @@
 package les12018.dominio;
 
-public class Autor extends EntidadeDominio{
+public class CatAtivacao extends EntidadeDominio{
 	private String Nome;
 
 	public String getNome() {
@@ -10,4 +10,5 @@ public class Autor extends EntidadeDominio{
 	public void setNome(String nome) {
 		Nome = nome;
 	}
+
 }

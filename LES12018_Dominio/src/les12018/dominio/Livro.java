@@ -9,16 +9,38 @@ public class Livro extends EntidadeDominio {
 	private String ISBN;
 	private String Sinopse;
 	private String CodBarras;
-	private int NumPaginas;
+	private String NumPaginas;
+	private int Estoque;
 	private double peso;
 	private double Altura;
 	private double largura;
 	private double profundidade;
-	private boolean ativo = true;
+	private boolean ativo;
 	private Autor autor;
 	private Editora editora;
 	private List<Categoria> Categorias;
 	private GrupoPrecificacao GP;
+	private Inativacao inativacao;
+	private Ativacao ativacao;
+	
+	public Inativacao getInativacao() {
+		return inativacao;
+	}
+	public void setInativacao(Inativacao inativacao) {
+		this.inativacao = inativacao;
+	}
+	public Ativacao getAtivacao() {
+		return ativacao;
+	}
+	public void setAtivacao(Ativacao ativacao) {
+		this.ativacao = ativacao;
+	}
+	public int getEstoque() {
+		return Estoque;
+	}
+	public void setEstoque(int estoque) {
+		Estoque = estoque;
+	}
 	
 	public Editora getEditora() {
 		return editora;
@@ -70,10 +92,10 @@ public class Livro extends EntidadeDominio {
 	public void setCodBarras(String codBarras) {
 		CodBarras = codBarras;
 	}
-	public int getNumPaginas() {
+	public String getNumPaginas() {
 		return NumPaginas;
 	}
-	public void setNumPaginas(int numPaginas) {
+	public void setNumPaginas(String numPaginas) {
 		NumPaginas = numPaginas;
 	}
 	public double getPeso() {
