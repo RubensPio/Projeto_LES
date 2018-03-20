@@ -41,41 +41,147 @@ public class Fachada implements IFachada{
 		rnsSalvarLivro.add(vDadosObrigatoriosLivro);
 		rnsSalvarLivro.add(lCategoria);
 		
+		List<IStrategy> rnsInativarLivro = new ArrayList<IStrategy>();
+		
+		rnsInativarLivro.add(mInativacao);
+		
 		Map<String, List<IStrategy>> rnsLivro = new HashMap<String, List<IStrategy>>();
 		
 		rnsLivro.put("SALVAR", rnsSalvarLivro);
+		rnsLivro.put("INATIVAR", rnsInativarLivro);
 		
 		rns.put(Livro.class.getName(), rnsLivro);
 	}
 
 	@Override
 	public Resultado salvar(EntidadeDominio entidade) {
-		// TODO Auto-generated method stub
-		return null;
+		resultado = new Resultado();
+		String nmClasse = entidade.getClass().getName();
+		
+		String msg = executarRegras(entidade, "SALVAR");
+		
+		if(msg == null) {
+			IDAO dao = daos.get(nmClasse);
+			try {
+				dao.salvar(entidade);
+				List<EntidadeDominio> entidades = new ArrayList<EntidadeDominio>();
+				entidades.add(entidade);
+				resultado.setEntidades(entidades);
+			} catch (SQLException e) {
+				e.printStackTrace();
+				resultado.setMsg("Não foi possível realizar o registro!");
+			}
+		} else {
+			resultado.setMsg(msg);
+		}
+		return resultado;
 	}
 
 	@Override
 	public Resultado excluir(EntidadeDominio entidade) {
-		// TODO Auto-generated method stub
-		return null;
+		resultado = new Resultado();
+		String nmClasse = entidade.getClass().getName();
+		
+		String msg = executarRegras(entidade, "EXCLUIR");
+		
+		if(msg == null) {
+			IDAO dao = daos.get(nmClasse);
+			try {
+				dao.excluir(entidade);
+				List<EntidadeDominio> entidades = new ArrayList<EntidadeDominio>();
+				entidades.add(entidade);
+				resultado.setEntidades(entidades);
+			} catch (SQLException e) {
+				e.printStackTrace();
+				resultado.setMsg("Não foi possivel realizar o registro!");
+			}
+		} else {
+			resultado.setMsg(msg);
+		}
+		return resultado;
 	}
 
 	@Override
 	public Resultado alterar(EntidadeDominio entidade) {
-		// TODO Auto-generated method stub
-		return null;
+		resultado = new Resultado();
+		String nmClasse = entidade.getClass().getName();
+		
+		String msg = executarRegras(entidade, "ALTERAR");
+		
+		if(msg == null) {
+			IDAO dao = daos.get(nmClasse);
+			try {
+				dao.alterar(entidade);
+				List<EntidadeDominio> entidades = new ArrayList<EntidadeDominio>();
+				entidades.add(entidade);
+				resultado.setEntidades(entidades);
+			} catch (SQLException e) {
+				e.printStackTrace();
+				resultado.setMsg("Não foi possivel realizar o registro!");
+			}
+		} else {
+			resultado.setMsg(msg);
+		}
+		return resultado;
 	}
 
 	@Override
 	public Resultado consultar(EntidadeDominio entidade) {
-		// TODO Auto-generated method stub
-		return null;
+		resultado = new Resultado();
+		String nmClasse = entidade.getClass().getName();
+		
+		String msg = executarRegras(entidade, "CONSULTAR");
+		
+		if(msg == null) {
+			IDAO dao = daos.get(nmClasse);
+			try {
+				dao.consultar(entidade);
+				List<EntidadeDominio> entidades = new ArrayList<EntidadeDominio>();
+				entidades.add(entidade);
+				resultado.setEntidades(entidades);
+			} catch (SQLException e) {
+				e.printStackTrace();
+				resultado.setMsg("Não foi possivel realizar o registro!");
+			}
+		} else {
+			resultado.setMsg(msg);
+		}
+		return resultado;
 	}
 
 	@Override
 	public Resultado visualizar(EntidadeDominio entidade) {
-		// TODO Auto-generated method stub
-		return null;
+		resultado = new Resultado();
+		resultado.setEntidades(new ArrayList<EntidadeDominio>(1));
+		resultado.getEntidades().add(entidade);
+		return resultado;
+	}
+	
+	private String executarRegras(EntidadeDominio entidade, String operacao) {
+		String nmClasse = entidade.getClass().getName();
+		StringBuilder msg = new StringBuilder();
+		
+		Map<String, List<IStrategy>> regrasOperacao = rns.get(nmClasse);
+		
+		if(regrasOperacao != null) {
+			List<IStrategy> regras = regrasOperacao.get(operacao);
+			
+			if(regras != null) {
+				for(IStrategy s:regras) {
+					String m = s.processar(entidade);
+					
+					if(m != null) {
+						msg.append(m);
+						msg.append("\n");
+					}
+				}
+			}
+		}
+		
+		if(msg.length()>0)
+			return msg.toString();
+		else
+			return null;
 	}
 	
 }
