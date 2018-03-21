@@ -6,12 +6,18 @@ import java.sql.SQLClientInfoException;
 import java.sql.SQLException;
 import java.sql.Statement;
 import java.sql.Timestamp;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-import java.util.Date;
+import java.sql.Date;
 import java.util.List;
 
+import les12018.dominio.Ativacao;
+import les12018.dominio.Autor;
 import les12018.dominio.Categoria;
+import les12018.dominio.Editora;
 import les12018.dominio.EntidadeDominio;
+import les12018.dominio.GrupoPrecificacao;
+import les12018.dominio.Inativacao;
 import les12018.dominio.Livro;
 
 public class LivroDAO extends AbstractJdbcDAO {
@@ -22,7 +28,7 @@ public class LivroDAO extends AbstractJdbcDAO {
 	public void salvar(EntidadeDominio entidade) {
 		openConnection();
 		PreparedStatement pst = null;
-		Livro livro = (Livro)entidade;
+		Livro livro = (Livro)entidade;		
 		
 		try {
 			connection.setAutoCommit(false);
@@ -31,7 +37,7 @@ public class LivroDAO extends AbstractJdbcDAO {
 			sql.append("INSERT INTO tb_livros(LIV_TITULO, LIV_ANO,"
 					+ " LIV_EDICAO, LIV_ISBN, LIV_NUMPAG, LIV_SINOPSE, LIV_ALTURA,"
 					+ " LIV_LARGURA, LIV_PESO, LIV_PROFUNDIDADE, LIV_CODBARRAS,"
-					+ " LIV_ISATIVO, LIV_AUT_ID, LIV_EDI_ID, LIV_GRP_ID)");
+					+ " LIV_ISATIVO, LIV_AUT_ID, LIV_EDI_ID, LIV_GRP_ID, LIV_DATACADASTRO)");
 			sql.append(" VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)");
 			
 			pst = connection.prepareStatement(sql.toString());
@@ -51,6 +57,7 @@ public class LivroDAO extends AbstractJdbcDAO {
 			pst.setInt(13, livro.getAutor().getId());
 			pst.setInt(14, livro.getEditora().getId());
 			pst.setInt(15, livro.getGP().getId());
+			pst.setDate(16, (Date) livro.getDtCadastro());
 			
 			pst.executeUpdate();
 			
@@ -179,12 +186,20 @@ public class LivroDAO extends AbstractJdbcDAO {
 			
 			pst.executeUpdate();
 			
+			connection.commit();
+			
 			sql = new StringBuilder();
 			sql.append("INSERT INTO tb_inativacao(INA_JUSTIFICATIVA, INA_CTI_ID, )");
 			sql.append(" VALUES(?,?)");
+			
+			pst = connection.prepareStatement(sql.toString());
+			
 			pst.setString(1, livro.getInativacao().getMotivo());
 			pst.setInt(2, livro.getInativacao().getCategoria().getId());
 			
+			pst.executeUpdate();
+			
+			connection.commit();
 			
 			} catch (SQLException e) {
 				try {
@@ -266,6 +281,18 @@ public class LivroDAO extends AbstractJdbcDAO {
 			ResultSet rs = pst.executeQuery();
 			while(rs.next()) {
 				Livro li = new Livro();
+				Autor aut = new Autor();
+				Editora edi = new Editora();
+				GrupoPrecificacao gp = new GrupoPrecificacao();
+				Inativacao ina = new Inativacao();
+				Ativacao ati = new Ativacao();
+				
+				li.setAutor(aut);
+				li.setEditora(edi);
+				li.setGP(gp);
+				li.setInativacao(ina);
+				li.setAtivacao(ati);
+				
 				li.setId(rs.getInt("LIV_ID"));
 				li.getAutor().setId(rs.getInt("LIV_AUT_ID"));
 				li.setTitulo(rs.getString("LIV_TITULO"));

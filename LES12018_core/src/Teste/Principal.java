@@ -4,6 +4,8 @@ import java.util.ArrayList;
 import java.util.List;
 
 import LES12018.core.impl.dao.LivroDAO;
+import LES12018.core.util.ConverteDate;
+import jdk.internal.dynalink.linker.ConversionComparator;
 import les12018.dominio.Autor;
 import les12018.dominio.Categoria;
 import les12018.dominio.Editora;
@@ -20,6 +22,7 @@ public class Principal {
 		Categoria cat2 = new Categoria();
 		Editora editora = new Editora();
 		GrupoPrecificacao grp = new GrupoPrecificacao();
+		ConverteDate cvd = new ConverteDate();
 		Autor autor = new Autor();
 		List<Categoria> cats = new ArrayList<Categoria>();
 		boolean ativacao = true;
@@ -55,6 +58,7 @@ public class Principal {
 		livro.setNumPaginas("254");
 		livro.setSinopse("oloco bixo");
 		livro.setCategorias(cats);
+		livro.setDtCadastro(cvd.converteStringDate("20/03/2018"));
 		
 		dao.salvar(livro);
 
