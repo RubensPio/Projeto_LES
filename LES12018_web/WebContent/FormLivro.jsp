@@ -3,7 +3,7 @@
 <%@page import="les12018.dominio.*"%>
 <%@page import="les12018.auxiliar.DadosParaCadastro"%>
 <%@page import="les12018.dominio.Livro"%>
-<%@ page import="java.util.*"%>
+<%@page import="java.util.*"%>
 <!DOCTYPE html>
 <html>
 	<head>
@@ -62,7 +62,7 @@
 								<div class="row">
 									<div class="col-md-6 mb-3">
 										<label class="titulos-label"> <strong> Título do Livro </strong> </label> 
-										<input class="form-control" type="text" name="txtTitulo" placeholder="Ex: Vidas Secas" required>
+										<input id="txtTitulo" class="form-control" type="text" name="txtTitulo" placeholder="Ex: Vidas Secas" required>
 									</div>
 									<div class="col-md-6 mb-3" style="${empty livro ? 'display:none' : ''}">
 										<label> <string> <strong>Id Livro</strong></label>
@@ -104,12 +104,12 @@
 									<div class="row">
 										<div class="col-md mb-3">
 											<label id="txtISBN" class="titulos-label label-altern"> <strong>ISBN</strong></label><br>
-											<input id="input-isbn" class="form-control" type="text" name="ISBN" placeholder="Ex: 9780733426094">
+											<input id="txtISBN" class="form-control" type="text" name="txtISBN" placeholder="Ex: 9780733426094">
 										</div>
 										
 										<div>
 											<label id="col-md mb-3" class="titulos-label label-altern"> <strong>Código de Barras</strong></label><br>
-											<input id="input-codbar" class="form-control" type="text" name="Código de Barras" placeholder="Ex: 7898357410015">
+											<input id="txtCodBarras" class="form-control" type="text" name="txtCodBarras" placeholder="Ex: 7898357410015">
 										</div>
 										
 										<div class="col-sm mb-3">
@@ -119,12 +119,12 @@
 										
 										<div>
 											<label id="col-sm mb-3" class="titulos-label label-altern2"> <strong>Ano</strong></label><br>
-											<input id="txtAno" class="form-control" type="text" name="Ano" placeholder="Ex: 2018">
+											<input id="txtAno" class="form-control" type="text" name="txtAno" placeholder="Ex: 2018">
 										</div>
 										
 										<div>
 											<label id="col-sm mb-3" class="titulos-label label-altern2 no-space-break"> <strong>Número de Páginas</strong> </label> <br>
-											<input class="form-control" type="text" name="Num de paginas" placeholder="Ex: 250">
+											<input id ="txtNumPaginas"class="form-control" type="text" name="txtNumPaginas" placeholder="Ex: 250">
 										</div>				
 									</div>
 								<div>
@@ -136,7 +136,10 @@
 										
 										<div class="col-md-6 mb-3">
 											<label id="label-categoria" class="col-md-6 mb-3"> <strong>Categoria</strong> </label> <br>
-											<select class="custom-select d-block w-100"> <option>Categoria</option> </select>
+											<select class="custom-select d-block w-100"> 
+												<option>Categoria</option>
+												
+											</select>
 										</div> 
 									</div>
 								</div>
@@ -152,22 +155,22 @@
 							<div class="row">
 								<div class="col-md-3 mb-3">
 									<label id="label-altura" class="titulos-label label-fisicas"> <strong> Altura </strong> </label>
-									<input id="input-altura" class="form-control" type="text" name="Altura" placeholder="Em cm">
+									<input id="txtAltura" class="form-control" type="text" name="txtAltura" placeholder="Em cm">
 								</div>
 								
 								<div class="col-md-3 mb-3">
 									<label id="label-largura" class="titulos-label label-fisicas"> <strong> Largura </strong> </label>
-									<input id="input-largura" class="form-control" type="text" name="Largura" placeholder="Em cm">
+									<input id="txtLargura" class="form-control" type="text" name="Largura" placeholder="Em cm">
 								</div>
 								
 								<div class="col-md-3 mb-3">
 									<label id="label-peso" class="titulos-label label-fisicas"> <strong> Peso </strong> </label>
-									<input id="input-peso" class="form-control" type="text" name="Peso" placeholder="Em g">
+									<input id="txtPeso" class="form-control" type="text" name="txtPeso" placeholder="Em g">
 								</div>
 								
 								<div class="col-md-3 mb-3">
 									<label id="label-profund" class="titulos-label label-fisicas"> <strong> Profundidade </strong> </label> <br>
-									<input id="input-profundidade" class="form-control" type="text" name="Profundidade" placeholder="Em cm">
+									<input id="txtProfundidade" class="form-control" type="text" name="txtProfundidade" placeholder="Em cm">
 								</div>
 							</div>							
 							<hr class="mb-4">

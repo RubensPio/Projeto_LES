@@ -37,7 +37,7 @@ public class Servlet extends HttpServlet {
         commands = new HashMap<String, ICommand>();
         
         commands.put("SALVAR", new SalvarCommand());
-        commands.put("ECLUIR", new ExcluirCommand());
+        commands.put("EXCLUIR", new ExcluirCommand());
         commands.put("CONSULTAR", new ConsultarCommand());
         commands.put("VISUALIZAR", new VisualizarCommand());
         commands.put("ALTERAR", new AlterarCommand());
