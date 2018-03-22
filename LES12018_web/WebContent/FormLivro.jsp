@@ -14,15 +14,42 @@
 	<title>Cadastrar Livro</title>
 	</head>
 	<header>
-		<h1>Cadastrar Livro</h1>
+		<nav class="navbar navbar-expand-lg navbar-light bg-light">
+			  <a class="navbar-brand" href="#">
+			  	<img src="logo.png" width="30" height="30" class="d-inline-block align-top" alt="">
+			  	ToopBooks
+			  </a>
+			  <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+			    <span class="navbar-toggler-icon"></span>
+			  </button>
+			  <div class="collapse navbar-collapse" id="navbarNav">
+			    <ul class="navbar-nav">
+			      <li class="nav-item">
+			        <a class="nav-link" href="../FormLivro">Gerênciar Pedidos </a>
+			      </li>
+			      <li class="nav-item">
+			        <a class="nav-link" href="#">Gerenciar Livro</a>
+			      </li>
+			      <li class="nav-item">
+			        <a class="nav-link" href="#">Gerênciar Trocas</a>
+			      </li>
+			      <li class="nav-item">
+			        <a class="nav-link" href="#">Análises</a>
+			      </li>
+			    </ul>
+			  </div>
+			</nav>
+			<div class="mx-auto" style="width: 300px;">
+				<h1>Cadastrar Livro</h1>
+			</div>   
 	</header>
 	<body>
 	<%
-		Resultado resultado = (Resultado) session.getAttribute("resultado");
-		List<EntidadeDominio> entidade = resultado.getEntidades();
+		//Resultado resultado = (Resultado) session.getAttribute("resultado");
+		//List<EntidadeDominio> entidade = resultado.getEntidades();
 		
-		DadosParaCadastro dados = (DadosParaCadastro)entidade.get(0);
-		StringBuilder sb;
+		//DadosParaCadastro dados = (DadosParaCadastro)entidade.get(0);
+		//StringBuilder sb;
 	%>
 		<div class="container">
 		<!--  -->
@@ -49,15 +76,15 @@
 										<select class="custom-select d-block w-100" id="ddlAutor" name="dllAutor" placeholder="Autor" required>
 											<option value>Escolha...</option>
 											<%
-												sb = new StringBuilder();
-											for(Autor aut : dados.getAutores())
-											{
-												sb.append("<option value='");
-												sb.append(aut.getId()+ "'>");
-												sb.append(aut.getNome());
-												sb.append("</option");
-											}
-											out.print(sb.toString());
+												//sb = new StringBuilder();
+											//for(Autor aut : dados.getAutores())
+											//{
+												//sb.append("<option value='");
+											//	sb.append(aut.getId()+ "'>");
+										//		sb.append(aut.getNome());
+										//		sb.append("</option");
+										//	}
+										//	out.print(sb.toString());
 											%>
 										</select>
 										<div class="invalid-feedback">
