@@ -15,6 +15,7 @@ public class Livro extends EntidadeDominio {
 	private double Altura;
 	private double largura;
 	private double profundidade;
+	private double Preco;
 	private boolean ativo;
 	private Autor autor;
 	private Editora editora;
@@ -22,6 +23,13 @@ public class Livro extends EntidadeDominio {
 	private GrupoPrecificacao GP;
 	private Inativacao inativacao;
 	private Ativacao ativacao;
+	
+	public double getPreco() {
+		return Preco;
+	}
+	public void setPreco(double preco) {
+		Preco = preco;
+	}
 	
 	public Inativacao getInativacao() {
 		return inativacao;

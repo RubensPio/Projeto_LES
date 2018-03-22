@@ -13,7 +13,7 @@ import les12018.dominio.EntidadeDominio;
 import les12018.dominio.GrupoPrecificacao;
 import les12018.dominio.Livro;
 
-public class Principal {
+public class TesteInsert {
 
 	public static void main(String[] args) {
 		Livro livro = new Livro();

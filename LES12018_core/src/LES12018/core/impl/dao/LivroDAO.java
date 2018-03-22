@@ -133,6 +133,14 @@ public class LivroDAO extends AbstractJdbcDAO {
 			
 			connection.commit();
 			
+			sql = new StringBuilder();
+            sql.append(" SELECT max(ID_Livro) from livros;");
+            pst = connection.prepareStatement(sql.toString());
+            ResultSet rs = pst.executeQuery();
+            while(rs.next()){
+                livro.setId(rs.getInt("ID_Livro"));
+            }
+			
 			for(Categoria categoria:livro.getCategorias()) {
 				sql = new StringBuilder();
 				sql.append("UPDATE tb_contem SET CON_LIV_ID=?, CON_CAT_ID=? ");
@@ -189,7 +197,7 @@ public class LivroDAO extends AbstractJdbcDAO {
 			connection.commit();
 			
 			sql = new StringBuilder();
-			sql.append("INSERT INTO tb_inativacao(INA_JUSTIFICATIVA, INA_CTI_ID, )");
+			sql.append("INSERT INTO tb_inativacao(INA_JUSTIFICATIVA, INA_CTI_ID )");
 			sql.append(" VALUES(?,?)");
 			
 			pst = connection.prepareStatement(sql.toString());
@@ -237,9 +245,9 @@ public class LivroDAO extends AbstractJdbcDAO {
 		sql.append(" ON(categoria.CAT_ID = contem.CON_CAT_ID AND");
 		sql.append(" livro.LIV_ID = contem.CON_LIV_ID) ");
 		sql.append("LEFT JOIN tb_inativacao AS inativacao");
-		sql.append(" ON(livro.LIV_INA_ID = inativacao.INA_ID");
+		sql.append(" ON(livro.LIV_ID = inativacao.INA_LIV_ID");
 		sql.append("LEFT JOIN tb_ativacao AS ativacao");
-		sql.append(" ON(livro.LIV_ATI_iD = ativacao.ATI_ID");
+		sql.append(" ON(livro.LIV_ID = ativacao.ATI_LIV_ID");
 		sql.append("LEFT JOIN tb_categoriaativacao AS catativacao");
 		sql.append(" ON(ativacao.ATI_CTA_ID = catativacao.CTA_ID");
 		sql.append("LEFT JOIN tb_categoriainativacao AS catinativacao");
@@ -313,7 +321,7 @@ public class LivroDAO extends AbstractJdbcDAO {
 				li.getEditora().setId(rs.getInt("LIV_EDI_ID"));
 				li.setDtCadastro(rs.getDate("LIV_DATACADASTRO"));
 				li.setAtivo(rs.getBoolean("LIV_ISATIVO"));
-				li.getAtivacao().setId(rs.getInt("LIV_ATI_ID"));
+				li.getAtivacao().setId(rs.getInt("ATI_ID"));
 				li.getAtivacao().setMotivo(rs.getString("ATI_JUSTIFICATIVA"));
 				li.getAtivacao().getCategoria().setId(rs.getInt("CTA_ID"));
 				li.getAtivacao().getCategoria().setNome(rs.getString("CTA_NOME"));
