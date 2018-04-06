@@ -1,0 +1,31 @@
+@CHARSET "ISO-8859-1";
+ul {
+	list-style: none;
+	margin: 0;
+	padding: 0;
+	overflow: hidden; /*Faz com que os itens não saiam para fora da caixa */
+	background-color: #333;
+	box-shadow: 0 2px 4px 0 rgba(0, 0, 0, 0.2), 0 4px 20px 0 rgba(0, 0, 0, 0.19);
+}
+
+ul li {
+	float: left;
+}
+
+ul li a {
+	display: block;
+	color: white;
+	text-align: center;
+	padding: 14px 16px;
+	text-decoration: none;
+	vertical-align: middle;
+}
+
+li a:hover { 			/* muda a cor do link ao passar o mouse por cima*/
+	background-color: #111;
+}
+
+.active {
+	background-color: #ed1a1a;	
+}
+
