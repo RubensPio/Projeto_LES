@@ -24,4 +24,14 @@
 		<servlet-name>Servlet</servlet-name>
 		<url-pattern>/SalvarLivro</url-pattern>
 	</servlet-mapping>
+	
+	<servlet-mapping>
+		<servlet-name>Servlet</servlet-name>
+		<url-pattern>/DadosParaLivro</url-pattern>
+	</servlet-mapping>
+	
+	<servlet-mapping>
+		<servlet-name>Servlet</servlet-name>
+		<url-pattern>/Livros</url-pattern>
+	</servlet-mapping>
 </web-app>

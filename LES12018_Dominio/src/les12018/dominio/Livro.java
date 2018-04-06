@@ -1,5 +1,6 @@
 package les12018.dominio;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public class Livro extends EntidadeDominio {
@@ -16,13 +17,13 @@ public class Livro extends EntidadeDominio {
 	private double largura;
 	private double profundidade;
 	private double Preco;
-	private boolean ativo;
-	private Autor autor;
-	private Editora editora;
-	private List<Categoria> Categorias;
-	private GrupoPrecificacao GP;
-	private Inativacao inativacao;
-	private Ativacao ativacao;
+	private Boolean ativo;
+	private Autor autor = new Autor();
+	private Editora editora = new Editora();
+	private List<Categoria> Categorias = new ArrayList<Categoria>();
+	private GrupoPrecificacao GP = new GrupoPrecificacao();
+	private Inativacao inativacao = new Inativacao();
+	private Ativacao ativacao = new Ativacao();
 	
 	public double getPreco() {
 		return Preco;
@@ -57,10 +58,10 @@ public class Livro extends EntidadeDominio {
 		this.editora = editora;
 	}
 	
-	public boolean isAtivo() {
+	public Boolean isAtivo() {
 		return ativo;
 	}
-	public void setAtivo(boolean ativo) {
+	public void setAtivo(Boolean ativo) {
 		this.ativo = ativo;
 	}
 	

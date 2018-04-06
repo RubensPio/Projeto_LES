@@ -11,11 +11,10 @@ public class MotivoInativacao implements IStrategy{
 		if(entidade instanceof Livro) {
 			Livro livro = (Livro)entidade;
 			String motivo = livro.getInativacao().getMotivo();
-			
-			if(motivo == null)
+			System.out.println(livro.getInativacao().getMotivo());
+			if(motivo == null || motivo.trim().equals(""))
 				return "É necesssário informar um Motivo de inativação de um livro";
 		}
 		return null;
 	}
-
 }

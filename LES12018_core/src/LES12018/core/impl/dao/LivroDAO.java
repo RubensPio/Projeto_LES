@@ -10,9 +10,13 @@ import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.sql.Date;
 import java.util.List;
+import java.util.concurrent.ExecutorCompletionService;
 
+import LES12018.core.impl.negocio.CategoriaAtivacao;
 import les12018.dominio.Ativacao;
 import les12018.dominio.Autor;
+import les12018.dominio.CatAtivacao;
+import les12018.dominio.CatInativacao;
 import les12018.dominio.Categoria;
 import les12018.dominio.Editora;
 import les12018.dominio.EntidadeDominio;
@@ -63,6 +67,15 @@ public class LivroDAO extends AbstractJdbcDAO {
 			
 			connection.commit();
 			
+			sql = new StringBuilder();
+            sql.append("SELECT max(LIV_ID) as LiV_iD from tb_livros");
+            pst = connection.prepareStatement(sql.toString());
+            ResultSet rs = pst.executeQuery();
+            while(rs.next()){
+                livro.setId(rs.getInt("LIV_ID"));
+            }
+            
+			System.out.println(livro.getCategorias().get(0).getId());
 			for(Categoria categoria:livro.getCategorias()) {
 				sql = new StringBuilder();
 				sql.append("INSERT INTO tb_contem(CON_LIV_ID, CON_CAT_ID) ");
@@ -72,7 +85,6 @@ public class LivroDAO extends AbstractJdbcDAO {
 				
 				pst.setInt(1, livro.getId());
 				pst.setInt(2, categoria.getId());
-				
 				pst.executeUpdate();
 				
 				connection.commit();
@@ -100,15 +112,15 @@ public class LivroDAO extends AbstractJdbcDAO {
 		openConnection();
 		PreparedStatement pst = null;
 		Livro livro = (Livro)entidade;
-		
+		System.out.println(livro.getId());
 		try {
 			connection.setAutoCommit(false);
 			
 			StringBuilder sql = new StringBuilder();
-			sql.append("UPDATE tb_livros SET LIV_TITULO=?, LIV_ANO=?,LIV_EDICAO=?, LIV_ISBN=?,"
-					+ " LIV_NUMPAG=?, LIV_SINOPSE=?, LIV_ALTURA=?, LIV_LARGURA=?, LIV_PESO=?, "
-					+ " LIV_PROFUNDIDADE=?, LIV_CODBARRAS=?,LIV_ISATIVO=?, LIV_AUT_ID=?, "
-					+ " LIV_EDI_ID=?, LIV_GRP_ID=?");
+			sql.append("UPDATE tb_livros SET LIV_TITULO=?, LIV_ANO=?, LIV_EDICAO=?, LIV_ISBN=?, LIV_CODBARRAS=?,");
+			sql.append("LIV_NUMPAG=?, LIV_SINOPSE=?, LIV_ALTURA=?, LIV_LARGURA=?, LIV_PESO=?, ");
+			sql.append("LIV_PROFUNDIDADE=?, LIV_AUT_ID=?, ");
+			sql.append("LIV_EDI_ID=?, LIV_GRP_ID=? ");
 			sql.append("WHERE LIV_ID=?");
 			
 			pst = connection.prepareStatement(sql.toString());
@@ -116,46 +128,53 @@ public class LivroDAO extends AbstractJdbcDAO {
 			pst.setString(2, livro.getAnoPub());
 			pst.setString(3, livro.getEdicao());
 			pst.setString(4, livro.getISBN());
-			pst.setString(5, livro.getNumPaginas());
-			pst.setString(6, livro.getSinopse());
-			pst.setDouble(7, livro.getAltura());
-			pst.setDouble(8, livro.getLargura());
-			pst.setDouble(9, livro.getPeso());
-			pst.setDouble(10, livro.getProfundidade());
-			pst.setString(11, livro.getCodBarras());
-			pst.setBoolean(12, livro.isAtivo());
-			pst.setInt(13, livro.getAutor().getId());
-			pst.setInt(14, livro.getEditora().getId());
-			pst.setInt(15, livro.getGP().getId());
-			pst.setInt(16, livro.getId());				
+			pst.setString(5, livro.getCodBarras());
+			pst.setString(6, livro.getNumPaginas());
+			pst.setString(7, livro.getSinopse());
+			pst.setDouble(8, livro.getAltura());
+			pst.setDouble(9, livro.getLargura());
+			pst.setDouble(10, livro.getPeso());
+			pst.setDouble(11, livro.getProfundidade());
+			pst.setInt(12, livro.getAutor().getId());
+			pst.setInt(13, livro.getEditora().getId());
+			pst.setInt(14, livro.getGP().getId());
+			pst.setInt(15, livro.getId());
+			
+			System.out.println(pst.toString());
 			
 			pst.executeUpdate();
 			
 			connection.commit();
 			
-			sql = new StringBuilder();
-            sql.append(" SELECT max(ID_Livro) from livros;");
-            pst = connection.prepareStatement(sql.toString());
-            ResultSet rs = pst.executeQuery();
-            while(rs.next()){
-                livro.setId(rs.getInt("ID_Livro"));
-            }
-			
-			for(Categoria categoria:livro.getCategorias()) {
+			if(livro.getCategorias() != null) {
 				sql = new StringBuilder();
-				sql.append("UPDATE tb_contem SET CON_LIV_ID=?, CON_CAT_ID=? ");
-				sql.append("WHERE LIV_ID=?");
-				
+				sql.append("CALL DeletarCategorias(?)");
 				pst = connection.prepareStatement(sql.toString());
 				
 				pst.setInt(1, livro.getId());
-				pst.setInt(2, categoria.getId());
-				pst.setInt(3, livro.getId());
 				
 				pst.executeUpdate();
-				
 				connection.commit();
-			}
+				
+				for(Categoria categoria:livro.getCategorias()) {
+					try {
+					sql = new StringBuilder();
+					sql.append("INSERT INTO tb_contem(CON_LIV_ID, CON_CAT_ID) ");
+					sql.append("VALUES (?,?)");
+					
+					pst = connection.prepareStatement(sql.toString());
+					
+					pst.setInt(1, livro.getId());
+					pst.setInt(2, categoria.getId());
+					
+					pst.executeUpdate();
+					
+					connection.commit();
+					}catch(Exception e) {
+						
+					}
+				}
+		}
 			
 		} catch (SQLException e) {
 			try {
@@ -197,13 +216,87 @@ public class LivroDAO extends AbstractJdbcDAO {
 			connection.commit();
 			
 			sql = new StringBuilder();
-			sql.append("INSERT INTO tb_inativacao(INA_JUSTIFICATIVA, INA_CTI_ID )");
-			sql.append(" VALUES(?,?)");
+			sql.append("CALL DELETE_INATIVACAO(?)");
+			pst = connection.prepareStatement(sql.toString());
+			
+			pst.setInt(1, livro.getId());
+			
+			pst.executeUpdate();
+			
+			connection.commit();
+			
+			sql = new StringBuilder();
+			sql.append("INSERT INTO tb_inativacao(INA_JUSTIFICATIVA, INA_CTI_ID, INA_LIV_ID )");
+			sql.append(" VALUES(?,?,?)");
 			
 			pst = connection.prepareStatement(sql.toString());
 			
 			pst.setString(1, livro.getInativacao().getMotivo());
 			pst.setInt(2, livro.getInativacao().getCategoria().getId());
+			pst.setInt(3, livro.getId());
+			
+			pst.executeUpdate();
+			
+			connection.commit();
+			
+			} catch (SQLException e) {
+				try {
+					connection.rollback();
+				}catch (SQLException e1) {
+					e1.printStackTrace();
+				}
+				e.printStackTrace();
+			}  finally {
+				try {
+					pst.close();
+					connection.close();
+				} catch (SQLException e) {
+					e.printStackTrace();
+				}
+			}
+	}
+	
+	public void ativar(EntidadeDominio entidade) {
+		openConnection();
+		PreparedStatement pst = null;
+		Livro livro = (Livro)entidade;
+		
+		System.out.println("Entrou no ativar");
+		try {
+			connection.setAutoCommit(false);
+			
+			StringBuilder sql = new StringBuilder();
+			sql.append("UPDATE tb_livros SET LIV_ISATIVO=? ");
+			sql.append("WHERE LIV_ID=?");
+			
+			pst = connection.prepareStatement(sql.toString());
+			
+			pst.setBoolean(1, true);
+			pst.setInt(2, livro.getId());
+			
+			pst.executeUpdate();
+			
+			connection.commit();
+			
+			sql = new StringBuilder();
+			sql.append("CALL DELETE_ATIVACAO(?)");
+			pst = connection.prepareStatement(sql.toString());
+			
+			pst.setInt(1, livro.getId());
+			
+			pst.executeUpdate();
+			
+			connection.commit();
+			
+			sql = new StringBuilder();
+			sql.append("INSERT INTO tb_ativacao(ATI_JUSTIFICATIVA, ATI_CTA_ID, ATI_LIV_ID )");
+			sql.append(" VALUES(?,?,?)");
+			
+			pst = connection.prepareStatement(sql.toString());
+			
+			pst.setString(1, livro.getAtivacao().getMotivo());
+			pst.setInt(2, livro.getAtivacao().getCategoria().getId());
+			pst.setInt(3, livro.getId());
 			
 			pst.executeUpdate();
 			
@@ -229,6 +322,8 @@ public class LivroDAO extends AbstractJdbcDAO {
 	@Override
 	public List<EntidadeDominio> consultar (EntidadeDominio entidade){
 		PreparedStatement pst = null;
+		PreparedStatement pst2 = null;
+		int atual = 1;
 		Livro livro = (Livro)entidade;
 		List<EntidadeDominio> livros = new ArrayList<EntidadeDominio>();
 		StringBuilder sql = new StringBuilder();
@@ -242,116 +337,147 @@ public class LivroDAO extends AbstractJdbcDAO {
 		sql.append("LEFT JOIN tb_contem AS contem");
 		sql.append(" ON(livro.LIV_ID = contem.CON_LIV_ID) ");
 		sql.append("LEFT JOIN tb_categoria AS categoria");
-		sql.append(" ON(categoria.CAT_ID = contem.CON_CAT_ID AND");
-		sql.append(" livro.LIV_ID = contem.CON_LIV_ID) ");
-		sql.append("LEFT JOIN tb_inativacao AS inativacao");
-		sql.append(" ON(livro.LIV_ID = inativacao.INA_LIV_ID");
-		sql.append("LEFT JOIN tb_ativacao AS ativacao");
-		sql.append(" ON(livro.LIV_ID = ativacao.ATI_LIV_ID");
-		sql.append("LEFT JOIN tb_categoriaativacao AS catativacao");
-		sql.append(" ON(ativacao.ATI_CTA_ID = catativacao.CTA_ID");
-		sql.append("LEFT JOIN tb_categoriainativacao AS catinativacao");
-		sql.append(" ON(inativacao.INA_CTI_ID = catinativacao.CTI_ID");
-		sql.append("WHERE 1=1\\n");
-		if(livro.getTitulo() != null && livro.getTitulo().length() >0) {
-			sql.append(" AND LIV_TITULO = '" + livro.getTitulo()+"'");
-		}
-		if(livro.getAnoPub() != null && livro.getAnoPub().length() >0) {
+		sql.append(" ON(categoria.CAT_ID = contem.CON_CAT_ID) ");
+		/*sql.append("LEFT JOIN tb_inativacao as Inativacao");
+		sql.append(" ON(Inativacao.INA_LIV_ID = livro.LIV_ID)");
+		sql.append("LEFT JOIN tb_categoriainativacao as catinativ");
+		sql.append(" ON(catinativ.CTI_ID = Inativacao.INA_CTI_ID");
+		sql.append("LEFT JOIN tb_ativacao as Ativacao");
+		sql.append(" ON(Ativacao.ATI_LIV_ID = livro.LIV_ID)");
+		sql.append("LEFT JOIN tb_categoriaativacao as catativ");
+		sql.append(" ON(catativ.CTA_ID = Ativacao.ATI_CTA_ID");*/
+		sql.append("WHERE 1=1 ");
+		
+		if(livro.getTitulo() != null && livro.getTitulo().length() >0) 
+			sql.append(" AND LIV_TITULO LIKE '" + livro.getTitulo()+"%'");
+		
+		if(livro.getAnoPub() != null && livro.getAnoPub().length() > 0) 
 			sql.append(" AND LIV_ANO= '" + livro.getAnoPub() + "'");
-		}
-		if(livro.getEditora().getNome() != null && livro.getEditora().getNome().length() > 0) {
+		
+		if(livro.getEditora().getId() != null && livro.getEditora().getId() > 0) 
 			sql.append(" AND LIV_EDI_ID= '" + livro.getEditora().getId() + "'");
-		}
-		if(livro.getAutor().getNome() != null && livro.getAutor().getNome().length() > 0) {
-			sql.append(" AND LIV_AUT_ID= '" + livro.getAutor().getNome() + "'");
-		}
-		if(livro.getCategorias().get(0).getNome() != null && livro.getCategorias().get(0).getNome().length() > 0) {
-			sql.append(" AND LIV_CAT_ID= '" + livro.getCategorias().get(0).getId());
-		}
-		if(livro.getISBN() != null && livro.getISBN().length() >0) {
-			sql.append(" AND LIV_ISBN= '" + livro.getISBN() + "'");
-		}
-		if(livro.getEstoque() == 1) {
-			sql.append(" AND LIV_QTDESTOQUE > 0");
-		}
+		
+		if(livro.getAutor().getId() != null && livro.getAutor().getId() > 0) 
+			sql.append(" AND LIV_AUT_ID= '" + livro.getAutor().getId() + "'");
+		
 		try {
-			if(livro.isAtivo()) {
-				sql.append(" and LIV_ISATIVO= '" + livro.isAtivo());
-			} else if(!livro.isAtivo()) {
-				sql.append(" and LIV_ISATIVO= '" + livro.isAtivo());
+			if(livro.getCategorias().get(0).getId() != null && livro.getCategorias().get(0).getId() > 0)
+				sql.append("AND CAT_ID= '" + livro.getCategorias().get(0).getId() + "'");
+			}catch (Exception e) {
+				// TODO: handle exception
 			}
-		} catch (NullPointerException e) {
-			//TODO: handle exception
+
+		if(livro.getISBN() != null && livro.getISBN().length() >0) 
+			sql.append(" AND LIV_ISBN= '" + livro.getISBN() + "'");
+		
+		if(livro.getEstoque() == 1) 
+			sql.append(" AND LIV_QTDESTOQUE > 0 ");
+		
+		try {
+			System.out.println(livro.isAtivo());
+			if(livro.isAtivo()) {
+				sql.append(" and LIV_ISATIVO= " + livro.isAtivo());
+			} else if(!livro.isAtivo()) {
+				sql.append(" and LIV_ISATIVO= " + livro.isAtivo());
+			}
+		} catch (Exception e) {
+			
 		}
+		
 		try {
 			openConnection();
 			pst = connection.prepareStatement(sql.toString());
 			ResultSet rs = pst.executeQuery();
+			ResultSet rs2;
 			while(rs.next()) {
 				Livro li = new Livro();
-				Autor aut = new Autor();
-				Editora edi = new Editora();
-				GrupoPrecificacao gp = new GrupoPrecificacao();
-				Inativacao ina = new Inativacao();
-				Ativacao ati = new Ativacao();
-				
-				li.setAutor(aut);
-				li.setEditora(edi);
-				li.setGP(gp);
-				li.setInativacao(ina);
-				li.setAtivacao(ati);
-				
+				li.setAutor(new Autor());
+				li.setEditora(new Editora());
+				li.setGP(new GrupoPrecificacao());
+				li.setCategorias(new ArrayList<Categoria>());
+				li.setAtivacao(new Ativacao());
+				li.setInativacao(new Inativacao());
+				li.getAtivacao().setCategoria(new CatAtivacao());
+				li.getInativacao().setCategoria(new CatInativacao());
 				li.setId(rs.getInt("LIV_ID"));
 				li.getAutor().setId(rs.getInt("LIV_AUT_ID"));
 				li.setTitulo(rs.getString("LIV_TITULO"));
 				li.setAnoPub(rs.getString("LIV_ANO"));
 				li.setEdicao(rs.getString("LIV_EDICAO"));
-				li.setCodBarras(rs.getString("LIV_ISBN"));
+				li.setCodBarras(rs.getString("LIV_CODBARRAS"));
 				li.setISBN(rs.getString("LIV_ISBN"));
+				li.setNumPaginas(rs.getString("LIV_NUMPAG"));
 				li.setAltura(rs.getInt("LIV_ALTURA"));
 				li.setPeso(rs.getDouble("LIV_PESO"));
 				li.setLargura(rs.getDouble("LIV_LARGURA"));
 				li.setProfundidade(rs.getDouble("LIV_PROFUNDIDADE"));
+				li.setSinopse(rs.getString("LIV_SINOPSE"));
 				li.getGP().setId(rs.getInt("LIV_GRP_ID"));
 				li.getGP().setNome(rs.getString("GRP_NOME"));
-				li.getGP().setPorcentagem(rs.getInt("GRP_PRLUCRO")/100);
+				li.getGP().setPorcentagem(rs.getInt("GRP_PRLUCRO"));
 				li.getAutor().setNome(rs.getString("AUT_NOME"));
 				li.getAutor().setId(rs.getInt("AUT_ID"));
 				li.getEditora().setNome(rs.getString("EDI_NOME"));
 				li.getEditora().setId(rs.getInt("LIV_EDI_ID"));
-				li.setDtCadastro(rs.getDate("LIV_DATACADASTRO"));
+				//li.setDtCadastro(rs.getDate("LIV_DATACADASTRO"));
 				li.setAtivo(rs.getBoolean("LIV_ISATIVO"));
-				li.getAtivacao().setId(rs.getInt("ATI_ID"));
-				li.getAtivacao().setMotivo(rs.getString("ATI_JUSTIFICATIVA"));
-				li.getAtivacao().getCategoria().setId(rs.getInt("CTA_ID"));
-				li.getAtivacao().getCategoria().setNome(rs.getString("CTA_NOME"));
-				li.getInativacao().setId(rs.getInt("LIV_INA_ID"));
-				li.getInativacao().setMotivo(rs.getString("INA_JUSTIFICATIVA"));
-				li.getInativacao().getCategoria().setId(rs.getInt("CTI_ID"));
-				li.getInativacao().getCategoria().setNome(rs.getString("CTI_NOME"));
 				
-				for(int i=0;rs.next(); i++) {
-					li.getCategorias().add(null);
-					li.getCategorias().get(i).setNome(rs.getString("CAT_NOME"));
-					li.getCategorias().get(i).setId(rs.getInt("CAT_ID"));
+				sql = new StringBuilder();
+				sql.append("CALL BUSCAR_CAT(?)");
+				pst2 = connection.prepareStatement(sql.toString());
+				
+				pst2.setInt(1, li.getId());
+				rs2 = pst2.executeQuery();
+				
+				for(int i=0;rs2.next(); i++) {
+					if(li.getId() == rs2.getInt("LIV_ID")) {
+						li.getCategorias().add(new Categoria());
+						li.getCategorias().get(i).setNome(rs2.getString("CAT_NOME"));
+						li.getCategorias().get(i).setId(rs2.getInt("CAT_ID"));
+					}
+					else {
+						break;
+					}
 				}
 				
-				livros.add(li);
+				/*if(li.getId() != null) {
+					sql = new StringBuilder();
+					sql.append("CALL Buscar_Ati(?)");
+					pst2 = connection.prepareStatement(sql.toString());
+					pst2.setInt(1, li.getId());
+					System.out.println(pst2);
+					rs2 = pst2.executeQuery();
+					try {
+						System.out.println("ID ATIVACAO" + rs2.getInt("ATI_ID"));
+						li.getAtivacao().setId(rs2.getInt("ATI_ID"));
+						li.getAtivacao().setMotivo(rs2.getString("ATI_JUSTIFICATIVA"));
+						li.getAtivacao().getCategoria().setId(rs2.getInt("CTA_ID"));
+						li.getAtivacao().getCategoria().setNome(rs2.getString("CTA_NOME"));
+					}catch (Exception e) {
+						// TODO: handle exception
+					}
+					System.out.println(li.getAtivacao().getMotivo());
+					sql = new StringBuilder();
+					sql.append("CALL Buscar_ina(?)");
+					pst2 = connection.prepareStatement(sql.toString());
+					pst2.setInt(1, li.getId());
+					rs2 = pst2.executeQuery();
+					try {
+						li.getInativacao().setId(rs2.getInt("LIV_INA_ID"));
+						li.getInativacao().setMotivo(rs2.getString("INA_JUSTIFICATIVA"));
+						li.getInativacao().getCategoria().setId(rs2.getInt("CTI_ID"));
+						li.getInativacao().getCategoria().setNome(rs2.getString("CTI_NOME"));
+					}catch (Exception e) {
+						// TODO: handle exception
+					}
+				}*/
+				
+				if(li.getId() != atual)
+					livros.add(li);
+				atual = rs.getInt("LIV_ID");
 			}
 		} catch (SQLException e) {
-			try {
-				connection.rollback();
-			}catch (SQLException e1) {
-				e1.printStackTrace();
-			}
 			e.printStackTrace();
-		}  finally {
-			try {
-				pst.close();
-				connection.close();
-			} catch (SQLException e) {
-				e.printStackTrace();
-			}
 		}
 		return livros;
 	}

@@ -12,27 +12,42 @@ public class ValidarDadosObrigatoriosLivro implements IStrategy{
 	public String processar(EntidadeDominio entidade) {
 		if(entidade instanceof Livro){
             Livro livro = (Livro)entidade;
-
-            Autor autor = livro.getAutor();
-            String ano = livro.getAnoPub();
-            String titulo = livro.getTitulo();
-            Editora editora = livro.getEditora();
-            String edicao = livro.getEdicao();
-            String isbn = livro.getISBN();
-            String numPaginas = livro.getNumPaginas();
-            String sinopse = livro.getSinopse();
-            double altura = livro.getAltura();
-            double peso = livro.getPeso();
-            double profundidade = livro.getProfundidade();
+            Autor autor = null;
+            String ano = null;
+            String titulo = null;
+            Editora editora = null;
+            String edicao = null;
+            String isbn = null;
+            int numPaginas = 0;
+            String sinopse = null;
+            double altura = 0;
+            double largura = 0;
+            double peso = 0;
+            double profundidade = 0;
+            try {
+	            autor = livro.getAutor();
+	            ano = livro.getAnoPub();
+	            titulo = livro.getTitulo();
+	            editora = livro.getEditora();
+	            edicao = livro.getEdicao();
+	            isbn = livro.getISBN();
+	            numPaginas = Integer.parseInt(livro.getNumPaginas());
+	            sinopse = livro.getSinopse();
+	            altura = livro.getAltura();
+	            largura = livro.getLargura();
+	            peso = livro.getPeso();
+	            profundidade = livro.getProfundidade();
+            }catch(Exception e) {
+            	
+            }
 
             if(autor == null || ano==null || titulo == null   || editora == null  ||
-                    edicao == null || isbn == null || numPaginas == null|| sinopse == null || altura == 0   ||  peso == 0 ||
-                    profundidade == 0)
+                    edicao == null || isbn == null || numPaginas < 0 || sinopse == null || altura < 0   ||  peso < 0 ||
+                    profundidade < 0 || largura < 0)
                 return "Todos os dados cadastrais de um livro são obrigatórios!";
 
-            if(autor.getNome().trim().equals("") || 
-                    ano.trim().equals("")|| titulo.trim().equals("") || editora.getNome().trim().equals("")
-                    || edicao.trim().equals("") || isbn.trim().equals("") || numPaginas.trim().equals("") ||
+            if( ano.trim().equals("")|| titulo.trim().equals("")
+                    || edicao.trim().equals("") || isbn.trim().equals("") ||
                     sinopse.trim().equals(""))
                 return "Todos os dados cadastrais de um livro são obrigatórios!";
         } else {

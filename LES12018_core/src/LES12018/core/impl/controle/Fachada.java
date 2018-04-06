@@ -7,16 +7,24 @@ import java.util.List;
 import java.util.Map;
 
 import com.sun.java.swing.plaf.motif.MotifBorders;
+import com.sun.org.apache.xalan.internal.xsltc.compiler.sym;
 
 import LES12018.core.IFachada;
 import LES12018.core.IDAO;
 import LES12018.core.IStrategy;
 import LES12018.core.aplicacao.Resultado;
+import LES12018.core.impl.dao.DadosParaCadastroDAO;
 import LES12018.core.impl.dao.LivroDAO;
+import LES12018.core.impl.negocio.CategoriaAtivacao;
+import LES12018.core.impl.negocio.CategoriaInativacao;
 import LES12018.core.impl.negocio.LivroCategoria;
+import LES12018.core.impl.negocio.MotivoAtivacao;
 import LES12018.core.impl.negocio.MotivoInativacao;
 import LES12018.core.impl.negocio.ValidarDadosObrigatoriosLivro;
 import les12018.dominio.Livro;
+import les12018.auxiliar.DadosParaCadastro;
+import les12018.dominio.Autor;
+import les12018.dominio.CatAtivacao;
 import les12018.dominio.EntidadeDominio;
 
 public class Fachada implements IFachada{
@@ -29,12 +37,17 @@ public class Fachada implements IFachada{
 		rns = new HashMap<String, Map<String, List<IStrategy>>>();
 		
 		LivroDAO livroDAO = new LivroDAO();
+		DadosParaCadastroDAO dadosParaCadastroDAO = new DadosParaCadastroDAO();
 		
 		daos.put(Livro.class.getName(), livroDAO);
+		daos.put(DadosParaCadastro.class.getName(), dadosParaCadastroDAO);
 		
 		ValidarDadosObrigatoriosLivro vDadosObrigatoriosLivro = new ValidarDadosObrigatoriosLivro();
 		MotivoInativacao mInativacao = new MotivoInativacao();
 		LivroCategoria lCategoria = new LivroCategoria();
+		MotivoAtivacao mAtivacao = new MotivoAtivacao();
+		CategoriaAtivacao CatAtiv = new CategoriaAtivacao();
+		CategoriaInativacao CatIna = new CategoriaInativacao();
 		
 		List<IStrategy> rnsSalvarLivro = new ArrayList<IStrategy>();
 		
@@ -44,11 +57,18 @@ public class Fachada implements IFachada{
 		List<IStrategy> rnsInativarLivro = new ArrayList<IStrategy>();
 		
 		rnsInativarLivro.add(mInativacao);
+		rnsInativarLivro.add(CatIna);
+		
+		List<IStrategy> rnsAtivacaoLivro = new ArrayList<IStrategy>();
+		
+		rnsAtivacaoLivro.add(mAtivacao);
+		rnsAtivacaoLivro.add(CatAtiv);
 		
 		Map<String, List<IStrategy>> rnsLivro = new HashMap<String, List<IStrategy>>();
 		
 		rnsLivro.put("SALVAR", rnsSalvarLivro);
-		rnsLivro.put("INATIVAR", rnsInativarLivro);
+		rnsLivro.put("EXCLUIR", rnsInativarLivro);
+		rnsLivro.put("ATIVAR", rnsAtivacaoLivro);
 		
 		rns.put(Livro.class.getName(), rnsLivro);
 	}
@@ -57,7 +77,6 @@ public class Fachada implements IFachada{
 	public Resultado salvar(EntidadeDominio entidade) {
 		resultado = new Resultado();
 		String nmClasse = entidade.getClass().getName();
-		
 		String msg = executarRegras(entidade, "SALVAR");
 		
 		if(msg == null) {
@@ -100,14 +119,36 @@ public class Fachada implements IFachada{
 		}
 		return resultado;
 	}
+	
+	@Override
+	public Resultado ativar(EntidadeDominio entidade) {
+		resultado = new Resultado();
+		String nmClasse = entidade.getClass().getName();
+		
+		String msg = executarRegras(entidade, "ATIVAR");
+		if(msg == null) {
+			IDAO dao = daos.get(nmClasse);
+			try {
+				dao.ativar(entidade);
+				List<EntidadeDominio> entidades = new ArrayList<EntidadeDominio>();
+				entidades.add(entidade);
+				resultado.setEntidades(entidades);
+			} catch (SQLException e) {
+				e.printStackTrace();
+				resultado.setMsg("Não foi possivel realizar o registro!");
+			}
+		} else {
+			resultado.setMsg(msg);
+		}
+		return resultado;
+	}
 
 	@Override
 	public Resultado alterar(EntidadeDominio entidade) {
 		resultado = new Resultado();
 		String nmClasse = entidade.getClass().getName();
-		
+		Livro liv = (Livro) entidade;
 		String msg = executarRegras(entidade, "ALTERAR");
-		
 		if(msg == null) {
 			IDAO dao = daos.get(nmClasse);
 			try {
@@ -135,10 +176,7 @@ public class Fachada implements IFachada{
 		if(msg == null) {
 			IDAO dao = daos.get(nmClasse);
 			try {
-				dao.consultar(entidade);
-				List<EntidadeDominio> entidades = new ArrayList<EntidadeDominio>();
-				entidades.add(entidade);
-				resultado.setEntidades(entidades);
+				resultado.setEntidades(dao.consultar(entidade));
 			} catch (SQLException e) {
 				e.printStackTrace();
 				resultado.setMsg("Não foi possivel realizar o registro!");
