@@ -3,6 +3,7 @@
     <head>
         <!--<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">-->
         <link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet" integrity="sha384-wvfXpqpZZVQGK6TAh5PVlGOfQNHSoD2xbE+QkPxCAFlNEevoEH3Sl0sibVcOQVnN" crossorigin="anonymous">
+        <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
         <link rel="stylesheet" href="css/bootstrap.css">
         <meta charset="ISO-8859-1">
         <title>TopBooks</title>
@@ -66,13 +67,87 @@
                                         <div class="row">
                                             <div class="col-md-12">
                                                 <div class="row">
-                                                    <div class="col-md-4">
-                                                        <label>CEP</label>
+                                                    <div class="col-md-8">
+                                                        <label>Nome do Cartao</label>
                                                         <input type="text" class="form-control">
                                                     </div>
                                                 </div>
                                             </div>
-                                        </div>
+                                        </div><br>
+                                        <div class="row">
+                                            <div class="col-md-12">
+                                                <div class="row">
+                                                    <div class="col-md-6">
+                                                        <label>Numero do Cartao</label>
+                                                        <input type="text" class="form-control">
+                                                    </div>
+                                                    <div class="col-sm-3">
+                                                        <label>Cod. Seguranca</label>
+                                                        <input type="text" class="form-control">
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div><br>
+                                        <div class="row">
+                                                <div class="col-md-12">
+                                                    <div class="row">
+                                                        <div class="col">
+                                                            <div class="btn-group btn-group-toggle" data-toggle="buttons">
+                                                                <label class="btn btn-secondary bg-orange">
+                                                                    <input type="radio" name="options" id="option1" autocomplete="off"><h1><i class="fa fa-cc-visa"></i></h1>
+                                                                </label>
+                                                                <label class="btn btn-secondary bg-orange">
+                                                                    <input type="radio" name="options" id="option2" autocomplete="off"><h1><i class="fa fa-cc-mastercard"></i></h1>
+                                                                </label>
+                                                                <label class="btn btn-secondary bg-orange">
+                                                                    <input type="radio" name="options" id="option3" autocomplete="off"><h1><i class="fa fa-cc-amex"></i></h1>
+                                                                </label>
+                                                                <label class="btn btn-secondary bg-orange">
+                                                                    <input type="radio" name="options" id="option4" autocomplete="off"><h1><i class="fa fa-cc-diners-club"></i></h1>
+                                                                </label>
+                                                                <!--<label class="btn btn-secondary bg-orange">
+                                                                    <input type="radio" name="options" id="option5" autocomplete="off"><h1><i class="fa fa-cc-elo"></i></h1>
+                                                                </label>-->
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div><br>
+                                            <div class="row">
+                                                    <div class="col-md-12">
+                                                        <div class="row">
+                                                            <div class="col-md-6">
+                                                                <label>Nome do Titular</label>
+                                                                <input type="text" class="form-control">
+                                                            </div>
+                                                            <div class="col-sm-3">
+                                                                <label>Mes</label>
+                                                                <select class="custom-select d-block w-100">
+                                                                        <option>Selecione...</option>
+                                                                </select>
+                                                            </div>
+                                                            <div class="col-sm-3">
+                                                                <label>Ano</label>
+                                                                <select class="custom-select d-block w-100">
+                                                                        <option>Selecione...</option>
+                                                                </select>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                            </div><br>
+                                            <div class="row">
+                                                    <div class="col-md-12">
+                                                        <div class="row">
+                                                            <div class="col-md-4">
+                                                                <button class="btn btn-block">Voltar</button>
+                                                            </div>
+                                                            <div class="col-md-4"></div>
+                                                            <div class="col-md-4">
+                                                                <button class="btn btn-success btn-block">Salvar</button>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                            </div>
                                     </div>
                                 </div>
                             </form>
