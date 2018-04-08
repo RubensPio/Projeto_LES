@@ -24,16 +24,16 @@
 				  <div class="collapse navbar-collapse" id="navbarNav">
 				    <ul class="navbar-nav">
 				      <li class="nav-item">
-				        <a class="nav-link" href="../FormLivro">Gerênciar Pedidos </a>
+				        <a class="nav-link" href="/FormLivro">Gerï¿½nciar Pedidos </a>
 				      </li>
 				      <li class="nav-item">
 				        <a class="nav-link" href="#">Gerenciar Livro</a>
 				      </li>
 				      <li class="nav-item">
-				        <a class="nav-link" href="#">Gerênciar Trocas</a>
+				        <a class="nav-link" href="#">Gerï¿½nciar Trocas</a>
 				      </li>
 				      <li class="nav-item">
-				        <a class="nav-link" href="#">Análises</a>
+				        <a class="nav-link" href="#">Anï¿½lises</a>
 				      </li>
 				    </ul>
 				  </div>
@@ -58,7 +58,7 @@
 						<form action="SalvarLivro">
 							<div class="row">
 								<div class="col-md mb-3">
-									<label id="label-categoria" class="col-md-6 mb-3"> <strong>Título</strong> </label> <br>
+									<label id="label-categoria" class="col-md-6 mb-3"> <strong>Tï¿½tulo</strong> </label> <br>
 									<input type="text" class="form-control" name="txtTitulo" placeholder="Ex:Titulo">
 								</div>
 								<div class="col-md mb-3">
@@ -147,7 +147,7 @@
 				  <thead class="thead-dark">
 				    <tr>
 				      <th scope="col">ID</th>
-				      <th scope="col">Título</th>
+				      <th scope="col">Tï¿½tulo</th>
 				      <th scope="col">Autor</th>
 				      <th scope="col">Editora</th>
 				      <th scope="col">ISBN</th>
@@ -271,7 +271,7 @@
  <div class="modal-dialog" role="document">
     <div class="modal-content">
       <div class="modal-header">
-        <h5 class="modal-title" id="exampleModalLabel">Inativação</h5>
+        <h5 class="modal-title" id="exampleModalLabel">Inativaï¿½ï¿½o</h5>
         <button type="button" class="close" data-dismiss="modal" aria-label="Close">
           <span aria-hidden="true">&times;</span>
         </button>
@@ -285,11 +285,11 @@
 	      	</div>
 			<div class="row">
 				<div class="col-md mb-3">
-					<label id="label-sinopse" class=""> <strong>Motivo de Inativação</strong> </label>
+					<label id="label-sinopse" class=""> <strong>Motivo de Inativaï¿½ï¿½o</strong> </label>
 					<textarea name="txtMotivoInativ" class="form-control"></textarea>
 				</div>
 				<div class="col-md mb-3">
-					<label id="label-categoria" class="col-md-6 mb-3"> <strong>Categoria de Inativação</strong> </label> <br>
+					<label id="label-categoria" class="col-md-6 mb-3"> <strong>Categoria de Inativaï¿½ï¿½o</strong> </label> <br>
 						<select class="custom-select d-block" id="ddlCatInativ" name="ddlCatInativ" placeholder="Autor">
 							<option value="0">Escolha...</option>
 								<%
@@ -337,11 +337,11 @@
 	      	</div>
 			<div class="row">
 				<div class="col-md mb-6">
-					<label id="label-sinopse" class=""> <strong>Motivo de Ativação</strong> </label>
+					<label id="label-sinopse" class=""> <strong>Motivo de Ativaï¿½ï¿½o</strong> </label>
 					<textarea name="txtMotivoAti" class="form-control"></textarea>
 				</div>
 				<div class="col-md mb-6">
-					<label id="label-categoria" class="col-md-6 mb-3"> <strong>Categoria de Ativação</strong> </label> <br>
+					<label id="label-categoria" class="col-md-6 mb-3"> <strong>Categoria de Ativaï¿½ï¿½o</strong> </label> <br>
 						<select class="custom-select d-block" id="ddlCatAtiv" name="ddlCatAtiv">
 							<option value="0">Escolha...</option>
 								<%

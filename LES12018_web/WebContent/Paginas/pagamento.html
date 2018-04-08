@@ -1,0 +1,319 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <!--<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">-->
+        <link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet" integrity="sha384-wvfXpqpZZVQGK6TAh5PVlGOfQNHSoD2xbE+QkPxCAFlNEevoEH3Sl0sibVcOQVnN" crossorigin="anonymous">
+        <link rel="stylesheet" href="css/bootstrap.css">
+        <link rel="shortcut icon" href="imagens/logo_6ce_icon.ico" type="image/x-icon">
+        <meta charset="UTF-8">
+        <title>TopBooks</title>
+    </head>
+    <header>
+        <nav class="navbar navbar-expand-md navbar-dark fixed-top bg-orange">
+            <div class="container">
+                <a class="navbar-brand" href="IndexCliente.html">
+                <img src="imagens/logo.png" width="30" height="30" class="d-inline-block align-top" alt=""> TopBooks</a>
+                <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarsExampleDefault" aria-controls="navbarsExampleDefault" aria-expanded="false" aria-label="Toggle navigation">
+                    <span class="navbar-toggler-icon"></span>
+                </button>    
+                <form class="form-inline my-2 my-lg-0">
+                    
+                        <div class="navbar-brand">
+                            <i class="fa fa-user"></i>
+                        </div>                                        
+                        <a class="navbar-brand" href="#">Bem Vindo, Souza</a>
+                    
+                    <a class="btn btn-success btn-sm ml-3" href="carrinho.html">
+                    <i class="fa fa-shopping-cart"></i> Carrinho
+                    <span class="badge badge-light">3</span></a>
+                </form>
+            </div>
+        </nav>
+    </header>
+    <br><br>
+    <body style="background-color: #f4e8e3"><br>
+        <div class="container">
+            <div class="row">
+                <div class="col-6">
+                    <div class="card bg-light rounded box-shadow">
+                        <div class="card-header bg-primary text-white text-uppercase bg-orange"><i class="fa fa-map-marke"></i> Endereço de Entrega</div>
+                        <ul class="list-group category_block">
+                            <li class="list-group-item">
+                                <div class="row">
+                                    <div class="col-12">
+                                        <select class="custom-select d-block">
+                                            <option>Selecione</option>
+                                        </select>
+                                    </div>
+                                </div>
+                            </li>
+                            <li class="list-group-item">
+                                <div class="row">
+                                    <div class="col-md-6">
+                                        <input type="text" class="form-control" placeholder="Rua">
+                                    </div>
+                                    <div class="col-sm-3">
+                                        <input type="text" class="form-control" placeholder="Número">
+                                    </div>
+                                    <div class="col-sm-3">
+                                        <input type="text" class="form-control" placeholder="Comp.">
+                                    </div>
+                                </div><br>
+                                <div class="row">
+                                    <div class="col-sm-3">
+                                        <select class="custom-select d-block">
+                                            <option>Selecione</option>
+                                        </select>
+                                    </div>
+                                    <div class="col-sm-3">
+                                        <select class="custom-select d-block">
+                                            <option>Selecione</option>
+                                        </select>
+                                    </div>
+                                    <div class="col-sm-3">
+                                        <select class="custom-select d-block">
+                                            <option>Selecione</option>
+                                        </select>
+                                    </div>
+                                    <div class="col-sm-3">
+                                        <input type="text" class="form-control" placeholder="CEP">
+                                    </div>
+                                </div><br>
+                                <div class="row">
+                                    <div class="col-md-12">
+                                            <div class="custom-control custom-checkbox">
+                                                    <input type="checkbox" class="custom-control-input" id="customCheck1">
+                                                    <label class="custom-control-label" for="customCheck1">Marcar como endereco de cobranca</label>
+                                                </div>
+                                    </div>
+                                </div><br>
+                                <label><h6>OBS: Caso queira utilizar um endereço não cadastrado.</h6></label>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+                <div class="col-6">
+                        <div class="card bg-light rounded box-shadow">
+                            <div class="card-header bg-primary text-white text-uppercase bg-orange"><i class="fa fa-credit-card"></i> Métodos de Pagamento</div>
+                            <ul class="list-group category_block">
+                                <li class="list-group-item">
+                                    <div class="row">
+                                        <div class="col-9">
+                                            <select id="options" class="custom-select d-block" onchange="optionCheck()">
+                                                <option>Selecione</option>
+                                                <option value="CA">Cartão</option>
+                                                <option value="CP">Cupom</option>
+                                                <option value="CC">Cupom + Cartão</option>
+                                            </select>
+                                        </div>
+                                    </div>
+                                </li>
+                                <div id="cartao" style="display: none;">
+                                    <div class="card-header bg-primary text-white text-uppercase bg-orange"><i class="fa fa-credit-card"></i> Cartão</div>
+                                    <li class="list-group-item">
+                                        <div class="row">
+                                            <div class="col-6">
+                                                <select class="custom-select d-block">
+                                                    <option>Selecione</option>
+                                                </select>
+                                            </div>
+                                        </div>
+                                    </li>
+                                    <li class="list-group-item">
+                                        <div class="row">
+                                            <div class="col-md-9">
+                                                <label>Número do Cartão</label>
+                                                <input class="form-control" type="text" placeholder="Número do cartão">
+                                            </div>
+                                            <div class="col-md-3">
+                                                <label>CVV</label>
+                                                <input class="form-control" type="text" placeholder="Cod.">
+                                            </div>
+                                        </div><br>
+                                        <div class="row">
+                                            <div class="col-md-12">
+                                                <div class="btn-group btn-group-toggle" data-toggle="buttons">
+                                                        <label class="btn btn-secondary bg-orange">
+                                                            <input type="radio" name="options" id="option1" autocomplete="off"><h1><i class="fa fa-cc-visa"></i></h1>
+                                                        </label>
+                                                        <label class="btn btn-secondary bg-orange">
+                                                            <input type="radio" name="options" id="option2" autocomplete="off"><h1><i class="fa fa-cc-mastercard"></i></h1>
+                                                        </label>
+                                                        <label class="btn btn-secondary bg-orange">
+                                                            <input type="radio" name="options" id="option3" autocomplete="off"><h1><i class="fa fa-cc-amex"></i></h1>
+                                                        </label>
+                                                        <label class="btn btn-secondary bg-orange">
+                                                            <input type="radio" name="options" id="option4" autocomplete="off"><h1><i class="fa fa-cc-diners-club"></i></h1>
+                                                        </label>
+                                                        <!--<label class="btn btn-secondary bg-orange">
+                                                            <input type="radio" name="options" id="option5" autocomplete="off"><h1><i class="fa fa-cc-elo"></i></h1>
+                                                        </label>-->
+                                                </div>
+                                            </div>
+                                        </div><br>
+                                        <div class="row">
+                                            <div class="col-md-6">
+                                                <label>Nome do Titular</label>
+                                                <input type="text" class="form-control">
+                                            </div>
+                                            <div class="col-sm-3">
+                                                <label>Mes</label>
+                                                <select class="custom-select d-block w-100">
+                                                    <option>Selecione...</option>
+                                                </select>
+                                            </div>
+                                            <div class="col-sm-3">
+                                                <label>Ano</label>
+                                                <select class="custom-select d-block w-100">
+                                                    <option>Selecione...</option>
+                                                </select>
+                                            </div>
+                                        </div><br>
+                                        <div class="row">
+                                            <div class="col-md-12">
+                                                <div class="custom-control custom-checkbox">
+                                                    <input type="checkbox" class="custom-control-input" id="customCheck2">
+                                                    <label class="custom-control-label" for="customCheck2">Marcar como endereco de cobranca</label>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </li>
+                                </div>
+                                <div id="cupom" style="display: none;">
+                                    <div class="card-header bg-primary text-white text-uppercase bg-orange"><i class="fa fa-money"></i> Cupom</div>
+                                    <li class="list-group-item">
+                                        <div class="row">
+                                            <div class="col-md-6">
+                                                <select id="cupompon" class="custom-select" onchange="optionCheckCupom()">
+                                                    <option>Selecione</option>
+                                                    <option value="CT">Cupom de Troca</option>
+                                                    <option value="CP">Cupom Promocional</option>
+                                                </select>
+                                            </div>
+                                        </div>
+                                    </li>
+                                    <div id="CupomPromocional" style="display: none;">
+                                        <li id="cupP" class="list-group-item">
+                                            <div class="row">
+                                                <div class="col-md-6">
+                                                    <select class="custom-select">
+                                                        <option>Selecione</option>
+                                                        <option>Cupom Promocional 1</option>
+                                                        <option>Cupom Promocional 2</option>
+                                                    </select>
+                                                </div>
+                                            </div><br>
+                                        </li>
+                                        <li class="list-group-item">
+                                            <div class="row">
+                                                <div class="col-md-3">
+                                                    <button class="btn btn-success bg-orange" onclick="addCupom()"><i class="fa fa-plus"></i></button>
+                                                </div>
+                                            </div>
+                                        </li>
+                                    </div>
+                                    <div id="CupomTroca" style="display: none;">
+                                        <li id="cupT" class="list-group-item">
+                                            <div class="row">
+                                                <div class="col-md-6">
+                                                    <select class="custom-select">
+                                                        <option>Selecione</option>
+                                                        <option>Cupom de troca 1</option>
+                                                        <option>Cupom de troca 2</option>
+                                                    </select>
+                                                </div>
+                                            </div><br>
+                                        </li>
+                                        <li class="list-group-item">
+                                            <div class="row">
+                                                <div class="col-md-3">
+                                                    <button class="btn btn-success bg-orange" onclick="addCupom()"><i class="fa fa-plus"></i></button>
+                                                </div>
+                                            </div>
+                                        </li>
+                                    </div>
+                                </div>
+                            </ul>
+                        </div>
+                </div>
+            </div><br>
+            <div class="row">
+                <div class="col-6">
+                    <div class="card bg-light rounded box-shadow">
+                        <ul class="list-group category_block">
+                            <li class="list-group-item">
+                                <div class="row">
+                                    <div class="col-md-3">
+                                        <h1>Total:</h1>
+                                    </div>
+                                    <div class="col-md-9">
+                                        <h5 class="text-right">Compra: <label>R$ 325,90</label></h5>
+                                        <h5 class="text-right">Cupom: -R$ 50,90</h5>
+                                    </div>
+                                </div>
+                            </li>
+                            <li class="list-group-item">
+                                <div class="row">
+                                    <div class="col-md-12">
+                                        <h5 class="text-right">R$ 245,90</h5>
+                                    </div>
+                                </div>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+            </div><br>
+            <div class="row">
+                    <div class="col-md-12">
+                        <div class="row">
+                            <div class="col-md-4">
+                                <button class="btn btn-block">Cancelar</button>
+                            </div>
+                            <div class="col-md-4"></div>
+                            <div class="col-md-4">
+                                <button class="btn btn-success btn-block">Comprar</button>
+                            </div>
+                        </div>
+                    </div>
+            </div><br>
+        </div>
+        <script>
+            function optionCheck(){
+                document.getElementById("cupom").style.display ="none";
+                document.getElementById("cartao").style.display ="none";
+                var option = document.getElementById("options").value;
+                if(option == "CA"){
+                    document.getElementById("cartao").style.display ="inline";
+                }else if(option == "CP"){
+                    document.getElementById("cupom").style.display ="inline";
+                }else if(option == "CC"){
+                    document.getElementById("cupom").style.display ="inline";
+                    document.getElementById("cartao").style.display ="inline";
+                }
+            }
+        </script>
+        <script>
+            function optionCheckCupom(){
+                document.getElementById("CupomTroca").style.display ="none";
+                document.getElementById("CupomPromocional").style.display ="none";
+                var option = document.getElementById("cupompon").value;
+                if(option == "CT"){
+                    document.getElementById("CupomTroca").style.display ="inline";
+                }else if(option == "CP"){
+                    document.getElementById("CupomPromocional").style.display ="inline";
+                }
+            }
+        </script>
+        <script>
+            function addCupom(){
+                var option = document.getElementById("cupompon").value;
+                var numoption = document.getElementById("cupompon").length;
+                if(option == "CT"){
+                    document.getElementById("cupT").innerHTML += '<div class="row"><div class="col-md-6"><select class="custom-select"><option>Selecione</option><option>Cupom de troca 1</option><option>Cupom de troca 2</option></select></div></div><br>';
+                } else if(option == "CP"){
+                    document.getElementById("cupP").innerHTML += '<div class="row"><div class="col-md-6"><select class="custom-select"><option>Selecione</option><option>Cupom Promocional 1</option><option>Cupom Promocional 2</option></select></div></div><br>';
+                }
+            }
+        </script>
+    </body>
+</html>
