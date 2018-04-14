@@ -1,0 +1,289 @@
+<!DOCTYPE html>
+<html>
+    <head>
+    	<!--<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">-->
+    	<link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet" integrity="sha384-wvfXpqpZZVQGK6TAh5PVlGOfQNHSoD2xbE+QkPxCAFlNEevoEH3Sl0sibVcOQVnN" crossorigin="anonymous">
+		<link rel="stylesheet" href="../css/bootstrap.css">
+		<link rel="shortcut icon" href="file:\\\C:\Users\ruben\Documents\Fatec\LES\Projeto_LES\Projeto_LES\LES12018_web\WebContent\Paginas\imagens\logo_6ce_icon.ico" type="image/x-icon">
+    	<meta charset="UTF-8">
+    	<title>Livros</title>
+	</head>
+	<header>
+        <nav class="navbar navbar-expand-md navbar-dark fixed-top bg-orange">
+            <div class="container">
+				<a class="navbar-brand" href="gerenciar_pedido.html">
+					<img src="../imagens/logo.png" width="30" height="30" class="d-inline-block align-top" alt="">
+					TOPBOOKS
+				</a>
+				<div class="collapse navbar-collapse justify-content-end" id="navbarNav">
+					<ul class="navbar-nav m-auto">
+						<li class="nav-item">
+							<a class="nav-link" href="gerenciar_pedido.html">Gerenciar Pedidos </a>
+						</li>
+						<li class="nav-item">
+							<a class="nav-link" href="gerenciarLivro.html">Gerenciar Livro</a>
+						</li>
+						<li class="nav-item">
+							<a class="nav-link" href="gerenciarTroca.html">Gerenciar Trocas</a>
+						</li>
+						<li class="nav-item">
+							<a class="nav-link" href="..\admin\bootstrap-4.0.0\docs\4.0\examples\dashboard\graficos.html">Análises</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="gerenciarEstoque.html">Gerenciar Estoque</a>
+                        </li>
+					</ul>
+				</div>
+				</form>
+			</div>
+        </nav>
+	</header>
+	<body>
+        <BR>
+        <div class="container">
+            <div class="row justify-content-end">
+                <div class="col-12">
+                    <h4 class="d-flex justify-content-between align-items-center mb-3">
+                        <span class="text-muted">Filtro</span><br>
+                    </h4>
+                    <form action="SalvarLivro">
+                        <div class="row">
+                            <div class="col-md-3">
+                                <label id="label-categoria"> <strong>Titulo</strong> </label> <br>
+                                <input type="text" class="form-control" name="txtTitulo" placeholder="Ex:Titulo">
+                            </div>
+                            <div class="col-md-3">
+                                <label id="label-categoria"> <strong>ISBN</strong> </label> <br>
+                                <input id="txISBN" class="form-control" type="text" name="txtISBN" placeholder="Ex: 9780733426094">
+                            </div>
+                            <div class="col-md-3">
+                                <label id="label-categoria"> <strong>Código de Barras</strong> </label> <br>
+                                <input id="txtCodBar" class="form-control" type="text" name="txtCodBar" placeholder="Ex: 9780733426094">
+                            </div>
+                            <div class="col-md-3">
+                                <label id="label-categoria"> <strong>Editora</strong> </label> <br>
+                                <select class="custom-select d-block w-100" id="ddlEditora" name="ddlEditora" placeholder="Editora">
+                                    <option value="0" disabled selected>Escolha...</option>
+                                    <option value>Editora Martins</option>
+                                    <option value>Editora Cultura</option>
+                                    <option value>Leya</option>
+                                </select>
+                            </div>
+                        </div>
+
+                        <!-- Segunda linha de filtro-->
+                        <div class="row">
+                            <div class="col-md-3">
+                                <label id="dtCad"> <strong>Data de Cadastro</strong></label>
+                                <input class="form-control" type="date">
+                            </div>
+                            <div class="col-md-3">
+                                <label><strong>Categoria</strong></label>
+                                <select class="custom-select d-block" id="ddlCategoria" name="ddlCategorias">
+                                    <option value="0" disabled selected>Escolha...</option>
+                                    <option value>Terror</option>
+                                    <option value>Ficção Científica</option>
+                                </select>
+                            </div>
+                            <div class="col-md-3">
+                                <label id="label-categoria"> <strong>Autor</strong> </label> <br>
+                                <select class="custom-select d-block" id="ddlAutor" name="ddlAutor" placeholder="Autor">
+                                    <option value="0" disabled selected>Escolha...</option>
+                                    <option value>J R R Tolkien</option>
+                                    <option value>George R R Martin</option>
+                                </select>   
+                            </div>
+                            <div class="col-md-3">
+                                <label id="label-categoria"><strong>Grupo de Precificação</strong> </label>
+                                <select class="custom-select d-block" id="ddlGrp" name="ddlGrp" placeholder="Autor">
+                                        <option value="0" disabled selected>Escolha...</option>
+                                        <option value>Ouro</option>
+                                        <option value>Prata</option>
+                                        <option value>Bronze</option>
+                                </select>  
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-md-3">
+                                    <label id="label-categoria"> <strong>Número de Páginas</strong> </label> 
+                                    <input id="txtNumPag" class="form-control" type="text" name="txtNumPag" placeholder="Ex: 400">
+                            </div>
+                            <div class="col-md-3">
+                                <label id="label-categoria" ><strong>Status</strong></label>
+                                <select class="custom-select d-block" name="ckbisAtivo">
+                                    <option value="todos">Todos</option>
+                                    <option value="true">Ativo</option>
+                                    <option value="false">Inativo</option>
+                                </select>
+                            </div>
+                            <div class="col-md-3">
+                                <label id="label-categoria"> <strong>Ano</strong> </label> 
+                                <input id="txtAno" class="form-control" type="text" name="txtAno" placeholder="Ex: 2018">
+                            </div>
+                            <div class="col-md-3">
+                                <label id="label-categoria"> <strong>Preço</strong> </label> 
+                                <input id="txtPreco" class="form-control" type="text" name="txtPreco" placeholder="Ex: 39,99">
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-md-3">
+                                <label id="label-categoria"> <strong>Altura</strong> </label> <br>
+                                <input id="txtAltura" class="form-control" type="text" name="txtAltura" placeholder="Em centímetros">
+                            </div>
+                            <div class="col-md-3">
+                                <label id="label-categoria"> <strong>Largura</strong> </label> <br>
+                                <input id="txtLargura" class="form-control" type="text" name="txtLargura" placeholder="Em centímetros">
+                            </div>
+                            <div class="col-md-3">
+                                <label id="label-categoria"> <strong>Profundidade</strong> </label> <br>
+                                <input id="txtProfun" class="form-control" type="text" name="txtProfun" placeholder="Em centímetros">
+                            </div>
+                            <div class="col-md-3">
+                                <label id="label-categoria"> <strong>Peso</strong> </label> <br>
+                                <input id="txtPeso" class="form-control" type="text" name="txtPeso" placeholder="Em gramas">
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-md-3">
+                                <label></label><br>
+                                <button disabled type='submit' class='btn btn-success btn-lg btn-block bg-orange' value="CONSULTAR" name='operacao'>FILTRAR</button>
+                            </div> 
+                        </div>
+                        <br>
+                    </form>
+                </div>
+            </div>
+            <div class="row">
+                <table class="table">
+                    <thead class="card-header bg-primary text-white bg-orange">
+                        <tr>
+                            <th scope="col">ID</th>
+                            <th scope="col">Título</th>
+                            <th scope="col">Autor</th>
+                            <th scope="col">Editora</th>
+                            <th scope="col">ISBN</th>
+                            <th scope="col">Ano</th>
+                            <th scope="col">Status</th>
+                            <th scope="col"></th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td><a href="AlterarLivro.html">0001</a></td>
+                            <td><a href="AlterarLivro.html">O Hobbit</a></td>
+                            <td>J R R Tolkien</td>
+                            <td>Editora Martins</td>
+                            <td>9788578277109</td>
+                            <td>2013</td>
+                            <td>Ativo</td>
+                            <td><button class="btn btn-success bg-orange" data-toggle='modal' data-target='#ModalInativar'>Inativar</button> </td>
+                        </tr>
+                        <tr>
+                            <td>0002</td>
+                            <td>A Guerra dos Tronos. As Crônicas de Gelo e Fogo</td>
+                            <td>George R R Martin</td>
+                            <td>Leya</td>
+                            <td>9788544102923</td>
+                            <td>2015</td>
+                            <td>Ativo</td>
+                            <td><button class="btn btn-success bg-orange">Inativar</button> </td>
+                            </tr>
+                    </tbody>
+                </table>
+            </div>
+            <div class="row col-md-3" style="margin-left: 900px;">
+                <form action="CadastrarLivro.html" method="post">
+                    <button type='submit' class='btn btn-success btn-lg btn-block bg-orange' value="CONSULTAR" name='operacao'>CADASTRAR LIVRO</button>
+                    <input type="hidden" name="target" value="FormLivro.jsp">
+                </form>
+            </div>
+        </div>
+        <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
+        <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
+          
+    <!-- <form action='SalvarLivro' method="post">	-->
+            <div class="modal fade" id="ModalInativar" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                <div class="modal-dialog" role="document">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h5 class="modal-title" id="exampleModalLabel">Inativação</h5>
+                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                <span aria-hidden="true">&times;</span>
+                            </button>
+                        </div>
+                        <div class="modal-body">
+                            <div class="container">
+                                <div class="row">
+                                    <div class="col-md-4 mb-6">
+                                        <label id="label-categoria"> <strong>ID</strong></label>
+                                        <input value="0001" class="form-control" readonly="readonly" type="text" id="txtId" name="txtId">
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="col-md mb-3">
+                                        <label id="label-sinopse" class=""> <strong>Motivo de Inativação</strong> </label>
+                                        <textarea required name="txtMotivoInativ" class="form-control"></textarea>
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="col-md mb-3">
+                                        <label id="label-categoria"> <strong>Categoria de Inativação</strong> </label> <br>
+                                        <select class="custom-select d-block" id="ddlCatInativ" name="ddlCatInativ" placeholder="Autor">
+                                            <option value="0">Escolha...</option>
+                                            <option>Fora de Mercado</option>
+                                            <option value="0">Vendas Baixas</option>
+                                        </select>
+                                    </div>
+                                </div>
+                            </div>	
+                        </div>
+                        <div class="modal-footer">
+                            <button type='submit' class='btn btn-success bg-orange'value='EXCLUIR' name='operacao'>Confirmar</button>
+                            <button type="button" class="btn btn-success bg-orange" data-dismiss="modal">Cancelar</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </form>
+        <form action='SalvarLivro' method="post">
+            <div class="modal fade" id="ModalAtivar" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                <div class="modal-dialog" role="document">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h5 class="modal-title" id="exampleModalLabel">Ativar</h5>
+                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                <span aria-hidden="true">&times;</span>
+                            </button>
+                        </div>
+                        <div class="modal-body">
+                            <div class="Container">
+                                <div class="row">
+                                    <div class="col-md-4 mb-6">
+                                        <input class="form-control" type="text" readonly="readonly" id="txtId2" name="txtId">
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="col-md mb-6">
+                                        <label id="label-sinopse" class=""> <strong>Motivo de Ativação</strong> </label>
+                                        <textarea name="txtMotivoAti" class="form-control"></textarea>
+                                    </div>
+                                    <div class="col-md mb-6">
+                                        <label id="label-categoria" class="col-md-6 mb-3"> <strong>Categoria de Ativaçãoo</strong> </label> <br>
+                                        <select class="custom-select d-block" id="ddlCatAtiv" name="ddlCatAtiv">
+                                            <option value="0">Escolha...</option>
+                                        </select>
+                                    </div>
+                                </div>
+                            </div>		
+                        </div>
+                        <div class="modal-footer">
+                            <button type='submit' class='btn btn-secondary'value='ATIVAR' name='operacao'>Confirmar</button>
+                            <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancelar</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </form>
+    </body>	
+</html>

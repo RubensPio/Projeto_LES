@@ -38,7 +38,7 @@
                         <div class="card bg-light mb-3">
                             <div class="card-header bg-primary text-white text-uppercase bg-orange"><i class="fa fa-shopping-basket"></i> Pedidos</div>
                             <ul class="list-group category_block">
-                                <li class="list-group-item"><a href="pededidos.html">Todos os Pedidos</a></li>
+                                <li class="list-group-item"><a href="pedidos.html">Todos os Pedidos</a></li>
                                 <li class="list-group-item"><a href="pedidos.html">Pedidos de Troca</a></li>
                             </ul>
                         </div>
@@ -58,47 +58,78 @@
                         </div>
                     </div>
                     <div class="col bg-light rounded box-shadow">
-                            <div class="row">
-                                    <div class="card-header form-control text-white text-uppercase bg-orange"><i class="fa fa-truck"></i> Pedidos</div>
+                        <div class="row">
+                            <div class="card-header form-control text-white text-uppercase bg-orange"><i class="fa fa-truck"></i> Pedidos n.0002</div>
+                        </div>
+                        <div class="row">
+                            <div class="col-12">
+                                <ul class="list-group category_block">
+                                        <li class="list-group-item">
+                                            <label id="label-dtCompra"> <strong>Data da Compra</strong> </label><br> 
+                                            <label>23/05/2018</label>
+                                        </li>
+                                        <li class="list-group-item">
+                                            <label id="label-vlrCompra"> <strong>Valor da Compra</strong> </label><br> 
+                                            <label>R$ 69,98</label>
+                                        </li>
+                                        <li class="list-group-item">
+                                            <label id="label-statusPed"> <strong>Status do Pedido</strong> </label><br> 
+                                            <label>Entregue</label>
+                                        </li>
+                                        <li class="list-group-item">
+                                            <div class="row">
+                                                <div class="col-12">
+                                                    <div class="table-responsive">
+                                                        <label> <strong>Produtos</strong></label>
+                                                        <table class="table table-striped">
+                                                            <thead>
+                                                                <tr>
+                                                                    <th scope="col"> </th>
+                                                                    <th scope="col">ID</th>
+                                                                    <th scope="col">Produto</th>
+                                                                    <th scope="col" class="text-center">Quantidade</th>
+                                                                    <th scope="col" class="text-right">Preço</th>
+                                                                </tr>
+                                                            </thead>
+                                                            <tbody>
+                                                                <tr>
+                                                                    <td><img src="https://dummyimage.com/50x50/55595c/fff" /> </td>
+                                                                    <td>0001</td>
+                                                                    <td>O Hobbit</td>
+                                                                    <td><label class="form-control" type="text">1</label> </td>
+                                                                    <td class="text-right">R$ 19,99</td>
+                                                                </tr>
+                                                                <tr>
+                                                                    <td><img src="https://dummyimage.com/50x50/55595c/fff" /> </td>
+                                                                    <td>0002</td>
+                                                                    <td>A Guerra dos Tronos. As Crônicas de Gelo e Fogo</td>
+                                                                    <td><label class="form-control" type="text">1</label></td>
+                                                                    <td class="text-right">R$ 49,99</td>
+                                                                </tr>
+                                                            </tbody>
+                                                        </table>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </li>
+                                    </ul>
+                                </div>
                             </div><br>
-                            <div class="row">
-                                    <div class="table-responsive">
-                                            <table class="table">
-                                                <thead>
-                                                    <th><h5>Pedido: 000002</h5></th>
-                                                </thead>
-                                                <tbody>
-                                                    <tr>
-                                                        <td><h5>Status: Entregue</h5></td>
-                                                    </tr>
-                                                    <tr>
-                                                        <td><h5>Pedido feito em: 12/02/2018</h5></td>
-                                                    </tr>
-                                                    <tr>
-                                                        <td><h5>Metodo de Pagamento: Cupom</h5></td>
-                                                    </tr>
-                                                    <tr>
-                                                        <td><h5><i class="fa fa-info"></i> Status do Pedido: Pedido ja foi entregue</h5></td>
-                                                    </tr>
-                                                </tbody>
-                                            </table>
-                                        </div>
-                            </div>
                             <div class="row">
                                     <div class="col-md-12">
                                         <div class="row">
                                             <div class="col-md-4">
-                                                <button class="btn btn-block" href="pedidos.html">Voltar</button>
+                                                <a class="btn btn-secundary btn-block" href="pedidos.html">Voltar</a>
                                             </div>
                                             <div class="col-md-4"></div>
                                             <div class="col-md-4">
-                                                <button class="btn btn-success btn-block">Trocar</button>
+                                                <a href="troca.html" class="btn btn-success btn-block">Trocar</a>
                                             </div>
                                         </div>
                                     </div>
-                            </div>
+                            </div><br>
                     </div>
-                </div>
+                </div><br>
         </div>
     </body>
 </html>

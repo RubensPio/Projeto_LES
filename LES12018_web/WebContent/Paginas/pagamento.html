@@ -41,59 +41,61 @@
                             <li class="list-group-item">
                                 <div class="row">
                                     <div class="col-12">
-                                        <select class="custom-select d-block">
-                                            <option>Selecione</option>
+                                        <select id="enderecoco" class="custom-select d-block" onchange="blockNewEndereco()">
+                                            <option value="0">Selecione</option>
                                             <option value="1">Rua Matreira, 756, Sao Paulo, Brasil</option>
                                             <option value="2">Rua Seleiro, 766, Sao Paulo, Brasil</option>
                                         </select>
                                     </div>
                                 </div>
                             </li>
-                            <li class="list-group-item">
-                                <div class="row">
-                                    <div class="col-md-6">
-                                        <input type="text" class="form-control" placeholder="Rua">
-                                    </div>
-                                    <div class="col-sm-3">
-                                        <input type="text" class="form-control" placeholder="Número">
-                                    </div>
-                                    <div class="col-sm-3">
-                                        <input type="text" class="form-control" placeholder="Comp.">
-                                    </div>
-                                </div><br>
-                                <div class="row">
-                                    <div class="col-sm-3">
-                                        <select class="custom-select d-block">
-                                            <option>Selecione</option>
-                                            <option>Brasil</option>
-                                        </select>
-                                    </div>
-                                    <div class="col-sm-3">
-                                        <select class="custom-select d-block">
-                                            <option>Selecione</option>
-                                            <option>São Paulo</option>
-                                        </select>
-                                    </div>
-                                    <div class="col-sm-3">
-                                        <select class="custom-select d-block">
-                                            <option>Selecione</option>
-                                            <option>Mogi das Cruzes</option>
-                                        </select>
-                                    </div>
-                                    <div class="col-sm-3">
-                                        <input type="text" class="form-control" placeholder="CEP">
-                                    </div>
-                                </div><br>
-                                <div class="row">
-                                    <div class="col-md-12">
-                                            <div class="custom-control custom-checkbox">
-                                                    <input type="checkbox" class="custom-control-input" id="customCheck1">
-                                                    <label class="custom-control-label" for="customCheck1">Salvar como novo endereço</label>
+                            <div id="newEndereco" style="display: inline;">
+                                <li class="list-group-item">
+                                    <div class="row">
+                                        <div class="col-md-6">
+                                            <input type="text" class="form-control" placeholder="Rua">
+                                        </div>
+                                        <div class="col-sm-3">
+                                            <input type="text" class="form-control" placeholder="Número">
+                                        </div>
+                                        <div class="col-sm-3">
+                                            <input type="text" class="form-control" placeholder="Comp.">
+                                        </div>
+                                    </div><br>
+                                    <div class="row">
+                                        <div class="col-sm-3">
+                                            <select class="custom-select d-block">
+                                                <option>Selecione</option>
+                                                <option>Brasil</option>
+                                            </select>
+                                        </div>
+                                        <div class="col-sm-3">
+                                            <select class="custom-select d-block">
+                                                <option>Selecione</option>
+                                                <option>São Paulo</option>
+                                            </select>
+                                        </div>
+                                        <div class="col-sm-3">
+                                            <select class="custom-select d-block">
+                                                <option>Selecione</option>
+                                                <option>Mogi das Cruzes</option>
+                                            </select>
+                                        </div>
+                                        <div class="col-sm-3">
+                                            <input type="text" class="form-control" placeholder="CEP">
+                                        </div>
+                                    </div><br>
+                                    <div class="row">
+                                        <div class="col-md-12">
+                                                <div class="custom-control custom-checkbox">
+                                                        <input type="checkbox" class="custom-control-input" id="customCheck1">
+                                                        <label class="custom-control-label" for="customCheck1">Salvar como novo endereço</label>
                                                 </div>
-                                    </div>
-                                </div><br>
-                                <label><h6>OBS: Caso queira utilizar um endereço não cadastrado.</h6></label>
-                            </li>
+                                        </div>
+                                    </div><br>
+                                    <label><h6>OBS: Caso queira utilizar um endereço não cadastrado.</h6></label>
+                                </li>
+                            </div>
                         </ul>
                     </div>
                 </div>
@@ -118,75 +120,77 @@
                                     <li class="list-group-item">
                                         <div class="row">
                                             <div class="col-6">
-                                                <select class="custom-select d-block">
-                                                    <option>Selecione</option>
+                                                <select id="cartaoao" class="custom-select d-block" onchange="blockNewCartao()">
+                                                    <option value="0">Selecione</option>
                                                     <option value="1">Cartão 1</option>
                                                     <option value="2">Cartão da minha mãe</option>
                                                 </select>
                                             </div>
                                         </div>
                                     </li>
-                                    <li class="list-group-item">
-                                        <div class="row">
-                                            <div class="col-md-9">
-                                                <label>Número do Cartão</label>
-                                                <input class="form-control" type="text" placeholder="Número do cartão">
-                                            </div>
-                                            <div class="col-md-3">
-                                                <label>CVV</label>
-                                                <input class="form-control" type="text" placeholder="Cod.">
-                                            </div>
-                                        </div><br>
-                                        <div class="row">
-                                            <div class="col-md-12">
-                                                <div class="btn-group btn-group-toggle" data-toggle="buttons">
-                                                        <label class="btn btn-secondary bg-orange">
-                                                            <input type="radio" name="options" id="option1" autocomplete="off"><h1><i class="fa fa-cc-visa"></i></h1>
-                                                        </label>
-                                                        <label class="btn btn-secondary bg-orange">
-                                                            <input type="radio" name="options" id="option2" autocomplete="off"><h1><i class="fa fa-cc-mastercard"></i></h1>
-                                                        </label>
-                                                        <label class="btn btn-secondary bg-orange">
-                                                            <input type="radio" name="options" id="option3" autocomplete="off"><h1><i class="fa fa-cc-amex"></i></h1>
-                                                        </label>
-                                                        <label class="btn btn-secondary bg-orange">
-                                                            <input type="radio" name="options" id="option4" autocomplete="off"><h1><i class="fa fa-cc-diners-club"></i></h1>
-                                                        </label>
-                                                        <!--<label class="btn btn-secondary bg-orange">
-                                                            <input type="radio" name="options" id="option5" autocomplete="off"><h1><i class="fa fa-cc-elo"></i></h1>
-                                                        </label>-->
+                                    <div id="newCartao" style="display: inline;">
+                                        <li class="list-group-item">
+                                            <div class="row">
+                                                <div class="col-md-9">
+                                                    <label>Número do Cartão</label>
+                                                    <input class="form-control" type="text" placeholder="Número do cartão">
+                                                </div>
+                                                <div class="col-md-3">
+                                                    <label>CVV</label>
+                                                    <input class="form-control" type="text" placeholder="Cod.">
+                                                </div>
+                                            </div><br>
+                                            <div class="row">
+                                                <div class="col-md-12">
+                                                    <div class="btn-group btn-group-toggle" data-toggle="buttons">
+                                                            <label class="btn btn-secondary bg-orange">
+                                                                <input type="radio" name="options" id="option1" autocomplete="off"><h1><i class="fa fa-cc-visa"></i></h1>
+                                                            </label>
+                                                            <label class="btn btn-secondary bg-orange">
+                                                                <input type="radio" name="options" id="option2" autocomplete="off"><h1><i class="fa fa-cc-mastercard"></i></h1>
+                                                            </label>
+                                                            <label class="btn btn-secondary bg-orange">
+                                                                <input type="radio" name="options" id="option3" autocomplete="off"><h1><i class="fa fa-cc-amex"></i></h1>
+                                                            </label>
+                                                            <label class="btn btn-secondary bg-orange">
+                                                                <input type="radio" name="options" id="option4" autocomplete="off"><h1><i class="fa fa-cc-diners-club"></i></h1>
+                                                            </label>
+                                                            <!--<label class="btn btn-secondary bg-orange">
+                                                                <input type="radio" name="options" id="option5" autocomplete="off"><h1><i class="fa fa-cc-elo"></i></h1>
+                                                            </label>-->
+                                                    </div>
+                                                </div>
+                                            </div><br>
+                                            <div class="row">
+                                                <div class="col-md-6">
+                                                    <label>Nome do Titular</label>
+                                                    <input type="text" class="form-control">
+                                                </div>
+                                                <div class="col-sm-3">
+                                                    <label>Mes</label>
+                                                    <select class="custom-select d-block w-100">
+                                                        <option>Selecione...</option>
+                                                        <option>07</option>
+                                                    </select>
+                                                </div>
+                                                <div class="col-sm-3">
+                                                    <label>Ano</label>
+                                                    <select class="custom-select d-block w-100">
+                                                        <option>Selecione...</option>
+                                                        <option>2019</option>
+                                                    </select>
+                                                </div>
+                                            </div><br>
+                                            <div class="row">
+                                                <div class="col-md-12">
+                                                    <div class="custom-control custom-checkbox">
+                                                        <input type="checkbox" class="custom-control-input" id="customCheck2">
+                                                        <label class="custom-control-label" for="customCheck2">Marcar como endereco de cobranca</label>
+                                                    </div>
                                                 </div>
                                             </div>
-                                        </div><br>
-                                        <div class="row">
-                                            <div class="col-md-6">
-                                                <label>Nome do Titular</label>
-                                                <input type="text" class="form-control">
-                                            </div>
-                                            <div class="col-sm-3">
-                                                <label>Mes</label>
-                                                <select class="custom-select d-block w-100">
-                                                    <option>Selecione...</option>
-                                                    <option>07</option>
-                                                </select>
-                                            </div>
-                                            <div class="col-sm-3">
-                                                <label>Ano</label>
-                                                <select class="custom-select d-block w-100">
-                                                    <option>Selecione...</option>
-                                                    <option>2019</option>
-                                                </select>
-                                            </div>
-                                        </div><br>
-                                        <div class="row">
-                                            <div class="col-md-12">
-                                                <div class="custom-control custom-checkbox">
-                                                    <input type="checkbox" class="custom-control-input" id="customCheck2">
-                                                    <label class="custom-control-label" for="customCheck2">Marcar como endereco de cobranca</label>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </li>
+                                        </li>
+                                    </div>
                                 </div>
                                 <div id="cupom" style="display: none;">
                                     <div class="card-header bg-primary text-white text-uppercase bg-orange"><i class="fa fa-money"></i> Cupom</div>
@@ -276,14 +280,14 @@
                     <div class="col-md-12">
                         <div class="row">
                             <div class="col-md-4">
-                                <form action="indexCliente.html">
-                                <button class="btn btn-block">Cancelar</button>
+                                <form>
+                                <a href="IndexCliente.html" class="btn btn-block">Cancelar</a>
                                 </form>
                             </div>
                             <div class="col-md-4"></div>
                             <div class="col-md-4">
-                                <form action="indexCliente.html">
-                                    <button class="btn btn-success btn-block">Comprar</button>
+                                <form>
+                                    <a href="IndexCliente.html" class="btn btn-success btn-block">Comprar</a>
                                 </form>
                             </div>
                         </div>
@@ -328,5 +332,28 @@
                 }
             }
         </script>
+        <!--<script>
+            function blockNewCartao(){
+                var option = document.getElementById("cartaoao").value;
+
+                document.getElementById("newCartao").value.style.display = "inline";
+
+                if(option != "0"){
+                    document.getElementById("newCartao").value.style.display = "none";
+                }
+            }
+        </script>
+        <script>
+            function blockNewEndereco(){
+                var option = document.getElementById("enderecoco").value;
+
+                document.getElementById("newEndereco").value.style.display = "inline";
+                print();
+                if(option != "0"){
+                    print();
+                    document.getElementById("newEndereco").value.style.display = "none";
+                }
+            }
+        </script>-->
     </body>
 </html>

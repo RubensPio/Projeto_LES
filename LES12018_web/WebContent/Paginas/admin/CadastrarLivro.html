@@ -1,0 +1,193 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <!--<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">-->
+        <link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet" integrity="sha384-wvfXpqpZZVQGK6TAh5PVlGOfQNHSoD2xbE+QkPxCAFlNEevoEH3Sl0sibVcOQVnN" crossorigin="anonymous">
+        <link rel="stylesheet" href="../css/bootstrap.css">
+        <link rel="shortcut icon" href="file:\\\C:\Users\ruben\Documents\Fatec\LES\Projeto_LES\Projeto_LES\LES12018_web\WebContent\Paginas\imagens\logo_6ce_icon.ico" type="image/x-icon">
+        <meta charset="UTF-8">
+        <title>Livros</title>
+    </head>
+    <header>
+        <nav class="navbar navbar-expand-md navbar-dark fixed-top bg-orange">
+            <div class="container">
+                <a class="navbar-brand" href="gerenciar_pedido.html">
+                    <img src="../imagens/logo.png" width="30" height="30" class="d-inline-block align-top" alt="">
+                    TOPBOOKS
+                </a>
+                <div class="collapse navbar-collapse justify-content-end" id="navbarNav">
+                    <ul class="navbar-nav m-auto">
+                        <li class="nav-item">
+                            <a class="nav-link" href="gerenciar_pedido.html">Gerenciar Pedidos </a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="gerenciarLivro.html">Gerenciar Livro</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="gerenciarTroca.html">Gerenciar Trocas</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="..\admin\bootstrap-4.0.0\docs\4.0\examples\dashboard\graficos.html">Análises</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="gerenciarEstoque.html">Gerenciar Estoque</a>
+                        </li>
+                    </ul>
+                </div>
+                </form>
+            </div>
+        </nav>
+    </header>
+	<body>
+        <div class="container">
+            <div class="mx-auto" style="width: 500px;">
+                <div class="col-xl">
+                    <h4>Cadastrar Livro</h4>
+                </div>
+            </div><br>
+            <!-- INICIO DO FORM -->
+            <form action="gerenciarLivro.html" method="post" id="frmSalvarLivro">
+                <!-- Seção contendo as caracteristicas do painel de Dados Gerais -->
+                <div class="row">
+                    <section>
+                        <fieldset id="fieldset-main">
+                            <legend>Dados Gerais</legend>
+                            <div class="row">
+                                 <div class="col-md-6 mb-3">
+                                     <label class="titulos-label"> <strong> Título do Livro </strong> </label> 
+                                     <input id="txtTitulo" class="form-control" type="text" name="txtTitulo" placeholder="Ex: Vidas Secas" required>
+                                 </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-md-5 mb-3">
+                                    <label class="titulos-label"> <strong> Autor </strong> </label><br>
+                                    <select class="custom-select d-block w-100" id="ddlAutor" name="ddlAutor">
+                                        <option value disabled selected>Escolha...</option>
+                                        <option value>J R R Tolkien</option>
+                                        <option value>John Green</option>
+                                        <option value>George R R Martin</option>
+                                    </select>
+                                    <div class="invalid-feedback">Escolha um Autor.</div>
+                                </div>
+                                <div class="col-md-4 mb-3">
+                                    <label class="titulos-label"> <strong> Editora </strong> </label><br>
+                                    <select class="custom-select d-block w-100" id="ddlEditora" name="ddlEditora">
+                                        <option value disabled selected>Escolha...</option>
+                                        <option value>Editora Martins</option>
+                                        <option value>Editora Cultura</option>
+                                    </select>
+                                    <div class="invalid-feedback">Escolha uma Editora.</div>
+                                </div>
+                                <div class="col-md-4 mb-3">
+                                    <label class="titulos-label"> <strong> Grupo de Precificação </strong> </label><br>
+                                    <select class="custom-select d-block w-100" id="ddlGrupoPre" name="ddlGrupoPre">
+                                        <option value disabled selected>Escolha...</option>
+                                        <option value>Bronze</option>
+                                        <option value>Prata</option>
+                                        <option value>Ouro</option>
+                                    </select>
+                                    <div class="invalid-feedback">Escolha um Grupo de Precificação.</div>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-md mb-3">
+                                    <label id="txtISBN" class="titulos-label label-altern"> <strong>ISBN</strong></label><br>
+                                    <input id="txtISBN" class="form-control" type="text" name="txtISBN" placeholder="Ex: 9780733426094" required>
+                                </div>
+
+                                <div class="col-md mb-3">
+                                    <label class="titulos-label label-altern"> <strong>Código de Barras</strong></label><br>
+                                    <input id="txtCodBarras" class="form-control" type="text" name="txtCodBarras" placeholder="Ex: 7898357410015" required>
+                                </div>
+
+                                <div class="col-sm mb-3">
+                                    <label id="label-edicao" class="titulos-label label-altern2 separador"> <strong>Edição</strong></label><br>
+                                    <input id="txtEdicao" class="form-control" type="text" name="txtEdicao" placeholder="Ex: 1ª Edição" required>
+                                </div>
+                                <div class="col-md mb-3">
+                                    <label class="titulos-label label-altern2"> <strong>Ano</strong></label><br>
+                                    <input id="txtAno" class="form-control" type="text" name="txtAno" placeholder="Ex: 2018" required>
+                                </div>
+
+                                <div class="col-md mb-3">
+                                    <label class="titulos-label label-altern2 no-space-break"> <strong>Número de Páginas</strong> </label> <br>
+                                    <input id ="txtNumPaginas"class="form-control" type="text" name="txtNumPaginas" required  placeholder="Ex: 350" ></input>
+                                </div>				
+                            </div>
+                            <div class="row">
+                                <div class="col-md-6 mb-3">
+                                    <label id="label-sinopse"> <strong>Sinopse</strong> </label>
+                                    <input type="text" id="txtSinopse" name="txtSinopse" class="form-control" required placeholder="Digite aqui..." ></input>
+                                </div>
+                                <div class="col-md-6 mb-3">
+                                    <label id="label-categoria" class="col-md-6 mb-3"> <strong>Categoria</strong> </label> <br>
+                                    <select class="mdb-select" multiple name="ddlCategorias">
+                                        <option value="" disabled selected>Escolha as categorias</option>
+                                        <option value>Terror</option>
+                                        <option value>Aventura</option>
+                                        <option value>Culinária</option>
+                                        <option value>Ficção Científica</option>
+                                    </select>
+                                </div> 
+                            </div>
+                        </fieldset>	
+                    </section>
+                </div>
+                <hr class="mb-4">
+                <!-- Seção contendo as caracteristicas do painel de Informações Básicas -->
+                <div class="row">
+                    <section>
+                        <fieldset id="fieldset-main">
+                            <legend>Informações Físicas</legend>
+                            <div class="row">
+                                <div class="col-md-3 mb-3">
+                                    <label id="label-altura" class="titulos-label label-fisicas" > <strong> Altura </strong> </label>
+                                    <input id="txtAltura" class="form-control" type="text" name="txtAltura" placeholder="Em centímetros" required>
+                                </div>
+                                    
+                                <div class="col-md-3 mb-3">
+                                    <label id="label-largura" class="titulos-label label-fisicas"> <strong> Largura </strong> </label>
+                                    <input id="txtLargura" class="form-control" type="text" name="txtLargura" placeholder="Em cenentímetros" required>
+                                </div>
+                                    
+                                <div class="col-md-3 mb-3">
+                                    <label id="label-peso" class="titulos-label label-fisicas"> <strong> Peso </strong> </label>
+                                    <input id="txtPeso" class="form-control" type="text" name="txtPeso" placeholder="Em gramas" required>
+                                </div>
+                                    
+                                <div class="col-md-3 mb-3">
+                                    <label id="label-profund" class="titulos-label label-fisicas"> <strong> Profundidade </strong> </label> <br>
+                                    <input id="txtProfundidade" class="form-control" type="text" name="txtProfundidade"  placeholder="Em centímetros" required>
+                                </div>
+                            </div>							
+                        </fieldset>
+                    </section>
+                </div>
+                <hr class="mb-4">
+                <div class="row">
+                    <select class="col-md-2 custom-select" name="ckbisAtivo">
+                        <option value="true">Inativado</option>
+                        <option value="false">Ativado</option>
+                    </select>
+                </div>
+                <br>
+                <div class="row"><button type='submit' style="margin-bottom: 50px;" class='col-md-3 btn btn-success btn-lg bg-orange' name='operacao'>SALVAR</button></div>
+            </form>
+        </div>
+
+        <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
+        <script>
+        function getCategoria(){
+            document.getElementById("txtCategorias").value += ", " + nome;
+        }
+        </script>
+        <script>
+            function getSinopse(Sinopse){
+                 document.getElementById("txtSinopse").value = Sinopse;
+            }
+        </script>
+        <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
+        <script type="text/javascript" src="https://gc.kis.v2.scr.kaspersky-labs.com/BE6FCF3F-98A6-144F-B09E-42F7CB26EEB9/main.js" charset="UTF-8"></script>
+    </body>
+</html>

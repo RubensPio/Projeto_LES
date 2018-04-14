@@ -1,0 +1,121 @@
+<!DOCTYPE HTML>
+<html>
+	<head>
+    	<!--<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">-->
+    	<link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet" integrity="sha384-wvfXpqpZZVQGK6TAh5PVlGOfQNHSoD2xbE+QkPxCAFlNEevoEH3Sl0sibVcOQVnN" crossorigin="anonymous">
+		<link rel="stylesheet" href="../css/bootstrap.css">
+		<link rel="shortcut icon" href="file:\\\C:\Users\ruben\Documents\Fatec\LES\Projeto_LES\Projeto_LES\LES12018_web\WebContent\Paginas\imagens\logo_6ce_icon.ico" type="image/x-icon">
+    	<meta charset="UTF-8">
+    	<title>Pedidos</title>
+	</head>
+	<header>
+        <nav class="navbar navbar-expand-md navbar-dark fixed-top bg-orange">
+            <div class="container">
+				<a class="navbar-brand" href="gerenciar_pedido.html">
+					<img src="../imagens/logo.png" width="30" height="30" class="d-inline-block align-top" alt="">
+					TOPBOOKS
+				</a>
+				<div class="collapse navbar-collapse justify-content-end" id="navbarNav">
+					<ul class="navbar-nav m-auto">
+						<li class="nav-item">
+							<a class="nav-link" href="gerenciar_pedido.html">Gerenciar Pedidos </a>
+						</li>
+						<li class="nav-item">
+							<a class="nav-link" href="gerenciarLivro.html">Gerenciar Livro</a>
+						</li>
+						<li class="nav-item">
+							<a class="nav-link" href="gerenciarTroca.html">Gerenciar Trocas</a>
+						</li>
+						<li class="nav-item">
+							<a class="nav-link" href="..\admin\bootstrap-4.0.0\docs\4.0\examples\dashboard\graficos.html">Análises</a>
+						</li>
+						<li class="nav-item">
+							<a class="nav-link" href="gerenciarEstoque.html">Gerenciar Estoque</a>
+						</li>
+					</ul>
+				</div>
+				</form>
+			</div>
+        </nav>
+    </header>
+    <body style="background-color: #f4e8e3">
+        <br><br><br>
+        <div class="container">
+            <div class="row">
+                <div class="col-12">
+                    <div class="card bg-light rounded box-shadow">
+                        <div class="card-header text-white text-uppercase bg-orange"> <i class="fa fa-truck"></i> Pedido n.0001</div>
+                        <ul class="list-group category_block">
+                            <li class="list-group-item">
+                                <label id="label-dtCompra"> <strong>Data da Compra</strong> </label><br> 
+                                <label>23/05/2018</label>
+                            </li>
+                            <li class="list-group-item">
+                                <label id="label-CPF"> <strong>CPF do Cliente</strong> </label><br> 
+                                <label>45824586910</label>
+                            </li>
+                            <li class="list-group-item">
+                                <label id="label-vlrCompra"> <strong>Valor da Compra</strong> </label><br> 
+                                <label>R$ 69,98</label>
+                            </li>
+                            <li class="list-group-item">
+                                <label id="label-statusPed"> <strong>Status do Pedido</strong> </label><br> 
+                                <label>Entregue</label>
+                            </li>
+                            <li class="list-group-item">
+                                <div class="row">
+                                    <div class="col-12">
+                                        <div class="table-responsive">
+                                            <label> <strong>Produtos</strong></label>
+                                            <table class="table table-striped">
+                                                <thead>
+                                                    <tr>
+                                                        <th scope="col"></th>
+                                                        <th scope="col"> </th>
+                                                        <th scope="col">ID</th>
+                                                        <th scope="col">Produto</th>
+                                                        <th scope="col" class="text-center">Quantidade</th>
+                                                        <th scope="col" class="text-right">Preço</th>
+                                                    </tr>
+                                                </thead>
+                                                <tbody>
+                                                    <tr>
+                                                        <td><h5 class="text-center" style="margin-top: 10px;"><i class="fa fa-check-circle"></i></h5></td>
+                                                        <td><img src="https://dummyimage.com/50x50/55595c/fff" /> </td>
+                                                        <td>0001</td>
+                                                        <td>O Hobbit</td>
+                                                        <td><label class="form-control" type="text">1</label> </td>
+                                                        <td class="text-right">R$ 19,99</td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td>
+                                                            <div class="custom-control custom-checkbox">
+                                                                <input type="checkbox" class="custom-control-input" id="customCheck1">
+                                                            </div>
+                                                        </td>
+                                                        <td><img src="https://dummyimage.com/50x50/55595c/fff" /> </td>
+                                                        <td>0002</td>
+                                                        <td>A Guerra dos Tronos. As Crônicas de Gelo e Fogo</td>
+                                                        <td><label class="form-control" type="text">1</label></td>
+                                                        <td class="text-right">R$ 49,99</td>
+                                                    </tr>
+                                                </tbody>
+                                            </table>
+                                        </div>
+                                    </div>
+                                </div>
+                            </li>
+                        </ul><br>
+                        <div class="row justify-content-end">
+                            <div class="col-4">
+                                <form action="gerenciarTroca.html" method="post">
+                                    <button type='submit' class='btn btn-success btn-lg btn-block bg-orange' name='operacao'>Voltar</button>
+                                </form>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </body>
+</html>
