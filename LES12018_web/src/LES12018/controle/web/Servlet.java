@@ -16,6 +16,7 @@ import LES12018.controle.web.command.impl.ExcluirCommand;
 import LES12018.controle.web.command.impl.SalvarCommand;
 import LES12018.controle.web.command.impl.VisualizarCommand;
 import LES12018.controle.web.vh.IViewHelper;
+import LES12018.controle.web.vh.impl.ClienteViewHelper;
 import LES12018.controle.web.vh.impl.DadosParaLivroViewHelper;
 import LES12018.controle.web.vh.impl.LivroViewHelper;
 import LES12018.core.aplicacao.Resultado;
@@ -51,6 +52,7 @@ public class Servlet extends HttpServlet {
         vhs.put("/LES12018_web/SalvarLivro", new LivroViewHelper());
         vhs.put("/LES12018_web/DadosParaLivro", new DadosParaLivroViewHelper());
         vhs.put("/LES12018_web/Livros", new LivroViewHelper());
+        vhs.put("/LES12018_web/SalvarCliente", new ClienteViewHelper());
     }
 
     /**

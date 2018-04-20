@@ -66,7 +66,7 @@
                                 <div class="table-responsive">
                                     <table class="table">
                                         <thead>
-                                            <th><h1><i class="fa fa-user"></i> Souza</h1></th>
+                                            <th><h1><i class="fa fa-user"></i></h1></th>
                                         </thead>
                                         <tbody>
                                             <tr>
@@ -121,8 +121,8 @@
                             <div class="row">
                                 <div class="col">
                                     <div></div>
-                                    <form>
-                                        <a class="btn btn-success" href="adicionar-endereco.html"><i class="fa fa-plus"></i></a>
+                                    <form action="">
+                                        <button class="btn btn-success" type="subimit"><i class="fa fa-plus"></i></a>
                                     </form><br>
                                 </div>
                             </div>

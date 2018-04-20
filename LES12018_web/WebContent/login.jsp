@@ -65,9 +65,10 @@
 					</div>
 
 					<div class="text-center p-t-90">
-						<a class="txt1" href="#">
-							Registrar-se
-						</a>
+						<form action="">
+							<button type='submit' value="CONSULTAR" name='operacao'>Registrar-se</button>
+							<input type="hidden" name="target" value="cadastroCliente.jsp">
+						</form>
 					</div>
 				</form>
 			</div>

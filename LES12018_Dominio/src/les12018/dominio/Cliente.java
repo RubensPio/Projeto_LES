@@ -1,33 +1,92 @@
 package les12018.dominio;
 
+import java.sql.Date;
+import java.util.ArrayList;
+
 public class Cliente extends EntidadeDominio{
-	private String Nome;
-	private String Email;
-	private String DataNascimento;
+	private String sGenero;
+	private String sNome;
+	private Date dtDataNasc;
+	private String sCPF;
+	private String sEmail;
+	private String sSenha;
+    private int nRanking;
+	private String sTelefone;
+	private ArrayList<Endereco> enderecos = new ArrayList<Endereco>();
+	private ArrayList<Cartao> cartoes= new ArrayList<Cartao>();
 	private Boolean isAdmin = false;
+	private Boolean flgAtivo = true;
 	
-	public String getNome() {
-		return Nome;
+	public String getsGenero() {
+		return sGenero;
 	}
-	public void setNome(String nome) {
-		Nome = nome;
+	public void setsGenero(String sGenero) {
+		this.sGenero = sGenero;
 	}
-	public String getEmail() {
-		return Email;
+	public String getsNome() {
+		return sNome;
 	}
-	public void setEmail(String email) {
-		Email = email;
+	public void setsNome(String sNome) {
+		this.sNome = sNome;
 	}
-	public String getDataNascimento() {
-		return DataNascimento;
+	public Date getDtDataNasc() {
+		return dtDataNasc;
 	}
-	public void setDataNascimento(String dataNascimento) {
-		DataNascimento = dataNascimento;
+	public void setDtDataNasc(Date dtDataNasc) {
+		this.dtDataNasc = dtDataNasc;
+	}
+	public String getsCPF() {
+		return sCPF;
+	}
+	public void setsCPF(String sCPF) {
+		this.sCPF = sCPF;
+	}
+	public String getsEmail() {
+		return sEmail;
+	}
+	public void setsEmail(String sEmail) {
+		this.sEmail = sEmail;
+	}
+	public String getsSenha() {
+		return sSenha;
+	}
+	public void setsSenha(String sSenha) {
+		this.sSenha = sSenha;
+	}
+	public int getnRanking() {
+		return nRanking;
+	}
+	public void setnRanking(int nRanking) {
+		this.nRanking = nRanking;
+	}
+	public String getsTelefone() {
+		return sTelefone;
+	}
+	public void setsTelefone(String sTelefone) {
+		this.sTelefone = sTelefone;
+	}
+	public ArrayList<Endereco> getEnderecos() {
+		return enderecos;
+	}
+	public void setEnderecos(ArrayList<Endereco> enderecos) {
+		this.enderecos = enderecos;
+	}
+	public ArrayList<Cartao> getCartoes() {
+		return cartoes;
+	}
+	public void setCartoes(ArrayList<Cartao> cartoes) {
+		this.cartoes = cartoes;
 	}
 	public Boolean getIsAdmin() {
 		return isAdmin;
 	}
 	public void setIsAdmin(Boolean isAdmin) {
 		this.isAdmin = isAdmin;
+	}
+	public Boolean getFlgAtivo() {
+		return flgAtivo;
+	}
+	public void setFlgAtivo(Boolean flgAtivo) {
+		this.flgAtivo = flgAtivo;
 	}
 }
