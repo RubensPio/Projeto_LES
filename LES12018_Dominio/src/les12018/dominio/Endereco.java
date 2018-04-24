@@ -1,6 +1,7 @@
 package les12018.dominio;
 
 public class Endereco extends EntidadeDominio{
+	private String Nome;
 	private String tipoResidencia;										// Ex: Casa, apartamento, etc
 	private String tipoLogradouro;										// EX: Avenida, rua, etc
 	private String Logradouro;											// Armazena o nome do logradouro
@@ -13,6 +14,12 @@ public class Endereco extends EntidadeDominio{
 	private Boolean flgCobranca;
 	private String Comp;
 	
+	public String getNome() {
+		return Nome;
+	}
+	public void setNome(String Nome) {
+		this.Nome = Nome;
+	}
 	public String getComp() {
 		return Comp;
 	}

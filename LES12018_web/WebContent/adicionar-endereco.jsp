@@ -1,3 +1,9 @@
+<%@page import="com.sun.istack.internal.Builder"%>
+<%@page import="LES12018.core.aplicacao.Resultado"%>
+<%@page import="les12018.dominio.EntidadeDominio"%>
+<%@page import="les12018.dominio.*"%>
+<%@page import="les12018.auxiliar.DadosParaCadastro"%>
+<%@page import="java.util.*"%>
 <!DOCTYPE html>
 <html>
     <head>
@@ -8,6 +14,14 @@
         <link rel="shortcut icon" href="imagens/logo_6ce_icon.ico" type="image/x-icon">
         <title>TopBooks</title>
     </head>
+    <%
+			Resultado resultado = (Resultado) session.getAttribute("login");
+			List<EntidadeDominio> Cli = resultado.getEntidades();
+			
+			Cliente cliente = (Cliente)Cli.get(0);
+			Endereco end = cliente.getEnderecos().get(0);
+			StringBuilder sb;
+	%>
     <header>
         <nav class="navbar navbar-expand-md navbar-dark fixed-top bg-orange">
             <div class="container">
@@ -21,11 +35,26 @@
                         <div class="navbar-brand">
                             <i class="fa fa-user"></i>
                         </div>                                        
-                        <a class="navbar-brand" href="#">Entre ou Cadastre-se</a>
+                        <div>                                        
+                        <%
+							sb = new StringBuilder();
+							sb.append("<a class='navbar-brand' href='SalvarCliente?txtId=");
+							sb.append(cliente.getId());
+							sb.append("&");
+							sb.append("operacao=CONSULTAR'>");
+							sb.append("Bem Vindo, ");
+							sb.append(cliente.getsNome());
+							sb.append("</a>");
+							
+							out.print(sb.toString());
+						%>
+                    </div>
                     </div>
                     <a class="btn btn-success btn-sm ml-3" href="carrinho.html">
                     <i class="fa fa-shopping-cart"></i> Carrinho
                     <span class="badge badge-light">3</span></a>
+                    <label>  </label>
+                    <a class="nav-link" href="SalvarCliente?operacao=LOGOUT">Sair</a>
                 </form>
             </div>
         </nav>
@@ -45,9 +74,33 @@
                         <div class="card bg-light mb-3">
                                 <div class="card-header bg-primary text-white text-uppercase bg-orange"><i class="fa fa-male"></i> Dados</div>
                                 <ul class="list-group category_block">
-                                    <li class="list-group-item"><a href="perfil.html">Gerenciar Perfil</a></li>
-                                    <li class="list-group-item"><a href="mudar-senha.html">Alterar Senha</a></li>
-                                    <li class="list-group-item"><a href="cartoes.html">Gerenciar Cartoes</a></li>
+                                    <li class="list-group-item">
+                                    	<%
+											sb = new StringBuilder();
+											sb.append("<a href='SalvarCliente?txtId=");
+											sb.append(cliente.getId());
+											sb.append("&");
+											sb.append("operacao=CONSULTAR'>");
+											sb.append("Gerenciar Perfil");
+											sb.append("</a>");
+											
+											out.print(sb.toString());
+										%>
+									</li>
+									<li class="list-group-item"><a href="alterar-senha.jsp">Alterar Senha</a></li>
+                                    <li class="list-group-item">
+                                    	<%
+											sb = new StringBuilder();
+											sb.append("<a href='SalvarCliente?txtId=");
+											sb.append(cliente.getId());
+											sb.append("&");
+											sb.append("operacao=CONSULTAR&target=cartoes.jsp'>");
+											sb.append("Gerenciar Cartões");
+											sb.append("</a>");
+											
+											out.print(sb.toString());
+										%>
+									</li>
                                 </ul>
                         </div>
                         <div class="card bg-light mb-3">
@@ -61,36 +114,69 @@
                             <div class="row">
                                     <div class="card-header form-control text-white text-uppercase bg-orange"><i class="fa fa-map-marker"></i> Adicionar Endereco</div>
                             </div>
-                            <form>
+                            <form action="SalvarCliente" method="post">
                                 <div class="row">
-                                    <div class="col-md-8">
+	                                <div class="col-md-12">
+	                                	<div class="row">
+	                                		<div class="col-md-2">
+					                           <%
+					                            	sb = new StringBuilder();
+					                            	sb.append("<input class='form-control' type'text' readonly='readonly' name='txtId' value='");
+					                            	sb.append(cliente.getId());
+					                            	sb.append("'>");
+					                            	
+					                            	out.print(sb.toString());
+					                            %>
+				                            </div>
+	                                	</div>
+	                                </div>
+                                </div>
+                                <div class="row">
+                                	<div class="col-md-12">
+                                		<div class="row">
+                                			<div class="col-md-6">
+                                				<label>Nome Endereco</label>
+                                				<input class="form-control" type="text" name="txtNomeEnd">
+                                			</div>
+                                		</div>
                                         <div class="row">
-                                            <div class="col-md-6">
+                                            <div class="col-md-4">
                                                 <label>Pais</label>
-                                                <select class="custom-select d-block w-100">
+                                                <select class="custom-select d-block w-100" name="ddlpais">
                                                     <option>Selecione...</option>
+                                                    <option value="BRASIL">Brasil</option>
                                                 </select>
                                             </div>
+                                            <div class="col-md-4">
+                                            	<label>CEP</label>
+                                                <input type="text" class="form-control" name="txtcep">
+                                            </div>
+                                            <div class="col-md-4">
+                                            	<label>Tipo Res.</label>
+                                                <input type="text" class="form-control" name="ddlTipoRes">
+                                            </div>
                                         </div>
-                                    </div>    
+                                	</div>    
                                 </div><br>
                                 <div class="row">
                                     <div class="col-md-12">
                                         <div class="row">
                                             <div class="col-md-4">
-                                                <label>CEP</label>
-                                                <input type="text" class="form-control">
+                                                <label>Bairro</label>
+                                                <input type="text" class="form-control" name="txtBairro">
                                             </div>
                                             <div class="col-md-4">
                                                 <label>Cidade</label>
-                                                <select class="custom-select d-block w-100">
+                                                <select class="custom-select d-block w-100" name="ddlcidade">
                                                     <option>Selecione...</option>
+                                                    <option value="MOGI DAS CRUZES">Mogi das Cruzes</option>
                                                 </select>
                                             </div>
                                             <div class="col-md-4">
                                                 <label>Estado</label>
-                                                <select class="custom-select d-block w-100">
+                                                <select class="custom-select d-block w-100" name="ddlestado">
                                                     <option>Selecione...</option>
+                                                    <option value="SP">São Paulo</option>
                                                 </select>
                                             </div>
                                         </div>
@@ -99,17 +185,21 @@
                                 <div class="row">
                                     <div class="col-md-12">
                                             <div class="row">
+                                            	<div class="col-sm-2">
+                                                    <label>Tipo Log.</label>
+                                                    <input type="text" class="form-control" name="ddlTipoLogr">
+                                                </div>
                                                 <div class="col-md-4">
                                                     <label>Rua</label>
-                                                    <input type="text" class="form-control">
+                                                    <input type="text" class="form-control" name="txtrua">
                                                 </div>
                                                 <div class="col-sm-2">
                                                     <label>Numero</label>
-                                                    <input type="text" class="form-control">
+                                                    <input type="text" class="form-control" name="txtnum">
                                                 </div>
                                                 <div class="col-sm-2">
                                                     <label>Complemento</label>
-                                                    <input type="text" class="form-control">
+                                                    <input type="text" class="form-control" name="txtcomp">
                                                 </div>
                                             </div>
                                         </div>    
@@ -119,7 +209,7 @@
                                                 <div class="row">
                                                     <div class="col-md-8">
                                                         <div class="custom-control custom-checkbox">
-                                                            <input type="checkbox" class="custom-control-input" id="customCheck1">
+                                                            <input type="checkbox" class="custom-control-input" id="customCheck1" value="true" name="cbkCobranca">
                                                             <label class="custom-control-label" for="customCheck1">Marcar como endereco de cobranca</label>
                                                         </div>
                                                     </div>
@@ -130,19 +220,18 @@
                                     <div class="col-md-12">
                                         <div class="row">
                                             <div class="col-md-4">
-                                                <a href="perfil.html" class="btn btn-block">Voltar</a>
+                                                <a href="perfil.jsp" class="btn btn-secondary btn-block">Voltar</a>
                                             </div>
                                             <div class="col-md-4"></div>
                                             <div class="col-md-4">
-                                                <a href="perfil.html" class="btn btn-success btn-block">Salvar</a>
+                                                <button type="submit" class="btn btn-success btn-block" name="operacao" value="SALVAR">Salvar</button>
                                             </div>
                                         </div>
                                     </div>
-                                </div>
-                            </div>
+                                 </div>
                         </form>
                     </div>
                 </div>
-        </div>
+            </div>
     </body>
 </html>

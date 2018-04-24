@@ -9,13 +9,15 @@
 	<head>
 		<link rel="stylesheet" href="reset.css">
 		<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta/css/bootstrap.min.css" integrity="sha384-/Y6pD6FV/Vv2HJnA6t+vslU6fwYXjCFtcEpHbNJ0lyAFsXTsjBbfaDjzALeQsN6M" crossorigin="anonymous">
-		<meta charset="ISO-8859-1">
+		<link rel="stylesheet" href="css/bootstrap.css">
+        <meta charset="UTF-8">
+        <link rel="shortcut icon" href="imagens/logo_6ce_icon.ico" type="image/x-icon">
 		<title>Gerenciar Livro</title>
 	</head>
 	<header>
-		<nav class="navbar navbar-expand-lg navbar-light bg-light">
+		<nav class="navbar navbar-expand-md navbar-dark fixed-top bg-orange">
 				  <a class="navbar-brand" href="#">
-				  	<img src="logo.png" width="30" height="30" class="d-inline-block align-top" alt="">
+				  	<img src="images/logo.png" width="30" height="30" class="d-inline-block align-top" alt="">
 				  	ToopBooks
 				  </a>
 				  <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
@@ -24,17 +26,20 @@
 				  <div class="collapse navbar-collapse" id="navbarNav">
 				    <ul class="navbar-nav">
 				      <li class="nav-item">
-				        <a class="nav-link" href="/FormLivro">Gerï¿½nciar Pedidos </a>
+				        <a class="nav-link" href="/FormLivro">Gerenciar Pedidos </a>
 				      </li>
 				      <li class="nav-item">
 				        <a class="nav-link" href="#">Gerenciar Livro</a>
 				      </li>
 				      <li class="nav-item">
-				        <a class="nav-link" href="#">Gerï¿½nciar Trocas</a>
+				        <a class="nav-link" href="#">Gerenciar Trocas</a>
 				      </li>
 				      <li class="nav-item">
-				        <a class="nav-link" href="#">Anï¿½lises</a>
+				        <a class="nav-link" href="#">Análises</a>
 				      </li>
+				      <li class="nav-item">
+                    		<a class="nav-link" href="SalvarCliente?operacao=LOGOUT">Sair</a>
+                      </li>
 				    </ul>
 				  </div>
 		</nav>
@@ -52,45 +57,49 @@
 		<BR>
 		<div class="container">
 			<div class="row justify-content-end">
-				<div class="col-md-4 order-md-2 mb-4">
+				<div class="col-12">
 					<h4 class="d-flex justify-content-between align-items-center mb-3">
 						<span class="text-muted">Filtro</span><br></h4>
 						<form action="SalvarLivro">
 							<div class="row">
-								<div class="col-md mb-3">
-									<label id="label-categoria" class="col-md-6 mb-3"> <strong>Tï¿½tulo</strong> </label> <br>
-									<input type="text" class="form-control" name="txtTitulo" placeholder="Ex:Titulo">
-								</div>
-								<div class="col-md mb-3">
-									<label id="label-categoria" class="col-md-6 mb-3"> <strong>Ano</strong> </label> <br>
-									<input id="txtAno" class="form-control" type="text" name="txtAno" placeholder="Ex: 2018">
-								</div>
-								<div class="col-md md-3">
-									<label id="label-categoria" class="col-md-6 mb-3"> <strong>ISBN</strong> </label> <br>
-									<input id="txISBN" class="form-control" type="text" name="txtISBN" placeholder="Ex: 9780733426094">
-								</div>
-							</div>
-							<div class="row">
-								<div class="col-md mb-4">
-									<label id="label-categoria" class="col-md-6 mb-3"> <strong>Editora</strong> </label> <br>
-											<select class="custom-select d-block w-100" id="ddlEditora" name="ddlEditora" placeholder="Editora">
-											<option value="0">Escolha...</option>
-												<%
-													sb = new StringBuilder();
-													for(Editora edi : DadosCad.getEditora())
-												{
-													sb.append("<option value='");
-													sb.append(edi.getId()+ "'>");
-													sb.append(edi.getNome());
-													sb.append("</option>");
-												}
-													
-												out.print(sb.toString());
-											%>
-										</select>
-								</div>
-								<div>
-									<label id="label-categoria" class="col-md-6 mb-3"> <strong>Autor</strong> </label> <br>
+                            <div class="col-md-3">
+                                <label id="label-categoria"> <strong>Titulo</strong> </label> <br>
+                                <input type="text" class="form-control" name="txtTitulo" placeholder="Ex:Titulo">
+                            </div>
+                            <div class="col-md-3">
+                                <label id="label-categoria"> <strong>ISBN</strong> </label> <br>
+                                <input id="txISBN" class="form-control" type="text" name="txtISBN" placeholder="Ex: 9780733426094">
+                            </div>
+                            <div class="col-md-3">
+                                <label id="label-categoria"> <strong>Código de Barras</strong> </label> <br>
+                                <input id="txtCodBar" class="form-control" type="text" name="txtCodBar" placeholder="Ex: 9780733426094">
+                            </div>
+                            <div class="col-md-3">
+                                <label id="label-categoria"> <strong>Editora</strong> </label> <br>
+								<select class="custom-select d-block w-100" id="ddlEditora" name="ddlEditora" placeholder="Editora">
+									<option value="0">Escolha...</option>
+									<%
+										sb = new StringBuilder();
+										for(Editora edi : DadosCad.getEditora()){
+											sb.append("<option value='");
+											sb.append(edi.getId()+ "'>");
+											sb.append(edi.getNome());
+											sb.append("</option>");
+										}					
+										out.print(sb.toString());
+									%>
+								</select>
+                            </div>
+                        </div>
+
+                        <!-- Segunda linha de filtro-->
+                        <div class="row">
+                            <div class="col-md-3">
+                                <label id="dtCad"> <strong>Data de Cadastro</strong></label>
+                                <input class="form-control" type="date">
+                            </div>
+                            <div class="col-md-3">
+                                <label id="label-categoria"> <strong>Autor</strong> </label> <br>
 											<select class="custom-select d-block" id="ddlAutor" name="ddlAutor" placeholder="Autor">
 											<option value="0">Escolha...</option>
 												<%
@@ -106,48 +115,91 @@
 												out.print(sb.toString());
 											%>
 										</select>
-								</div>
-								<div>
-									<label class="col-md-6 mb-3"><strong>Status</strong></label>
-									<select class="custom-select d-block" name="ckbisAtivo">
-										<option value="todos">Todos</option>
-										<option value="true">Ativo</option>
-										<option value="false">Inativo</option>
-									</select>
-								</div>
-							</div>
-							<div class="row">
-							<div class="col-md mb-3">
-								<label"><strong>Categoria</strong></label>
-								<select class="custom-select d-block" id="ddlCategoria" name="ddlCategorias">
-											<option value="0">Escolha...</option>
-												<%
-													sb = new StringBuilder();
-													for(Categoria cat:DadosCad.getCategoria())
-												{
-													sb.append("<option value='");
-													sb.append(cat.getId()+ "'>");
-													sb.append(cat.getNome());
-													sb.append("</option>");
-												}
-													
-												out.print(sb.toString());
-											%>
-										</select>
-									</div>
-								<div class="col-md mb-3">
-									<button type='submit' class='btn btn-primary btn-lg btn-block' value="CONSULTAR" name='operacao'>FILTRAR</button>
-								</div>
-							</div>
+                            </div>
+                            <div class="col-md-3">
+                                <label id="label-categoria"> <strong>Autor</strong> </label> <br>
+                                <select class="custom-select d-block" id="ddlCategoria" name="ddlCategorias">
+                                    <option value="0">Escolha...</option>
+                                        <%
+                                            sb = new StringBuilder();
+                                            for(Categoria cat:DadosCad.getCategoria())
+                                        {
+                                            sb.append("<option value='");
+                                            sb.append(cat.getId()+ "'>");
+                                            sb.append(cat.getNome());
+                                            sb.append("</option>");
+                                        }
+                                            
+                                        out.print(sb.toString());
+                                    %>
+                                </select>   
+                            </div>
+                            <div class="col-md-3">
+                                <label id="label-categoria"><strong>Grupo de Precificação</strong> </label>
+                                <select class="custom-select d-block" id="ddlGrp" name="ddlGrp" placeholder="Autor">
+                                        <option value="0" disabled selected>Escolha...</option>
+                                        <option value>Ouro</option>
+                                        <option value>Prata</option>
+                                        <option value>Bronze</option>
+                                </select>  
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-md-3">
+                                    <label id="label-categoria"> <strong>Número de Páginas</strong> </label> 
+                                    <input id="txtNumPag" class="form-control" type="text" name="txtNumPag" placeholder="Ex: 400">
+                            </div>
+                            <div class="col-md-3">
+                                <label id="label-categoria" ><strong>Status</strong></label>
+                                <select class="custom-select d-block" name="ckbisAtivo">
+                                    <option value="todos">Todos</option>
+                                    <option value="true">Ativo</option>
+                                    <option value="false">Inativo</option>
+                                </select>
+                            </div>
+                            <div class="col-md-3">
+                                <label id="label-categoria"> <strong>Ano</strong> </label> 
+                                <input id="txtAno" class="form-control" type="text" name="txtAno" placeholder="Ex: 2018">
+                            </div>
+                            <div class="col-md-3">
+                                <label id="label-categoria"> <strong>Preço</strong> </label> 
+                                <input id="txtPreco" class="form-control" type="text" name="txtPreco" placeholder="Ex: 39,99">
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-md-3">
+                                <label id="label-categoria"> <strong>Altura</strong> </label> <br>
+                                <input id="txtAltura" class="form-control" type="text" name="txtAltura" placeholder="Em centímetros">
+                            </div>
+                            <div class="col-md-3">
+                                <label id="label-categoria"> <strong>Largura</strong> </label> <br>
+                                <input id="txtLargura" class="form-control" type="text" name="txtLargura" placeholder="Em centímetros">
+                            </div>
+                            <div class="col-md-3">
+                                <label id="label-categoria"> <strong>Profundidade</strong> </label> <br>
+                                <input id="txtProfun" class="form-control" type="text" name="txtProfun" placeholder="Em centímetros">
+                            </div>
+                            <div class="col-md-3">
+                                <label id="label-categoria"> <strong>Peso</strong> </label> <br>
+                                <input id="txtPeso" class="form-control" type="text" name="txtPeso" placeholder="Em gramas">
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-md-3">
+                                <label></label><br>
+                                <button type='submit' class='btn btn-success btn-lg btn-block bg-orange' value="CONSULTAR" name='operacao'>FILTRAR</button>
+                            </div> 
+                        </div>
+                        <br>
 						</form>
 				</div>
 			</div>
 			<div class="row">
 				<table class="table">
-				  <thead class="thead-dark">
+				  <thead class="card-header bg-primary text-white bg-orange">
 				    <tr>
 				      <th scope="col">ID</th>
-				      <th scope="col">Tï¿½tulo</th>
+				      <th scope="col">Título</th>
 				      <th scope="col">Autor</th>
 				      <th scope="col">Editora</th>
 				      <th scope="col">ISBN</th>
@@ -221,7 +273,7 @@
 				    				}else if(livro.isAtivo() == true){
 				    					sbRegistro.append("Ativo");
 				    					sbRegistro.append("<td>");
-					    				sbRegistro.append("<button class='btn btn-primary btn-lg btn-block'"); 
+					    				sbRegistro.append("<button class='btn btn-success btn-lg btn-block'"); 
 					    				sbRegistro.append("data-toggle='modal' data-target='#ModalInativar' onclick='");
 					    				sbRegistro.append("idLivro(");
 					    				sbRegistro.append(livro.getId());
@@ -243,11 +295,13 @@
 				    </tbody>
 				  </table>
 			</div>
-			<div>
-				<form action="DadosParaLivro" method="post">
-					<button type='submit' class='btn btn-primary btn-lg btn-block' value="CONSULTAR" name='operacao'>CADASTRAR LIVRO</button>
-					<input type="hidden" name="target" value="FormLivro.jsp">
-				</form>
+			<div class="row">
+				<div class="col-3 align-self-end">
+					<form action="DadosParaLivro" method="post">
+						<button type='submit' class='btn btn-success btn-lg btn-block' value="CONSULTAR" name='operacao'>CADASTRAR LIVRO</button>
+						<input type="hidden" name="target" value="FormLivro.jsp">
+					</form>
+				</div>
 			</div>
 			<%
 			    resultado = (Resultado) session.getAttribute("resultado");
@@ -266,12 +320,12 @@
 			}
 		</script>
 
-<form action='SalvarLivro' method="post">	
+<form action='SalvarCliente' method="post">	
 <div class="modal fade" id="ModalInativar" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
  <div class="modal-dialog" role="document">
     <div class="modal-content">
       <div class="modal-header">
-        <h5 class="modal-title" id="exampleModalLabel">Inativaï¿½ï¿½o</h5>
+        <h5 class="modal-title" id="exampleModalLabel">Inativação</h5>
         <button type="button" class="close" data-dismiss="modal" aria-label="Close">
           <span aria-hidden="true">&times;</span>
         </button>

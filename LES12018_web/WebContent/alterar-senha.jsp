@@ -1,10 +1,12 @@
+<%@page import="com.sun.istack.internal.Builder"%>
 <%@page import="LES12018.core.aplicacao.Resultado"%>
 <%@page import="les12018.dominio.EntidadeDominio"%>
 <%@page import="les12018.dominio.*"%>
 <%@page import="les12018.auxiliar.DadosParaCadastro"%>
-<%@page import="les12018.dominio.Livro"%>
 <%@page import="java.util.*"%>
-<!DOCTYPE html>
+<%@ page language="java" contentType="text/html; charset=ISO-8859-1"
+    pageEncoding="ISO-8859-1"%>
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
 <html>
     <head>
         <!--<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">-->
@@ -15,11 +17,10 @@
         <title>TopBooks</title>
     </head>
     <%
-			Resultado resultado = (Resultado) session.getAttribute("resultado");
+			Resultado resultado = (Resultado) session.getAttribute("login");
 			List<EntidadeDominio> Cli = resultado.getEntidades();
 			
 			Cliente cliente = (Cliente)Cli.get(0);
-			
 			System.out.println(cliente.getId());
 			StringBuilder sb;
 	%>
@@ -36,6 +37,7 @@
                         <div class="navbar-brand">
                             <i class="fa fa-user"></i>
                         </div>                                        
+                        <div>                                        
                         <%
 							sb = new StringBuilder();
 							sb.append("<a class='navbar-brand' href='SalvarCliente?txtId=");
@@ -48,6 +50,7 @@
 							
 							out.print(sb.toString());
 						%>
+                    </div>
                     </div>
                     <a class="btn btn-success btn-sm ml-3" href="carrinho.html">
                     <i class="fa fa-shopping-cart"></i> Carrinho
@@ -86,18 +89,20 @@
 											out.print(sb.toString());
 										%>
 									</li>
-                                    <li class="list-group-item"><a href="alterar-senha.jsp">Alterar Senha</a></li>
-                                    <li class="list-group-item"><%
+									<li class="list-group-item"><a href="alterar-senha.jsp">Alterar Senha</a></li>
+                                    <li class="list-group-item">
+                                    	<%
 											sb = new StringBuilder();
 											sb.append("<a href='SalvarCliente?txtId=");
 											sb.append(cliente.getId());
 											sb.append("&");
-											sb.append("operacao=CONSULTAR&target=cartoes.html'>");
-											sb.append("Gerenciar Perfil");
+											sb.append("operacao=CONSULTAR&target=cartoes.jsp'>");
+											sb.append("Gerenciar Cartões");
 											sb.append("</a>");
 											
 											out.print(sb.toString());
-										%></li>
+										%>
+									</li>
                                 </ul>
                         </div>
                         <div class="card bg-light mb-3">
@@ -109,68 +114,51 @@
                     </div>
                     <div class="col bg-light rounded box-shadow">
                             <div class="row">
-                                    <div class="card-header form-control text-white text-uppercase bg-orange"><i class="fa fa-c"></i> Cartoes de Credito</div>
-                            </div>
+                                    <div class="card-header form-control text-white text-uppercase bg-orange"><i class="fa fa-edit"></i> Mudar Senha</div>
+                            </div><br>
+                            <form action="SalvarCliente" method="post">
                             <div class="row">
-                                    <div class="table-responsive">
-                                            <table class="table">
-                                                <thead>
-													<th>Numero do Cartao<th>
-													<th><th>
-                                                </thead>
-                                                    <tbody>
-                                                      	<%
-                                                      	StringBuilder sbLink = new StringBuilder();
-                                                    	StringBuilder sbRegistro= new StringBuilder();
-                                   
-                                                    	for(Cartao cart:cliente.getCartoes()){
-                                                    		if(cart.getsNumCartao() != null){
-                                                    			sbRegistro.append("<tr>");
-                                                    			sbLink.append("<a href='SalvarCliente?");
-                                                    			sbLink.append("txtNumCartao=");
-                                                    			sbLink.append(cart.getsNumCartao());
-                                                    			sbLink.append("&");
-                                                    			sbLink.append("txtId=");
-                                                    			sbLink.append(cliente.getId());
-                                                    			sbLink.append("&");
-                                                    			sbLink.append("operacao=VISUALIZAR&target=alterar-cartao.jsp'");
-                                                    			sbLink.append(">");
-                                                    			
-                                                    			sbRegistro.append("<td>");
-                                                    			sbRegistro.append("<h1><i class='fa fa-cc-");
-                                                    			sbRegistro.append(cart.getsBandeira());
-                                                    			sbRegistro.append("'></i>");
-                                                    			sbRegistro.append(sbLink.toString());
-                                                    			sbRegistro.append(cart.getsNumCartao());
-                                                    			sbRegistro.append("</a>");
-                                                    			sbRegistro.append("</h1>");
-                                                    			sbRegistro.append("</td>");
-                                                    			sbRegistro.append("<td><a class='btn btn-success' href='SalvarCliente?txtId=");
-                                                    			sbRegistro.append(cliente.getId());
-                                                    			sbRegistro.append("&");
-                                                    			sbRegistro.append("txtNumCartao=");
-                                                    			sbRegistro.append(cart.getsNumCartao());
-                                                    			sbRegistro.append("&operacao=EXCLUIR");
-                                                    			sbRegistro.append("'><i class='fa fa-minus'></i></a></td></tr>");
-                                                    			
-                                                    			out.print(sbRegistro.toString());
-                                                    		}
-                                                    	}
-                                                      	%>
-                                                    </tbody>
-                                            </table>
-                                    </div>
-                            </div>
+                                <div class="col-md-12">
                                     <div class="row">
-                                        <div class="col">
-                                            <div></div>
-                                            <form action="adicionar-cartao.jsp">
-                                                <button type="submit" class="btn btn-success"><i class="fa fa-plus"></i></button>
-                                            </form><br>
+                                        <div class="col-md-4">
+                                            <label>Digite a Senha Atual:</label>
+                                            <input type="password" class="form-control" name="txtpasswd">
+                                        </div>
+                                    </div><br>
+                                    <div class="row">
+                                            <div class="col-md-4">
+                                                <label>Digite a Nova Senha:</label>
+                                                <input type="password" class="form-control" name="txtSenhaNova">
+                                            </div>
+                                    </div>
+                                    <div class="row">
+                                    	<%
+                                    		sb = new StringBuilder();
+                                    	
+                                    		sb.append("<input type='hidden' name='txtId' value='");
+                                    		sb.append(cliente.getId());
+                                    		sb.append("'>");
+                                    		
+                                    		out.print(sb.toString());
+                                    	%>
+                                	</div><br>
+                                </div>
+                            </div><br>
+                            <div class="row">
+                                    <div class="col-md-12">
+                                        <div class="row">
+                                            <div class="col-md-4">
+                                                <a href="perfil.html" class="btn btn-secondary btn-block">Voltar</a>
+                                            </div>
+                                            <div class="col-md-4"></div>
+                                            <div class="col-md-4">
+                                                <button class="btn btn-success btn-block" name="operacao" value="ALTERAR">Salvar</button>
+                                            </div>
                                         </div>
                                     </div>
+                            </div>
+                            </form>
                     </div>
-                </div>
-        </div>
-    </body>
+
+</body>
 </html>

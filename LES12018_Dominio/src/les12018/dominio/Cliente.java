@@ -14,8 +14,8 @@ public class Cliente extends EntidadeDominio{
 	private String sTelefone;
 	private ArrayList<Endereco> enderecos = new ArrayList<Endereco>();
 	private ArrayList<Cartao> cartoes= new ArrayList<Cartao>();
-	private Boolean isAdmin = false;
-	private Boolean flgAtivo = true;
+	private Boolean isAdmin;
+	private Boolean flgAtivo;
 	
 	public String getsGenero() {
 		return sGenero;

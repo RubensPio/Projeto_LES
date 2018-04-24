@@ -13,6 +13,7 @@ import LES12018.controle.web.command.impl.AlterarCommand;
 import LES12018.controle.web.command.impl.AtivarCommand;
 import LES12018.controle.web.command.impl.ConsultarCommand;
 import LES12018.controle.web.command.impl.ExcluirCommand;
+import LES12018.controle.web.command.impl.LogarCommand;
 import LES12018.controle.web.command.impl.SalvarCommand;
 import LES12018.controle.web.command.impl.VisualizarCommand;
 import LES12018.controle.web.vh.IViewHelper;
@@ -46,6 +47,7 @@ public class Servlet extends HttpServlet {
         commands.put("CONSULTAR", new ConsultarCommand());
         commands.put("VISUALIZAR", new VisualizarCommand());
         commands.put("ALTERAR", new AlterarCommand());
+        commands.put("LOGAR", new LogarCommand());
         
         vhs = new HashMap<String, IViewHelper>();
         
@@ -53,6 +55,7 @@ public class Servlet extends HttpServlet {
         vhs.put("/LES12018_web/DadosParaLivro", new DadosParaLivroViewHelper());
         vhs.put("/LES12018_web/Livros", new LivroViewHelper());
         vhs.put("/LES12018_web/SalvarCliente", new ClienteViewHelper());
+        vhs.put("/LES12018_web/Login", new ClienteViewHelper());
     }
 
     /**
@@ -101,8 +104,12 @@ public class Servlet extends HttpServlet {
 		 * ou entidades de retorno
 		 */
 		//System.out.println(command.getClass().getName());
-		Resultado resultado = command.execute(entidade);
-		
+		Resultado resultado = new Resultado();
+		try {
+			resultado = command.execute(entidade);
+		}catch (Exception e) {
+			
+		}
 		/*
 		 * Executa o método setView do view helper específico para definir como deverá ser apresentado 
 		 * o resultado para o usuário

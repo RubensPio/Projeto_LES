@@ -1,17 +1,32 @@
-<!DOCTYPE html>
+<%@page import="LES12018.core.aplicacao.Resultado"%>
+<%@page import="les12018.dominio.EntidadeDominio"%>
+<%@page import="les12018.dominio.*"%>
+<%@page import="les12018.auxiliar.DadosParaCadastro"%>
+<%@page import="les12018.dominio.Livro"%>
+<%@page import="java.util.*"%>
+<%@ page language="java" contentType="text/html; charset=ISO-8859-1"
+    pageEncoding="ISO-8859-1"%>
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
 <html>
-    <head>
-        <!--<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">-->
+		<%
+			Resultado resultado = (Resultado) session.getAttribute("login");
+			List<EntidadeDominio> Cli = resultado.getEntidades();
+			
+			Cliente cliente = (Cliente)Cli.get(0);
+			StringBuilder sb;
+		%>
+	<head>
+		<!--<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">-->
         <link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet" integrity="sha384-wvfXpqpZZVQGK6TAh5PVlGOfQNHSoD2xbE+QkPxCAFlNEevoEH3Sl0sibVcOQVnN" crossorigin="anonymous">
         <link rel="stylesheet" href="css/bootstrap.css">
         <meta charset="UTF-8">
         <link rel="shortcut icon" href="imagens/logo_6ce_icon.ico" type="image/x-icon">
         <title>TopBooks</title>
-    </head>
-    <header>
-        <nav class="navbar navbar-expand-md navbar-dark fixed-top bg-orange">
+	</head>
+	<header>
+		<nav class="navbar navbar-expand-md navbar-dark fixed-top bg-orange">
             <div class="container">
-                <a class="navbar-brand" href="IndexCliente.html">
+                <a class="navbar-brand" href="IndexClienteLogado.html">
                 <img src="imagens/logo.png" width="30" height="30" class="d-inline-block align-top" alt=""> TopBooks</a>
                 <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarsExampleDefault" aria-controls="navbarsExampleDefault" aria-expanded="false" aria-label="Toggle navigation">
                     <span class="navbar-toggler-icon"></span>
@@ -20,18 +35,30 @@
                     <div class="input-group input-group-sm">
                         <div class="navbar-brand">
                             <i class="fa fa-user"></i>
-                        </div>                                        
-                        <a class="navbar-brand" href="login.jsp">Entre ou Cadastre-se</a>
+                        <%
+							sb = new StringBuilder();
+							sb.append("<a class='navbar-brand' href='SalvarCliente?txtId=");
+							sb.append(cliente.getId());
+							sb.append("&");
+							sb.append("operacao=CONSULTAR'>");
+							sb.append("Bem Vindo, ");
+							sb.append(cliente.getsNome());
+							sb.append("</a>");
+							
+							out.print(sb.toString());
+						%>
+						</div>
                     </div>
                     <a class="btn btn-success btn-sm ml-3" href="carrinho.html">
                     <i class="fa fa-shopping-cart"></i> Carrinho
                     <span class="badge badge-light">3</span></a>
+                    <label>  </label>
+                    <a class="nav-link" href="SalvarCliente?operacao=LOGOUT">Sair</a>
                 </form>
             </div>
         </nav>
-    </header>
-    <br><br>
-    <body style="background-color: #f4e8e3"><br>
+	</header><br><br>
+	<body style="background-color: #f4e8e3"><br>
             <div class="container">
                     <div class="row">
                         <div class="col-12 col-sm-3">
@@ -83,7 +110,7 @@
                                                     <h5 class="card-price">R$ 99,99</h5> 
                                                 </div>
                                                 <div class="col">
-                                                    <a href="login.html" class="btn btn-success btn-block">Adicionar ao Carrinho</a>
+                                                    <a href="carrinho.html" class="btn btn-success btn-block">Adicionar ao Carrinho</a>
                                                 </div>
                                             </div>
                                         </div>

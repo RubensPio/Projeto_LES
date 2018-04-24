@@ -9,13 +9,26 @@
 	<head>
 		<link rel="stylesheet" href="reset.css">
 		<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta/css/bootstrap.min.css" integrity="sha384-/Y6pD6FV/Vv2HJnA6t+vslU6fwYXjCFtcEpHbNJ0lyAFsXTsjBbfaDjzALeQsN6M" crossorigin="anonymous">
-		<meta charset="ISO-8859-1">
+		<link rel="stylesheet" href="css/bootstrap.css">
+        <meta charset="UTF-8">
+        <link rel="shortcut icon" href="imagens/logo_6ce_icon.ico" type="image/x-icon">
 		<title>Index</title>
 	</head>
+	<%
+			RequestDispatcher d = request.getRequestDispatcher("ClienteLogado.jsp");
+			Resultado resultado = (Resultado) session.getAttribute("resultado");
+			List<EntidadeDominio> Cli = resultado.getEntidades();
+			
+			Cliente cliente = (Cliente)Cli.get(0);
+			if(!cliente.getIsAdmin()){
+				d.forward(request, response);
+			}
+			StringBuilder sb;
+	%>
 	<header>
-		<nav class="navbar navbar-expand-lg navbar-light bg-light">
+		<nav class="navbar navbar-expand-md navbar-dark fixed-top bg-orange">
 			  <a class="navbar-brand" href="Index.jsp">
-			  	<img src="logo.png" width="30" height="30" class="d-inline-block align-top" alt="">
+			  	<img src="imagens/logo.png" width="30" height="30" class="d-inline-block align-top" alt="">
 			  	ToopBooks
 			  </a>
 			  <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
@@ -24,34 +37,43 @@
 			  <div class="collapse navbar-collapse" id="navbarNav">
 			    <ul class="navbar-nav">
 			      <li class="nav-item">
-			        <a class="nav-link" href="../FormLivro">Gerï¿½nciar Pedidos </a>
+			        <a class="nav-link" href="../FormLivro">Gerenciar Pedidos </a>
 			      </li>
 			      <li class="nav-item">
-			        <a class="nav-link" href="#">Gerenciar Livro</a>
+			        <%
+						sb = new StringBuilder();
+						sb.append("<a class='nav-link' href='DadosParaLivro?");
+						sb.append("target=GerenciarLivro.jsp");
+						sb.append("&");
+						sb.append("operacao=CONSULTAR'>");
+						sb.append("Gerenciar Livros");
+						sb.append("</a>");
+						
+						out.print(sb.toString());
+					%>
 			      </li>
 			      <li class="nav-item">
-			        <a class="nav-link" href="#">Gerï¿½nciar Trocas</a>
+			        <a class="nav-link" href="#">Gerenciar Trocas</a>
 			      </li>
 			      <li class="nav-item">
-			        <a class="nav-link" href="#">Anï¿½lises</a>
+			      	<a class="nav-link" href="gerenciarCliente.jsp">Gerenciar Cliente</a>
 			      </li>
+			      <li class="nav-item">
+			        <a class="nav-link" href="#">Análises</a>
+			      </li>
+			      <li class="nav-item">
+               		<a class="nav-link" href="SalvarCliente?operacao=LOGOUT">Sair</a>
+                  </li>
 			    </ul>
 			  </div>
 			</nav>
 	</header>
 	<body>
-	<%
-		    Resultado resultado = (Resultado) session.getAttribute("resultado");
-		    if(resultado !=null && resultado.getMsg() != null){
-		        out.print(resultado.getMsg());
-		    }
-		
-	%>
 		<br>
-		<div class="container">
+		<div class="container"><br><br>
 			<div>
 				<form action="DadosParaLivro" method="post">
-					<button type='submit' class='btn btn-primary btn-lg btn-block' value="CONSULTAR" name='operacao'>GERENCIAR LIVRO</button>
+					<button type='submit' class='btn btn-success btn-block' value="CONSULTAR" name='operacao'>GERENCIAR LIVRO</button>
 					<input type="hidden" name="target" value="GerenciarLivro.jsp">
 				</form>
 			</div>

@@ -5,24 +5,36 @@
         <link href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.0/css/bootstrap.min.css" rel="stylesheet" id="bootstrap-css">
         <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.0/js/bootstrap.min.js"></script>
         <script src="https://code.jquery.com/jquery-1.11.1.min.js"></script>
+        <meta charset="UTF-8">
     </head>
     <body>
         <div class="container">
             <div class="row">
                 <div class="col-md-6">
-                    <form action="" method="post" id="fileForm" role="form">
+                    <form action="SalvarCliente" method="post" id="fileForm" role="form">
                     <fieldset><legend class="text-left">Cadastro <span class="req"></span></legend>
         
                         <!--Nome do cliente -->
                         <div class="form-group">
                         <label for="nome"><span class="req"></span> Nome * </label>
-                                <input required type="text" name="txtnome" id="nome" class="form-control" maxlength="50" onkeyup="Validate(this);" placeholder="Ex: JoÃ£o da Silva"/> 
+                                <input required type="text" name="txtnome" id="nome" class="form-control" maxlength="50" onkeyup="Validate(this);" placeholder="Ex: João da Silva"/> 
                         </div>
-            
+            			
+            			<!-- Gênero -->
+            			<div class="form-group">
+                            <label for="gênero"><span class="req"> </span> Gênero *  </label> 
+                                <select class="form-control" type="text" name="ddlGenero" id = "pais" required>
+                                	<option>Selecione...</option>
+                                	<option value="M">Masculino</option>
+                                	<option value="F">Feminino</option>
+                                </select>  
+                                    <div id="errLast"></div>
+                        </div>
+                        
                         <!--CPF do cliente -->
                         <div class="form-group"> 	 
                             <label for="cpf"><span class="req"> </span> CPF * </label>
-                                <input class="form-control" type="text" name="txtcpf" id = "cpf" maxlength="14" required placeholder="Digite apenas nÃºmeros" /> 
+                                <input class="form-control" type="text" name="txtcpf" id = "cpf" maxlength="14" required placeholder="Digite apenas números" /> 
                                     <div id="errFirst"></div>    
                         </div>
             
@@ -58,19 +70,52 @@
 
                         <!--CEP do cliente -->
                         <div class="form-group">
-                                <label for="cep"><span class="req"> </span> CEP *  </label> 
-                                    <input class="form-control" type="text" name="txtcep" id = "cep" maxlength="8"  placeholder="Ex: Digite apenas nÃºmeros" required />  
-                                        <div id="errLast"></div>
+                        	<div class="row">
+                        		<div class="col-md-6">
+	                                <label for="cep"><span class="req"> </span> CEP *  </label> 
+	                                    <input class="form-control" type="text" name="txtcep" id = "cep" maxlength="8"  placeholder="Ex: Digite apenas números" required />  
+	                                        <div id="errLast"></div>
+                                </div>
+                                <div class="col-md-6">
+                                	<label for="cep"><span class="req"> </span> Bairro *  </label> 
+	                                    <input class="form-control" type="text" name="txtBairro" id = "cep" maxlength="8"  placeholder="Ex: Jd Esperanca" required />  
+	                                        <div id="errLast"></div>
+                                </div>
+                            </div>
                         </div>
 
                         <!--Rua do cliente -->
                         <div class="form-group">
-                            <label for="rua"><span class="req"> </span> Rua *  </label> 
-                                <input class="form-control" type="text" name="txtrua" id = "rua" maxlength="50"  placeholder="Ex: Rua Bonita" required />  
-                                    <div id="errLast"></div>
+                        	<div class="row">
+                        		<div class="col-md-3">
+                        			<label for="rua"><span class="req"> </span>Tipo Log*  </label>
+		                        	<select class="form-control" type="text" name="ddlTipoLogr">
+		                        		<option>Selecione</option>
+		                        		<option value="Rua">Rua</option>
+		                        		<option value="Avenida">Avenida</option>
+		                        		<option value="Viela">Viela</option>
+		                        		<option value="Estrada">Estrada</option>
+		                        	</select>
+	                        	</div>
+	                        	<div class="col-md-3">
+	                        		<label for="rua"><span class="req"> </span>Tipo Residencia*  </label>
+		                        	<select class="form-control" type="text" name="ddlTipoRes">
+		                        		<option>Selecione</option>
+		                        		<option value="Rua">Casa</option>
+		                        		<option value="Predio">Predio</option>
+		                        		<option value="Condominio">Condominio</option>
+		                        		<option value="Fazenda">Fazenda</option>
+		                        	</select>
+	                        	</div>
+	                        	<div class="col-md-6">
+		                            <label for="rua"><span class="req"> </span> Logradouro*  </label> 
+		                                <input class="form-control" type="text" name="txtrua" id = "rua" maxlength="50"  placeholder="Ex: Rua Bonita" required />  
+		                                    <div id="errLast"></div>
+	                             </div>
+                            </div>
                         </div>
 
-                        <!--Linha contendo nÃºmero da casa, Complemento, Estado e Cidade do cliente -->
+                        <!--Linha contendo número da casa, Complemento, Estado e Cidade do cliente -->
                         <div class="form-group ">
                             <div class="row">
                                 <div class="col-md-3">
@@ -81,14 +126,14 @@
                             
                             <div class="col-md-3">
                                 <label for="comp"><span class="req"> </span> Complemento *  </label> 
-                                    <input class="form-control" type="text" name="txtcomp" id = "comp" maxlength="50"  placeholder="Ex: 267" required />  
+                                    <input class="form-control" type="text" name="txtcomp" id = "comp" maxlength="50"  placeholder="Ex: 267" />  
                                         <div id="errLast"></div>
                             </div>
                         
                             <div class="col-md-3">
                                 <label for="estado"><span class="req"> </span> Estado *  </label> 
-                                    <select class="form-control" type="text" name="txtestado" id = "estado" required>
-                                        <option value="São Paulo">São Paulo</option> 
+                                    <select class="form-control" type="text" name="ddlestado" id = "estado" required>
+                                        <option value="SP">São Paulo</option> 
                                     </select>
                                         <div id="errLast"></div>
                             </div>
@@ -113,7 +158,7 @@
                         </div>
             
                         <div class="form-group">
-                            <input class="btn btn-success bg-orange" type="submit" name="submit_reg" value="SALVAR">
+                            <input class="btn btn-success bg-orange" type="submit" name="operacao" value="SALVAR">
                         </div>
                     </fieldset>
                         </form><!-- ends register form -->

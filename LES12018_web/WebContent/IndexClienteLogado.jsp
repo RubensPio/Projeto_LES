@@ -1,3 +1,9 @@
+<%@page import="LES12018.core.aplicacao.Resultado"%>
+<%@page import="les12018.dominio.EntidadeDominio"%>
+<%@page import="les12018.dominio.*"%>
+<%@page import="les12018.auxiliar.DadosParaCadastro"%>
+<%@page import="les12018.dominio.Livro"%>
+<%@page import="java.util.*"%>
 <!DOCTYPE html>
 <html>
     <head>
@@ -8,6 +14,13 @@
         <link rel="shortcut icon" href="imagens/logo_6ce_icon.ico" type="image/x-icon">
         <title>TopBooks</title>
     </head>
+    	<%
+			Resultado resultado = (Resultado) session.getAttribute("resultado");
+			List<EntidadeDominio> Cli = resultado.getEntidades();
+			
+			Cliente cliente = (Cliente)Cli.get(0);
+			StringBuilder sb;
+		%>
     <header>
         <nav class="navbar navbar-expand-md navbar-dark fixed-top bg-orange">
             <div class="container">
@@ -20,8 +33,19 @@
                     <div class="input-group input-group-sm">
                         <div class="navbar-brand">
                             <i class="fa fa-user"></i>
-                        </div>                                        
-                        <a class="navbar-brand" href="perfil.html">Bem Vindo, Souza</a>
+                        </div>
+                        <%
+							sb = new StringBuilder();
+							sb.append("<a class='navbar-brand' href='SalvarCliente?txtId='");
+							sb.append(cliente.getId());
+							sb.append("&");
+							sb.append("operacao='CONSULTAR'>");
+							sb.append("Bem Vindo, ");
+							sb.append(cliente.getsNome());
+							sb.append("</a>");
+							
+							out.print(sb.toString());
+						%>
                     </div>
                     <a class="btn btn-success btn-sm ml-3" href="carrinho.html">
                     <i class="fa fa-shopping-cart"></i> Carrinho

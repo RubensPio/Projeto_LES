@@ -25,16 +25,19 @@
 			  <div class="collapse navbar-collapse" id="navbarNav">
 			    <ul class="navbar-nav">
 			      <li class="nav-item">
-			        <a class="nav-link" href="#">Gerï¿½nciar Pedidos </a>
+			        <a class="nav-link" href="#">Gerenciar Pedidos </a>
 			      </li>
 			      <li class="nav-item">
 			        <a class="nav-link" href="Index.jsp">Gerenciar Livro</a>
 			      </li>
 			      <li class="nav-item">
-			        <a class="nav-link" href="#">Gerï¿½nciar Trocas</a>
+			        <a class="nav-link" href="#">Geránciar Trocas</a>
 			      </li>
 			      <li class="nav-item">
-			        <a class="nav-link" href="#">Anï¿½lises</a>
+			        <a class="nav-link" href="#">Análises</a>
+			      </li>
+			      <li class="nav-item">
+                    <a class="nav-link" href="SalvarCliente?operacao=LOGOUT">Sair</a>
 			      </li>
 			    </ul>
 			  </div>
@@ -72,7 +75,7 @@
 								<legend>Dados Gerais</legend>
 								<div class="row">
 									<div class="col-md-6 mb-3">
-										<label class="titulos-label"> <strong> TÃ­tulo do Livro </strong> </label> 
+										<label class="titulos-label"> <strong> Título do Livro </strong> </label> 
 										<input id="txtTitulo" class="form-control" value="${empty livro ? '' : livro.getTitulo()}" type="text" name="txtTitulo" placeholder="Ex: Vidas Secas" required>
 									</div>
 									<div class="col-md-6 mb-3" style="${empty livro ? 'display:none' : ''}">

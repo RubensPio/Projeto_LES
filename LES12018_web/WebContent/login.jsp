@@ -1,3 +1,9 @@
+<%@page import="LES12018.core.aplicacao.Resultado"%>
+<%@page import="les12018.dominio.EntidadeDominio"%>
+<%@page import="les12018.dominio.*"%>
+<%@page import="les12018.auxiliar.DadosParaCadastro"%>
+<%@page import="les12018.dominio.Livro"%>
+<%@page import="java.util.*"%>
 <!DOCTYPE html>
 <html>
 <head>
@@ -32,7 +38,7 @@
 	<div class="limiter">
 		<div class="container-login100" style="background-image: url('images/biblioteca.jpg');">
 			<div class="wrap-login100">
-				<form action="indexClienteLogado.html" class="login100-form validate-form">
+				<form action="Login" class="login100-form validate-form">
 					<span class="login100-form-logo">
 						<i class="fa fa-user"></i>
 					</span>
@@ -41,13 +47,13 @@
 						Log in
 					</span>
 
-					<div class="wrap-input100 validate-input" data-validate = "UsuÃ¡rio">
-						<input class="input100" type="text submit" name="username" placeholder="UsuÃ¡rio">
+					<div class="wrap-input100 validate-input" data-validate = "Usuário">
+						<input class="input100" type="text" name="txtemail" placeholder="Usuário">
 						<span class="focus-input100" data-placeholder="&#xf207;"></span>
 					</div>
 
 					<div class="wrap-input100 validate-input" data-validate="Senha">
-						<input class="input100" type="password" name="pass" placeholder="Senha">
+						<input class="input100" type="password" name="txtpasswd" placeholder="Senha">
 						<span class="focus-input100" data-placeholder="&#xf191;"></span>
 					</div>
 
@@ -59,18 +65,20 @@
 					</div>
 
 					<div class="container-login100-form-btn">
-						<button type="submit" class="login100-form-btn">
+						<button type="submit" class="login100-form-btn" name="operacao" value="LOGAR">
 							Login
 						</button>
 					</div>
-
-					<div class="text-center p-t-90">
-						<form action="">
-							<button type='submit' value="CONSULTAR" name='operacao'>Registrar-se</button>
-							<input type="hidden" name="target" value="cadastroCliente.jsp">
-						</form>
-					</div>
 				</form>
+				<%
+				    Resultado resultado = (Resultado) session.getAttribute("resultado");
+				    if(resultado !=null && resultado.getMsg() != null){
+				        out.print(resultado.getMsg());
+				    }
+				%>
+				<div class="text-center p-t-90">
+					<a href='cadastroCliente.jsp'>Registrar-se</button>	
+				</div>
 			</div>
 		</div>
 	</div>
