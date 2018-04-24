@@ -148,7 +148,7 @@ public class LivroDAO extends AbstractJdbcDAO {
 			
 			if(livro.getCategorias() != null) {
 				sql = new StringBuilder();
-				sql.append("CALL DeletarCategorias(?)");
+				sql.append("DELETE FROM tb_contem WHERE CON_LIV_ID=?");
 				pst = connection.prepareStatement(sql.toString());
 				
 				pst.setInt(1, livro.getId());
@@ -216,7 +216,7 @@ public class LivroDAO extends AbstractJdbcDAO {
 			connection.commit();
 			
 			sql = new StringBuilder();
-			sql.append("CALL DELETE_INATIVACAO(?)");
+			sql.append("DELETE FROM tb_inativacao WHERE INA_LIV_ID =?");
 			pst = connection.prepareStatement(sql.toString());
 			
 			pst.setInt(1, livro.getId());
@@ -261,7 +261,6 @@ public class LivroDAO extends AbstractJdbcDAO {
 		PreparedStatement pst = null;
 		Livro livro = (Livro)entidade;
 		
-		System.out.println("Entrou no ativar");
 		try {
 			connection.setAutoCommit(false);
 			
@@ -279,7 +278,7 @@ public class LivroDAO extends AbstractJdbcDAO {
 			connection.commit();
 			
 			sql = new StringBuilder();
-			sql.append("CALL DELETE_ATIVACAO(?)");
+			sql.append("DELETE FROM tb_ativacao WHERE ATI_LIV_ID =?");
 			pst = connection.prepareStatement(sql.toString());
 			
 			pst.setInt(1, livro.getId());
@@ -387,6 +386,7 @@ public class LivroDAO extends AbstractJdbcDAO {
 		try {
 			openConnection();
 			pst = connection.prepareStatement(sql.toString());
+			System.out.println(pst.toString());
 			ResultSet rs = pst.executeQuery();
 			ResultSet rs2;
 			while(rs.next()) {
@@ -423,7 +423,13 @@ public class LivroDAO extends AbstractJdbcDAO {
 				li.setAtivo(rs.getBoolean("LIV_ISATIVO"));
 				
 				sql = new StringBuilder();
-				sql.append("CALL BUSCAR_CAT(?)");
+				sql.append("SELECT * FROM (SELECT * FROM tb_contem as CON ");
+				sql.append("LEFT JOIN tb_livros as Livro ");
+				sql.append("ON Livro.LIV_ID = CON.CON_LIV_ID ");
+				sql.append("WHERE LIV_ID = ?) as pupu "); 
+				sql.append("LEFT JOIN tb_categoria as CAT ");
+				sql.append("on CAT.CAT_ID = pupu.CON_CAT_ID;");
+				
 				pst2 = connection.prepareStatement(sql.toString());
 				
 				pst2.setInt(1, li.getId());

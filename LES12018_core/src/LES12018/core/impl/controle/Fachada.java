@@ -13,18 +13,27 @@ import LES12018.core.IFachada;
 import LES12018.core.IDAO;
 import LES12018.core.IStrategy;
 import LES12018.core.aplicacao.Resultado;
+import LES12018.core.impl.dao.ClienteDAO;
 import LES12018.core.impl.dao.DadosParaCadastroDAO;
 import LES12018.core.impl.dao.LivroDAO;
+import LES12018.core.impl.negocio.AlterarEndCobranca;
 import LES12018.core.impl.negocio.CategoriaAtivacao;
 import LES12018.core.impl.negocio.CategoriaInativacao;
+import LES12018.core.impl.negocio.EnderecoCobrUnico;
 import LES12018.core.impl.negocio.LivroCategoria;
 import LES12018.core.impl.negocio.MotivoAtivacao;
 import LES12018.core.impl.negocio.MotivoInativacao;
+import LES12018.core.impl.negocio.MudarSenha;
+import LES12018.core.impl.negocio.ValidarDadosObrigatoriosCartao;
+import LES12018.core.impl.negocio.ValidarDadosObrigatoriosCliente;
+import LES12018.core.impl.negocio.ValidarDadosObrigatoriosEndereco;
 import LES12018.core.impl.negocio.ValidarDadosObrigatoriosLivro;
+import LES12018.core.impl.negocio.ValidarLogin;
 import les12018.dominio.Livro;
 import les12018.auxiliar.DadosParaCadastro;
 import les12018.dominio.Autor;
 import les12018.dominio.CatAtivacao;
+import les12018.dominio.Cliente;
 import les12018.dominio.EntidadeDominio;
 
 public class Fachada implements IFachada{
@@ -38,9 +47,11 @@ public class Fachada implements IFachada{
 		
 		LivroDAO livroDAO = new LivroDAO();
 		DadosParaCadastroDAO dadosParaCadastroDAO = new DadosParaCadastroDAO();
+		ClienteDAO clienteDAO = new ClienteDAO();
 		
 		daos.put(Livro.class.getName(), livroDAO);
 		daos.put(DadosParaCadastro.class.getName(), dadosParaCadastroDAO);
+		daos.put(Cliente.class.getName(), clienteDAO);
 		
 		ValidarDadosObrigatoriosLivro vDadosObrigatoriosLivro = new ValidarDadosObrigatoriosLivro();
 		MotivoInativacao mInativacao = new MotivoInativacao();
@@ -48,6 +59,13 @@ public class Fachada implements IFachada{
 		MotivoAtivacao mAtivacao = new MotivoAtivacao();
 		CategoriaAtivacao CatAtiv = new CategoriaAtivacao();
 		CategoriaInativacao CatIna = new CategoriaInativacao();
+		ValidarLogin VaLogin = new ValidarLogin();
+		ValidarDadosObrigatoriosCartao VaCartao = new ValidarDadosObrigatoriosCartao();
+		ValidarDadosObrigatoriosEndereco VaEndereco = new ValidarDadosObrigatoriosEndereco();
+		ValidarDadosObrigatoriosCliente VaCliente = new ValidarDadosObrigatoriosCliente();
+		EnderecoCobrUnico EndCobUnico = new EnderecoCobrUnico();
+		AlterarEndCobranca AltEndCob = new AlterarEndCobranca();
+		MudarSenha MudarSenha = new MudarSenha();
 		
 		List<IStrategy> rnsSalvarLivro = new ArrayList<IStrategy>();
 		
@@ -64,13 +82,35 @@ public class Fachada implements IFachada{
 		rnsAtivacaoLivro.add(mAtivacao);
 		rnsAtivacaoLivro.add(CatAtiv);
 		
+		List<IStrategy> Login = new ArrayList<IStrategy>();
+		
+		Login.add(VaLogin);
+		
+		List<IStrategy> rnsCadastro = new ArrayList<IStrategy>();
+		
+		rnsCadastro.add(VaCliente);
+		rnsCadastro.add(VaCartao);
+		rnsCadastro.add(VaEndereco);
+		rnsCadastro.add(EndCobUnico);
+		
+		List<IStrategy> rnsAlterar = new ArrayList<IStrategy>();
+		
+		rnsAlterar.add(AltEndCob);
+		rnsAlterar.add(MudarSenha);
+		
 		Map<String, List<IStrategy>> rnsLivro = new HashMap<String, List<IStrategy>>();
+		Map<String, List<IStrategy>> rnsCliente = new HashMap<String, List<IStrategy>>();
 		
 		rnsLivro.put("SALVAR", rnsSalvarLivro);
 		rnsLivro.put("EXCLUIR", rnsInativarLivro);
 		rnsLivro.put("ATIVAR", rnsAtivacaoLivro);
 		
+		rnsCliente.put("LOGAR", Login);
+		rnsCliente.put("SALVAR", rnsCadastro);
+		rnsCliente.put("ALTERAR", rnsAlterar);
+		
 		rns.put(Livro.class.getName(), rnsLivro);
+		rns.put(Cliente.class.getName(), rnsCliente);
 	}
 
 	@Override
@@ -147,7 +187,6 @@ public class Fachada implements IFachada{
 	public Resultado alterar(EntidadeDominio entidade) {
 		resultado = new Resultado();
 		String nmClasse = entidade.getClass().getName();
-		Livro liv = (Livro) entidade;
 		String msg = executarRegras(entidade, "ALTERAR");
 		if(msg == null) {
 			IDAO dao = daos.get(nmClasse);
@@ -192,6 +231,19 @@ public class Fachada implements IFachada{
 		resultado = new Resultado();
 		resultado.setEntidades(new ArrayList<EntidadeDominio>(1));
 		resultado.getEntidades().add(entidade);
+		return resultado;
+	}
+	@Override
+	public Resultado logar(EntidadeDominio entidade) {
+		resultado = new Resultado();
+		String msg = executarRegras(entidade, "LOGAR");
+		if(msg == null) {
+			List<EntidadeDominio> entidades = new ArrayList<EntidadeDominio>();
+			entidades.add(entidade);
+			resultado.setEntidades(entidades);
+		} else {
+			resultado.setMsg(msg);
+		}
 		return resultado;
 	}
 	
