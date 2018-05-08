@@ -16,7 +16,7 @@
         <title>TopBooks</title>
     </head>
     <%
-			Resultado resultado = (Resultado) session.getAttribute("resultado");
+			Resultado resultado = (Resultado) session.getAttribute("login");
 			List<EntidadeDominio> Cli = resultado.getEntidades();
 			
 			Cliente cliente = (Cliente)Cli.get(0);
@@ -187,6 +187,7 @@
                                                             <div class="col-md-4"></div>
                                                             <div class="col-md-4">
                                                                 <button type="submit" name="operacao" value="SALVAR" class="btn btn-success btn-block">Salvar</button>
+                                                                <input type="hidden" name="target" value="ClienteLogado.jsp">
                                                             </div>
                                                         </div>
                                                     </div>

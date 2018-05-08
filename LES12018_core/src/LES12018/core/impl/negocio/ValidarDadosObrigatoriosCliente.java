@@ -13,8 +13,12 @@ public class ValidarDadosObrigatoriosCliente implements IStrategy{
 
 	@Override
 	public String processar(EntidadeDominio entidade) {
+		System.out.println("entra na regra");
 		if(entidade instanceof Cliente){
             Cliente cliente = (Cliente)entidade;
+            if(cliente.getId() != null)
+            	return null;
+            System.out.println("continua em dados obrrigatoris cli");
             String Nome = null;
             String email = null;
             Endereco endereco = null;
@@ -34,19 +38,20 @@ public class ValidarDadosObrigatoriosCliente implements IStrategy{
 		            Genero = cliente.getsGenero();
 		            datanasc = cliente.getDtDataNasc();
 		            passwd = cliente.getsSenha();
+		           
 	            }catch(Exception e) {
 	            	
 	            }
-	            if(Nome == null || email ==null || telefone == null   || CPF == null  ||
+	            if(Nome == null || email == null || telefone == null   || CPF == null  ||
 	                    Genero == null || datanasc == null || passwd == null || endereco.getCidade() == null || endereco.getBairro() == null   ||  endereco.getCEP() == null ||
 	                    endereco.getTipoResidencia() == null || endereco.getTipoLogradouro() == null || endereco.getPais() == null || endereco.getNumerologradouro() == null ||
 	                    endereco.getLogradouro() == null || endereco.getEstado() == null)
-	                return "Todos os dados cadastrais de um livro são obrigatórios!";
+	                return "Todos os dados cadastrais de um cliente são obrigatórios!";
 	            if(Nome.trim().equals("") || email.trim().equals("") || telefone.trim().equals("") || CPF.trim().equals("")  ||
 	                    Genero.trim().equals("") || passwd.trim().equals("") || endereco.getCidade().trim().equals("") || endereco.getBairro().trim().equals("")   ||  endereco.getCEP().trim().equals("") ||
 	                    endereco.getTipoResidencia().trim().equals("") || endereco.getTipoLogradouro().trim().equals("") || endereco.getPais().trim().equals("") || endereco.getNumerologradouro().trim().equals("") ||
 	                    endereco.getLogradouro().trim().equals("") || endereco.getEstado().trim().equals(""))
-	                return "Todos os dados cadastrais de um livro são obrigatórios!";
+	                return "Todos os dados cadastrais de um cliente são obrigatórios!";
             }
             
         } else {

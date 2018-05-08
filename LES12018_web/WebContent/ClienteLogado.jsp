@@ -1,4 +1,6 @@
+<%@page import="LES12018.core.impl.dao.LivroDAO"%>
 <%@page import="LES12018.core.aplicacao.Resultado"%>
+<%@page import="LES12018.core.*"%>
 <%@page import="les12018.dominio.EntidadeDominio"%>
 <%@page import="les12018.dominio.*"%>
 <%@page import="les12018.auxiliar.DadosParaCadastro"%>
@@ -13,6 +15,14 @@
 			List<EntidadeDominio> Cli = resultado.getEntidades();
 			
 			Cliente cliente = (Cliente)Cli.get(0);
+			
+			Resultado resultado2 = new Resultado();
+			
+			try{
+				resultado2 = (Resultado) session.getAttribute("livros");
+			}catch(Exception e){
+				
+			}
 			StringBuilder sb;
 		%>
 	<head>
@@ -64,6 +74,7 @@
                         <div class="col-12 col-sm-3">
                             <div class="card bg-light mb-3">
                                 <div class="card-header bg-primary text-white text-uppercase bg-orange"><i class="fa fa-search"></i> Filtro</div>
+                                <form action="SalvarLivro" method="get">
                                 <ul class="list-group category_block">
                                     <li class="list-group-item"><input id="txtTitulo" class="form-control" type="text" name="txtTitulo" placeholder="Titulo"></li>
                                     <li class="list-group-item"><input id="txtAno" class="form-control" type="text" name="txtAno" placeholder="Ano de Publicacao"></li>
@@ -89,33 +100,75 @@
                                     <li class="list-group-item"><input id="txtLargura" class="form-control" type="text" name="txtLargura" placeholder="Largura"></li>
                                     <li class="list-group-item"><input id="txtProfundidade" class="form-control" type="text" name="txtProfundidade" placeholder="Profundidade"></li>
                                     <li class="list-group-item"><input id="txtPeso" class="form-control" type="text" name="txtPeso" placeholder="Peso"></li>
-                                    <li class="list-group-item"><button class="btn btn-success btn-block"><i class="fa fa-search"></i></button></li>
+                                    <li class="list-group-item"><button class="btn btn-success btn-block" name="operacao" value="CONSULTAR"><i class="fa fa-search"></i></button>
+                                    	<input type="hidden" name="target" value="ClienteLogado.jsp">
+                                    </li>
                                 </ul>
+                                <input type="hidden" name="txtQtdEstoque" value="1">
+                                </form>
                             </div>
                             
                         </div>
                         <div class="col">
                             <div class="row">
-                                <div class="col-12 col-md-6 col-lg-4">
-                                    <div class="card">
-                                        <img class="card-img-top" src="https://dummyimage.com/600x400/55595c/fff" alt="Card image cap">
-                                        <div class="card-body">
-                                            <h4 class="card-title"><a href="livro.html" title="View Product">Product title</a></h4>
-                                            <h6 class="card-title">Editora</h6>
-                                            <p class="card-text"> 
-                                                R$ 29,90 
-                                                em ate 3x de R$ 10</p>
-                                            <div class="row">
-                                                <div class="col">
-                                                    <h5 class="card-price">R$ 99,99</h5> 
-                                                </div>
-                                                <div class="col">
-                                                    <a href="carrinho.html" class="btn btn-success btn-block">Adicionar ao Carrinho</a>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div><br>
+                            <%
+	                            try{
+	        				    	if(resultado != null) {
+	        				    		List<EntidadeDominio> entidades = resultado2.getEntidades();
+	        				    		StringBuilder sbRegistro = new StringBuilder();
+	        				    		StringBuilder sbLink = new StringBuilder();
+	        				    		System.out.println("entra aqui?");
+	        				    		if(entidades != null) {
+	        				 				for(int i=0; i < entidades.size(); i++){
+	        				 					Livro livro = (Livro) entidades.get(i);
+	        				 					sbRegistro.setLength(0);
+	        				    				sbLink.setLength(0);
+	        				    				
+	        				    				sbLink.append("<a href='SalvarLivro?");
+	    					    				sbLink.append("txtId=");
+	    					    				sbLink.append(livro.getId());
+	    					    				sbLink.append("&");
+	    					    				sbLink.append("operacao=");
+	    					    				sbLink.append("VISUALIZAR&target=visualizar-livro.jsp'");
+	    				    					sbLink.append(">");
+	        				    				
+	        				    				sbRegistro.append("<div class='col-12 col-md-6 col-lg-4'>");
+	        				    				sbRegistro.append("<div class='card'>");
+	        				    				sbRegistro.append("<img class='card-img-top' src='https://dummyimage.com/600x400/55595c/fff' alt='Card image cap'>");
+	        				    				sbRegistro.append("<div class='card-body'>");
+	        				    				sbRegistro.append("<h4 class='card-title'>");
+	        				    				sbRegistro.append(sbLink.toString());
+	        				    				sbRegistro.append(livro.getTitulo());
+	        				    				sbRegistro.append("</a></h4>");
+	        				    				sbRegistro.append("<h6 class='card-title'>");
+	        				    				sbRegistro.append(livro.getEditora().getNome());
+	        				    				sbRegistro.append("</h6>");
+	        				    				sbRegistro.append("<p class='card-text'>");
+	        				    				sbRegistro.append(livro.getPrecoUnit());
+	        				    				sbRegistro.append("</p>");
+	        				    				sbRegistro.append("<div class='row'>");
+	        				    				sbRegistro.append("<div class='col'>");
+	        				    				sbRegistro.append("<h5 class='card-price'>R$ ");
+	        				    				sbRegistro.append(livro.getPrecoUnit());
+	        				    				sbRegistro.append("</h5>");
+	        				    				sbRegistro.append("</div>");
+	        				    				sbRegistro.append("<div class='col'>");
+	        				    				sbRegistro.append("<a href='carrinho.html' class='btn btn-success btn-block'>Adicionar ao Carrinho</a>");
+	        				    				sbRegistro.append("</div>");
+	        				    				sbRegistro.append("</div>");
+	        				    				sbRegistro.append("</div>");
+	        				    				sbRegistro.append("</div>");
+	        				    				sbRegistro.append("</div>");
+	        				    				
+	        				    				System.out.println(sbRegistro.toString());
+	        				    				out.print(sbRegistro.toString());
+	        				 				}
+	        				    		}
+	        				    	}
+	                            }catch(Exception e){
+	                            	
+	                            }
+                            %>
                                 
                                 <!--<div class="col-12">
                                     <nav aria-label="...">

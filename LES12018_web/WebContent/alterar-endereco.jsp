@@ -14,11 +14,8 @@
         <link rel="shortcut icon" href="imagens/logo_6ce_icon.ico" type="image/x-icon">
         <title>TopBooks</title>
     </head>
-    <%
-			Resultado resultado = (Resultado) session.getAttribute("resultado");
-			List<EntidadeDominio> Cli = resultado.getEntidades();
-			
-			Cliente cliente = (Cliente)Cli.get(0);
+    <%	
+			Cliente cliente = (Cliente)session.getAttribute("visualizar");
 			Endereco end = cliente.getEnderecos().get(0);
 			StringBuilder sb;
 	%>
@@ -135,7 +132,7 @@
                                         <div class="row">
                                             <div class="col-md-4">
                                                 <label>Pais</label>
-                                                <select class="custom-select d-block w-100" name="ddlpais">
+                                                <select class="custom-select d-block w-100" name="txtpais">
                                                     <option>Selecione...</option>
                                                     <option value="BRASIL"selected>Brasil</option>
                                                 </select>

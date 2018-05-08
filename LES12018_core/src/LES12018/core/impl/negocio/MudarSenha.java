@@ -13,11 +13,10 @@ public class MudarSenha implements IStrategy{
 	public String processar(EntidadeDominio entidade) {
 		if(entidade instanceof Cliente){
 			Cliente cliente = (Cliente) entidade;
-			String novasenha = cliente.getsTelefone();
-			cliente.setsTelefone(null);
+			String novasenha = cliente.getNovaSenha();
 			ClienteDAO clidao = new ClienteDAO();
 			Cliente cli = new Cliente();
-			if(cliente.getsNome() != null) {
+			if(cliente.getsNome() != null || cliente.getEnderecos() != null) {
 				return null;
 			}
 			List<EntidadeDominio> clientes = clidao.consultar(entidade);
@@ -26,7 +25,6 @@ public class MudarSenha implements IStrategy{
 					cli = (Cliente)c;
 					if(cli.getsSenha().equals(cliente.getsSenha())){
 						cliente.setsSenha(novasenha);
-						cliente.setsTelefone(null);
 						return null;
 					}else {
 						return "Senha Atual Inválida !";

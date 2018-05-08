@@ -46,7 +46,7 @@
 	</header>
 	<body>
 		<%
-			Resultado resultado = (Resultado) session.getAttribute("resultado");
+			Resultado resultado = (Resultado) session.getAttribute("livros");
 			Resultado dados = (Resultado) session.getAttribute("dados");
 			List<EntidadeDominio> TodosDados = dados.getEntidades();
 			

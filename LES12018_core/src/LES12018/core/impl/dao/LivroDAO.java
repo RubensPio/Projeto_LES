@@ -75,7 +75,6 @@ public class LivroDAO extends AbstractJdbcDAO {
                 livro.setId(rs.getInt("LIV_ID"));
             }
             
-			System.out.println(livro.getCategorias().get(0).getId());
 			for(Categoria categoria:livro.getCategorias()) {
 				sql = new StringBuilder();
 				sql.append("INSERT INTO tb_contem(CON_LIV_ID, CON_CAT_ID) ");
@@ -322,7 +321,7 @@ public class LivroDAO extends AbstractJdbcDAO {
 	public List<EntidadeDominio> consultar (EntidadeDominio entidade){
 		PreparedStatement pst = null;
 		PreparedStatement pst2 = null;
-		int atual = 1;
+		int atual = 0;
 		Livro livro = (Livro)entidade;
 		List<EntidadeDominio> livros = new ArrayList<EntidadeDominio>();
 		StringBuilder sql = new StringBuilder();
@@ -333,11 +332,15 @@ public class LivroDAO extends AbstractJdbcDAO {
 		sql.append(" ON(livro.LIV_EDI_ID = editora.EDI_ID) ");
 		sql.append("LEFT JOIN tb_grupoprecificacao AS grupop");
 		sql.append(" ON(livro.LIV_GRP_ID = grupop.GRP_ID) ");
-		sql.append("LEFT JOIN tb_contem AS contem");
+		sql.append("LEFT JOIN tb_livros_estoque as estoque");
+		sql.append(" ON(estoque.LVE_LIV_ID = livro.LIV_ID)");
+		/*sql.append("LEFT JOIN tb_contem AS contem");
 		sql.append(" ON(livro.LIV_ID = contem.CON_LIV_ID) ");
 		sql.append("LEFT JOIN tb_categoria AS categoria");
 		sql.append(" ON(categoria.CAT_ID = contem.CON_CAT_ID) ");
-		/*sql.append("LEFT JOIN tb_inativacao as Inativacao");
+		sql.append("LEFT JOIN tb_livros_estoque as estoque");
+		sql.append(" ON(estoque.LVE_LIV_ID = livro.LIV_ID)");
+		sql.append("LEFT JOIN tb_inativacao as Inativacao");
 		sql.append(" ON(Inativacao.INA_LIV_ID = livro.LIV_ID)");
 		sql.append("LEFT JOIN tb_categoriainativacao as catinativ");
 		sql.append(" ON(catinativ.CTI_ID = Inativacao.INA_CTI_ID");
@@ -359,6 +362,9 @@ public class LivroDAO extends AbstractJdbcDAO {
 		if(livro.getAutor().getId() != null && livro.getAutor().getId() > 0) 
 			sql.append(" AND LIV_AUT_ID= '" + livro.getAutor().getId() + "'");
 		
+		if(livro.getCodBarras() != null && livro.getCodBarras().length() > 0) 
+			sql.append(" AND LIV_CODBARRAS= '" + livro.getCodBarras() + "'");
+		
 		try {
 			if(livro.getCategorias().get(0).getId() != null && livro.getCategorias().get(0).getId() > 0)
 				sql.append("AND CAT_ID= '" + livro.getCategorias().get(0).getId() + "'");
@@ -369,8 +375,8 @@ public class LivroDAO extends AbstractJdbcDAO {
 		if(livro.getISBN() != null && livro.getISBN().length() >0) 
 			sql.append(" AND LIV_ISBN= '" + livro.getISBN() + "'");
 		
-		if(livro.getEstoque() == 1) 
-			sql.append(" AND LIV_QTDESTOQUE > 0 ");
+		if(livro.getQtdEstoque() == 1) 
+			sql.append(" AND LVE_QTD > 0 ");
 		
 		try {
 			System.out.println(livro.isAtivo());
@@ -421,7 +427,9 @@ public class LivroDAO extends AbstractJdbcDAO {
 				li.getEditora().setId(rs.getInt("LIV_EDI_ID"));
 				//li.setDtCadastro(rs.getDate("LIV_DATACADASTRO"));
 				li.setAtivo(rs.getBoolean("LIV_ISATIVO"));
-				
+				li.setQtdEstoque(rs.getInt("LVE_QTD"));
+				li.setPrecoUnit(rs.getDouble("LVE_PRECO_UNIT"));
+				System.out.println(li.getTitulo());
 				sql = new StringBuilder();
 				sql.append("SELECT * FROM (SELECT * FROM tb_contem as CON ");
 				sql.append("LEFT JOIN tb_livros as Livro ");
@@ -477,7 +485,7 @@ public class LivroDAO extends AbstractJdbcDAO {
 						// TODO: handle exception
 					}
 				}*/
-				
+				System.out.println("Chega aqui ?");
 				if(li.getId() != atual)
 					livros.add(li);
 				atual = rs.getInt("LIV_ID");
@@ -485,6 +493,7 @@ public class LivroDAO extends AbstractJdbcDAO {
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}
+		System.out.println(livros.get(0).getId());
 		return livros;
 	}
 }

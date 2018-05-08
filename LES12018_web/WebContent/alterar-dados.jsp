@@ -17,10 +17,8 @@
         <title>TopBooks</title>
     </head>
     <%
-			Resultado resultado = (Resultado) session.getAttribute("resultado");
-			List<EntidadeDominio> Cli = resultado.getEntidades();
-			
-			Cliente cliente = (Cliente)Cli.get(0);
+	
+			Cliente cliente = (Cliente) session.getAttribute("visualizar");
 			StringBuilder sb;
 	%>
     <header>
@@ -172,7 +170,6 @@
                                 				
                                 				out.print(sb.toString());
                                 			%>
-                                				<input type="hidden" name="txtId" value="${cliente.getId()}">
                                 			</div>
                                 		</div>
                                 	</div>

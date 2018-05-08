@@ -43,6 +43,19 @@ public class ClienteViewHelper implements IViewHelper{
 				cliente.setCartoes(new ArrayList<Cartao>());
 				cliente.getEnderecos().add(new Endereco());
 				cliente.getCartoes().add(new Cartao());
+				
+				try {
+					cliente.getEnderecos().get(0).setCEP(request.getParameter("txtcep"));
+					cliente.getEnderecos().get(0).setNumerologradouro(request.getParameter("txtnum"));
+				}catch (Exception e) {
+					// TODO: handle exception
+				}
+				
+				try {
+					cliente.getCartoes().get(0).setsNumCartao(request.getParameter("txtNumCartao"));
+				}catch (Exception e) {
+					// TODO: handle exception
+				}
 			}catch (Exception e) {
 				// TODO: handle exception
 			}
@@ -54,7 +67,7 @@ public class ClienteViewHelper implements IViewHelper{
 				Senha = request.getParameter("txtpasswd");
 				id = Integer.parseInt(request.getParameter("txtId"));
 				cliente.setsSenha(Senha);
-				cliente.setsTelefone(NovaSenha);
+				cliente.setNovaSenha(NovaSenha);
 				cliente.setId(id);
 				cliente.setEnderecos(new ArrayList<Endereco>());
 				cliente.setCartoes(new ArrayList<Cartao>());
@@ -64,7 +77,7 @@ public class ClienteViewHelper implements IViewHelper{
 				// TODO: handle exception
 			}
 			return cliente;
-		}else if(operacao.equals("LOGIN")) {
+		}else if(operacao.equals("LOGAR")) {
 			try {
 				id = Integer.parseInt(request.getParameter("txtId"));
 				cliente.setId(id);
@@ -85,6 +98,8 @@ public class ClienteViewHelper implements IViewHelper{
 				}catch (Exception e) {
 					// TODO: handle exception
 				}
+				
+				return cliente;
 		}else if(!operacao.equals("VISUALIZAR")) {
 			
 			try {
@@ -123,12 +138,11 @@ public class ClienteViewHelper implements IViewHelper{
 			} catch (Exception e) {
 				// TODO: handle exception
 			}
-			System.out.println(request.getParameter("ckbisAtivo"));
-			Boolean isAtivo = null;
+			
+			Boolean isAtivo = true;
 			try {
 				isAtivo = request.getParameter("ckbisAtivo").equals("true") ? true:false;
 				isAtivo = request.getParameter("ckbisAtivo").equals("todos") ? null: isAtivo;
-				System.out.println("isAtivo: "+isAtivo);
 			}catch(Exception e) {
 			}
 			
@@ -146,8 +160,6 @@ public class ClienteViewHelper implements IViewHelper{
 				// TODO: handle exception
 			}
 			
-			System.out.println("Flag aqui na frente: "+cliente.getFlgAtivo());
-			
 			Endereco end = new Endereco();
 			Cartao cart = new Cartao();
 			Boolean Cobranca;
@@ -157,7 +169,6 @@ public class ClienteViewHelper implements IViewHelper{
 			}catch(Exception e) {
 				Cobranca = false;
 			}
-			
 			try {
 				end.setFlgCobranca(Cobranca);
 			} catch (Exception e) {
@@ -169,7 +180,7 @@ public class ClienteViewHelper implements IViewHelper{
 			
 			try {
 				end.setNome(request.getParameter("txtNomeEnd"));
-				end.setPais(request.getParameter("ddlpais"));
+				end.setPais(request.getParameter("txtpais"));
 				end.setCEP(request.getParameter("txtcep"));
 				end.setBairro(request.getParameter("txtBairro"));
 				end.setTipoLogradouro(request.getParameter("ddlTipoLogr"));
@@ -265,7 +276,6 @@ public class ClienteViewHelper implements IViewHelper{
 				}
 			}
 		}
-		
 		return cliente;
 	}
 
@@ -275,12 +285,22 @@ public class ClienteViewHelper implements IViewHelper{
 		RequestDispatcher d = null;
 		String operacao = request.getParameter("operacao");
 		String target="";
+		
 		if(resultado.getMsg()== null) {
 			if(operacao.equals("SALVAR")) {
-				resultado.setMsg("Produto cadastrado com sucesso!");
+				request.getSession().setAttribute("resultado", resultado);
+				System.out.println(resultado.getMsg());
+				try {
+					target = request.getParameter("target");
+				}catch (Exception e) {
+				}
+				
+				if(target != null) {
+					d = request.getRequestDispatcher(target);
+				}else {
+					d = request.getRequestDispatcher("login.jsp");
+				}
 			}
-			request.getSession().setAttribute("resultado", resultado);
-			d = request.getRequestDispatcher("login.jsp");
 		}
 		
 		if(resultado.getMsg() == null && operacao.equals("LOGAR")) {
@@ -294,15 +314,19 @@ public class ClienteViewHelper implements IViewHelper{
 		}
 		
 		if(resultado.getMsg() == null && operacao.equals("VISUALIZAR")) {
+			
+			request.getSession().setAttribute("visualizar", resultado.getEntidades().get(0));
+			
 			try {
 				target = request.getParameter("target");
+				System.out.println(target);
 			}catch (Exception e) {
+				
 			}
 			
 			if(target != null) {
 				d = request.getRequestDispatcher(target);
 			}else {
-				request.getSession().setAttribute("resultado", resultado.getEntidades().get(0));
 				d = request.getRequestDispatcher("alterar-endereco.jsp");
 			}
 		}
@@ -332,7 +356,7 @@ public class ClienteViewHelper implements IViewHelper{
 		}
 		
 		if(resultado.getMsg() == null && operacao.equals("ALTERAR")) {
-			request.getSession().setAttribute("livro", null);
+			request.getSession().setAttribute("resultado", null);
 			d = request.getRequestDispatcher("ClienteLogado.jsp");
 		}
 
@@ -356,13 +380,13 @@ public class ClienteViewHelper implements IViewHelper{
 				request.getSession().setAttribute("resultado", resultado);
 				d = request.getRequestDispatcher("GerenciarLivro.jsp");
 			}
-			if(operacao.equals("SALVAR") && resultado.getMsg().equals("ERRO NO CADASTRO")) {
+			if(operacao.equals("SALVAR")) {
 				request.getSession().setAttribute("resultado", resultado);
-				d = request.getRequestDispatcher("Login.jsp");
+				d = request.getRequestDispatcher("login.jsp");
 			}
-			if(operacao.equals("SALVAR") && !resultado.getMsg().equals("ERRO NO CADASTRO") || operacao.equals("ALTERAR") || operacao.equals("ATIVAR") || operacao.equals("EXCLUIR")){
+			if(operacao.equals("ALTERAR") || operacao.equals("ATIVAR") || operacao.equals("EXCLUIR")){
 				request.getSession().setAttribute("resultado", resultado);
-				d = request.getRequestDispatcher("ClienteLogado.jsp");
+				d = request.getRequestDispatcher("IndexCliente.html");
 			}
 			if(operacao.equals("LOGAR")) {
 				request.getSession().setAttribute("login", resultado);

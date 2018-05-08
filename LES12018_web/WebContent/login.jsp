@@ -71,7 +71,7 @@
 					</div>
 				</form>
 				<%
-				    Resultado resultado = (Resultado) session.getAttribute("resultado");
+				    Resultado resultado = (Resultado) session.getAttribute("login");
 				    if(resultado !=null && resultado.getMsg() != null){
 				        out.print(resultado.getMsg());
 				    }

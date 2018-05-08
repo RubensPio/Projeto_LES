@@ -16,7 +16,7 @@
 	</head>
 	<%
 			RequestDispatcher d = request.getRequestDispatcher("ClienteLogado.jsp");
-			Resultado resultado = (Resultado) session.getAttribute("resultado");
+			Resultado resultado = (Resultado) session.getAttribute("login");
 			List<EntidadeDominio> Cli = resultado.getEntidades();
 			
 			Cliente cliente = (Cliente)Cli.get(0);

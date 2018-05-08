@@ -14,6 +14,8 @@ public class ValidarDadosObrigatoriosCartao implements IStrategy{
 	public String processar(EntidadeDominio entidade) {
 		if(entidade instanceof Cliente){
             Cliente cliente = (Cliente)entidade;
+            if(cliente.getId() == null)
+            	return null;
             Cartao cartao = null;
             
             if(cliente.getId() != null && cliente.getCartoes().get(0).getsNumCartao() != null) {
@@ -35,7 +37,7 @@ public class ValidarDadosObrigatoriosCartao implements IStrategy{
         } else {
             return "Deve ser registrado um Livro!";
         }
-		
+		System.out.println("Entra na regra de Cartao");
 		return null;
 	}
 }

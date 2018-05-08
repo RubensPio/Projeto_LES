@@ -14,6 +14,8 @@ public class ValidarDadosObrigatoriosEndereco implements IStrategy{
 	public String processar(EntidadeDominio entidade) {
 		if(entidade instanceof Cliente){
             Cliente cliente = (Cliente)entidade;
+            if(cliente.getId() == null)
+            	return null;
             Endereco endereco = null;
             
         
@@ -37,7 +39,7 @@ public class ValidarDadosObrigatoriosEndereco implements IStrategy{
         } else {
             return "Deve ser registrado um Livro!";
         }
-		
+		System.out.println("Entra na regra de End");
 		return null;
 	}
 }

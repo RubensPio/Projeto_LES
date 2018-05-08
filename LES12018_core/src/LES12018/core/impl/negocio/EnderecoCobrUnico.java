@@ -14,6 +14,8 @@ public class EnderecoCobrUnico implements IStrategy{
 	public String processar(EntidadeDominio entidade) {
 		if(entidade instanceof Cliente){
 			Cliente cliente = (Cliente) entidade;
+			if(cliente.getId() == null || cliente.getEnderecos().get(0).getCEP() == null)
+				return null;
 			if(cliente.getEnderecos().get(0).getFlgCobranca() == true && cliente.getId() != null){
 				ClienteDAO clidao = new ClienteDAO();
 				Cliente cli = new Cliente();
@@ -29,6 +31,7 @@ public class EnderecoCobrUnico implements IStrategy{
 				}
 			}
 		}
+		System.out.println("Passa na regra de cobranca");
 		return null;
 	}
 

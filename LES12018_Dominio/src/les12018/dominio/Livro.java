@@ -24,14 +24,28 @@ public class Livro extends EntidadeDominio {
 	private GrupoPrecificacao GP = new GrupoPrecificacao();
 	private Inativacao inativacao = new Inativacao();
 	private Ativacao ativacao = new Ativacao();
+	private int QtdEstoque;
+	private double PrecoUnit;
 	
+	
+	public int getQtdEstoque() {
+		return QtdEstoque;
+	}
+	public void setQtdEstoque(int qtdEstoque) {
+		QtdEstoque = qtdEstoque;
+	}
+	public double getPrecoUnit() {
+		return PrecoUnit;
+	}
+	public void setPrecoUnit(double precoUnit) {
+		PrecoUnit = precoUnit;
+	}
 	public double getPreco() {
 		return Preco;
 	}
 	public void setPreco(double preco) {
 		Preco = preco;
 	}
-	
 	public Inativacao getInativacao() {
 		return inativacao;
 	}

@@ -17,23 +17,28 @@ public class ValidarLogin implements IStrategy{
 			ClienteDAO clidao = new ClienteDAO();
 			Cliente cli = new Cliente();
 			List<EntidadeDominio> clientes = clidao.consultar(entidade);
+			System.out.println("Entra na regra de negocio");
 			if(clientes != null) {
 				for(EntidadeDominio c:clientes) {
 					cli = (Cliente)c;
-					if(cli.getsEmail().equals(cliente.getsEmail()) && cli.getsSenha().equals(cliente.getsSenha())){
+					if(cli.getsEmail().equals(cliente.getsEmail()) && cli.getsSenha().equals(cliente.getsSenha()) && cli.getFlgAtivo()){
+						System.out.println("Entra no if ?");
 						cliente.setsNome(cli.getsNome());
 						cliente.setId(cli.getId());
 						cliente.setIsAdmin(cli.getIsAdmin());
 						return null;
 					}else {
+						System.out.println("Passa pelo else");
 						return "Erro no Login";
 					}
 				}
 			}else {
+				System.out.println("Passa pelo else 2");
 				return "Erro no login";
 			}
 		}
-		return null;
+		System.out.println("Passa pelo ultimo return");
+		return "Erro no login";
 	}
 	
 }

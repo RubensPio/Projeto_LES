@@ -15,11 +15,8 @@
         <meta charset="UTF-8">
         <title>TopBooks</title>
     </head>
-    <%
-			Resultado resultado = (Resultado) session.getAttribute("resultado");
-			List<EntidadeDominio> Cli = resultado.getEntidades();
-			
-			Cliente cliente = (Cliente)Cli.get(0);
+    <%		
+			Cliente cliente = (Cliente)session.getAttribute("visualizar");
 			Cartao cart = cliente.getCartoes().get(0);
 			StringBuilder sb;
 	%>

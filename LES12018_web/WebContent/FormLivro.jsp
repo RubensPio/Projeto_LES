@@ -50,7 +50,7 @@
 		
 		Livro liv = null;
 		try{
-			liv = (Livro) session.getAttribute("livro");
+			liv = (Livro) session.getAttribute("visualizar");
 		}catch(Exception e){
 			
 		}

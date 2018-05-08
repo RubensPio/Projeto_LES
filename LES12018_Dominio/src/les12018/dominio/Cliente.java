@@ -10,13 +10,20 @@ public class Cliente extends EntidadeDominio{
 	private String sCPF;
 	private String sEmail;
 	private String sSenha;
-    private int nRanking;
+	private String novaSenha;
+	private int nRanking;
 	private String sTelefone;
 	private ArrayList<Endereco> enderecos = new ArrayList<Endereco>();
 	private ArrayList<Cartao> cartoes= new ArrayList<Cartao>();
 	private Boolean isAdmin;
 	private Boolean flgAtivo;
 	
+	public String getNovaSenha() {
+		return novaSenha;
+	}
+	public void setNovaSenha(String novaSenha) {
+		this.novaSenha = novaSenha;
+	}
 	public String getsGenero() {
 		return sGenero;
 	}

@@ -71,7 +71,7 @@ public class LivroViewHelper implements IViewHelper{
 			livro.getInativacao().setMotivo(MotivoInativacao);
 			livro.getInativacao().getCategoria().setId(CatInativacao);
 		}else if(!operacao.equals("VISUALIZAR")) {
-			
+			System.out.println("Entra na VH");
 			String Titulo = "";
 			String Ano = "";
 			String NumPaginas = "";
@@ -79,6 +79,13 @@ public class LivroViewHelper implements IViewHelper{
 			String CodBarras = ""; 
 			String ISBN = "";
 			String Sinopse = "";
+			int QtdEstoque = 0;
+			
+			try {
+				QtdEstoque = Integer.parseInt(request.getParameter("txtQtdEstoque"));
+			}catch (Exception e) {
+				// TODO: handle exception
+			}
 			try {
 				Titulo = request.getParameter("txtTitulo");
 				Ano = request.getParameter("txtAno");
@@ -114,14 +121,10 @@ public class LivroViewHelper implements IViewHelper{
 			livro.setCategorias(new ArrayList<Categoria>());
 			livro.setGP(new GrupoPrecificacao());
 			
-			int estoque = 0;
 			double preco = 0.0, valor = 0.0;
 			Double altura = 0.0, largura = 0.0, peso = 0.0, profundidade = 0.0;
 			
 			try {
-				//estoque = Integer.parseInt(request.getParameter("txtEstoque"));
-				//preco = Double.parseDouble(request.getParameter("txtPreco"));
-				//valor = Double.parseDouble(request.getParameter("txtValor"));
 				altura = Double.parseDouble(request.getParameter("txtAltura"));
 				largura = Double.parseDouble(request.getParameter("txtLargura"));
 				peso = Double.parseDouble(request.getParameter("txtPeso"));
@@ -141,7 +144,7 @@ public class LivroViewHelper implements IViewHelper{
 			HttpSession session = request.getSession();
 			Cliente usuario = (Cliente)session.getAttribute("usuario");
 			
-			livro.setEstoque(estoque);
+			livro.setQtdEstoque(QtdEstoque);
 			livro.setPreco(preco);
 			livro.getAutor().setId(Autor);
 			livro.getEditora().setId(Editora);
@@ -154,7 +157,6 @@ public class LivroViewHelper implements IViewHelper{
 			livro.setNumPaginas(NumPaginas);
 			livro.setTitulo(Titulo);
 			livro.setAtivo(Ativinho);
-			livro.setEstoque(estoque);
 			livro.setPreco(preco);
 			livro.setAltura(altura);
 			livro.setLargura(largura);
@@ -189,7 +191,8 @@ public class LivroViewHelper implements IViewHelper{
 			throws IOException, ServletException {
 		RequestDispatcher d = null;
 		String operacao = request.getParameter("operacao");
-		//System.out.println(operacao);
+		String target ="";
+		System.out.println(operacao);
 		if(resultado.getMsg()== null) {
 			if(operacao.equals("SALVAR")) {
 				resultado.setMsg("Produto cadastrado com sucesso!");
@@ -199,8 +202,17 @@ public class LivroViewHelper implements IViewHelper{
 		}
 		
 		if(resultado.getMsg() == null && operacao.equals("VISUALIZAR")) {
-			request.getSession().setAttribute("livro", resultado.getEntidades().get(0));
-			d = request.getRequestDispatcher("FormLivro.jsp");
+			request.getSession().setAttribute("visualizar", resultado.getEntidades().get(0));
+			try {
+				target = request.getParameter("target");
+			}catch (Exception e) {
+				
+			}
+			if(target != null) {
+				d = request.getRequestDispatcher(target);
+			}else {
+				d = request.getRequestDispatcher("FormLivro.jsp");
+			}
 		}
 		
 		if(resultado.getMsg() == null && operacao.equals("EXCLUIR")) {
@@ -215,8 +227,19 @@ public class LivroViewHelper implements IViewHelper{
 
 		
 		if(resultado.getMsg() == null && operacao.equals("CONSULTAR")) {
-			request.getSession().setAttribute("resultado", resultado);
-			d = request.getRequestDispatcher("GerenciarLivro.jsp");		
+			
+			request.getSession().setAttribute("livros", resultado);
+			try {
+				target = request.getParameter("target");
+			}catch (Exception e) {
+				
+			}
+			
+			if(target != null) {
+				d = request.getRequestDispatcher(target);
+			}else {
+				d = request.getRequestDispatcher("GerenciarLivro.jsp");	
+			}
 		}
 		
 		if(resultado.getMsg() != null) {

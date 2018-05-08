@@ -78,7 +78,7 @@
                                 </div>
                                 <div class="col-md-6">
                                 	<label for="cep"><span class="req"> </span> Bairro *  </label> 
-	                                    <input class="form-control" type="text" name="txtBairro" id = "cep" maxlength="8"  placeholder="Ex: Jd Esperanca" required />  
+	                                    <input class="form-control" type="text" name="txtBairro"  placeholder="Ex: Jd Esperanca" required />  
 	                                        <div id="errLast"></div>
                                 </div>
                             </div>

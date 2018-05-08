@@ -23,11 +23,11 @@ public class ClienteDAO extends AbstractJdbcDAO {
         openConnection();                                       // abre a conexão com o Banco
         PreparedStatement pst = null;
         Cliente obCliente = (Cliente) entidade;
-        
+        System.out.println("kkk entra no salvar");
+        System.out.println(obCliente.getCartoes().get(0).getsNumCartao());
         StringBuilder sql;
-
         if (obCliente.getId() == null){                        // se o ID de cliente for nulo, quer dizer que não está cadastrado, entao é uma chamada de cadastro de novo cliente 
-
+        	System.out.println("Cadastrar Cliente");
             try {
                 connection.setAutoCommit(false);
 
@@ -127,6 +127,7 @@ public class ClienteDAO extends AbstractJdbcDAO {
                     pst.setString(5, cartao.getsBandeira());
                     pst.setInt(6, obCliente.getId());
     
+                    System.out.println(pst.toString());
                     pst.executeUpdate();
                     connection.commit();
                 }
@@ -175,6 +176,7 @@ public class ClienteDAO extends AbstractJdbcDAO {
                     pst.setString(11, endereco.getEstado());
                     pst.setInt(12, obCliente.getId());
     
+                    System.out.println(pst.toString());
                     pst.executeUpdate();
                     connection.commit();
                 }    
@@ -240,7 +242,7 @@ public class ClienteDAO extends AbstractJdbcDAO {
 
             sql = new StringBuilder();
             sql.append("UPDATE tb_clientes SET CLI_NOME=?, CLI_GENERO=?, CLI_DATA_NASC=?, CLI_CPF=?, "
-            + "CLI_EMAIL=?, CLI_SENHA=? ");
+            + "CLI_EMAIL=?, CLI_SENHA=?, CLI_TELEFONE=?");
             sql.append("WHERE CLI_ID=?");
 
             pst = connection.prepareStatement(sql.toString());
@@ -251,7 +253,8 @@ public class ClienteDAO extends AbstractJdbcDAO {
             pst.setString(4, obCliente.getsCPF());
             pst.setString(5, obCliente.getsEmail());
             pst.setString(6, obCliente.getsSenha());
-            pst.setInt(7, obCliente.getId());
+            pst.setString(7, obCliente.getsTelefone());
+            pst.setInt(8, obCliente.getId());
 
             System.out.println(pst.toString());
             pst.executeUpdate();
@@ -366,12 +369,11 @@ public class ClienteDAO extends AbstractJdbcDAO {
 		openConnection();
 		PreparedStatement pst = null;
 		StringBuilder sql;
-		
 		Cliente cliente = (Cliente) entidade;
-		
+		System.out.println(cliente.getEnderecos().get(0).getCEP());
+		System.out.println(cliente.getCartoes().get(0).getsNumCartao());
 		if (cliente.getId() != null && cliente.getEnderecos().get(0).getCEP() == null && cliente.getCartoes().get(0).getsNumCartao() == null) {
 			try {
-				
 				connection.setAutoCommit(false);
 				
 				sql = new StringBuilder();
@@ -401,9 +403,7 @@ public class ClienteDAO extends AbstractJdbcDAO {
 					e.printStackTrace();
 				}
 			}
-		}
-		
-		if (cliente.getId() != null && cliente.getEnderecos().get(0).getCEP() != null && cliente.getCartoes().get(0).getsNumCartao() == null){
+		}else if (cliente.getId() != null && cliente.getEnderecos().get(0).getCEP() != null && cliente.getCartoes().get(0).getsNumCartao() == null){
 			System.out.println("entra no excluir");
 			try {
 			
@@ -420,6 +420,7 @@ public class ClienteDAO extends AbstractJdbcDAO {
 					pst.setString(2, endereco.getCEP()); 
 					pst.setString(3, endereco.getNumerologradouro());
 					
+					System.out.println(pst.toString());
 					pst.executeUpdate();
 					
 					connection.commit();
@@ -439,9 +440,7 @@ public class ClienteDAO extends AbstractJdbcDAO {
 					e.printStackTrace();
 				}
 			}
-		}
-		
-		if (cliente.getId() != null && cliente.getEnderecos().get(0).getCEP() == null && cliente.getCartoes().get(0).getsNumCartao() != null){
+		}else if (cliente.getId() != null && cliente.getEnderecos().get(0).getCEP() == null && cliente.getCartoes().get(0).getsNumCartao() != null){
 		
 			try {
 				
@@ -499,7 +498,7 @@ public class ClienteDAO extends AbstractJdbcDAO {
     	sql.append(" WHERE 1=1");
     	
     	if(cliente.getsNome() != null && cliente.getsNome().length() > 0)
-    		sql.append(" AND CLI_NOME='" + cliente.getsNome() + "%'");
+    		sql.append(" AND CLI_NOME LIKE'" + cliente.getsNome() + "%'");
     	
     	if(cliente.getId() != null && cliente.getId() > 0)
     		sql.append(" AND CLI_ID='" + cliente.getId() + "'");
@@ -550,7 +549,7 @@ public class ClienteDAO extends AbstractJdbcDAO {
     	}catch (Exception e) {
     	    // erro
     	}
-    	System.out.println(cliente.getFlgAtivo());
+    	
     	try {
     	    sql.append(" AND CLI_ATIVO= '" + (cliente.getFlgAtivo() ? 1 : 0) + "'");
     	} catch (Exception e) {

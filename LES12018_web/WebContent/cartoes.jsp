@@ -125,6 +125,8 @@
                                    
                                                     	for(Cartao cart:cliente.getCartoes()){
                                                     		if(cart.getsNumCartao() != null){
+                                                    			sbLink = new StringBuilder();
+                                                            	sbRegistro= new StringBuilder();
                                                     			sbRegistro.append("<tr>");
                                                     			sbLink.append("<a href='SalvarCliente?");
                                                     			sbLink.append("txtNumCartao=");
