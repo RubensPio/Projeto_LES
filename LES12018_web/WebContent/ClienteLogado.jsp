@@ -59,9 +59,17 @@
 						%>
 						</div>
                     </div>
-                    <a class="btn btn-success btn-sm ml-3" href="carrinho.html">
+                    <a class="btn btn-success btn-sm ml-3" href="carrinho.jsp">
                     <i class="fa fa-shopping-cart"></i> Carrinho
-                    <span class="badge badge-light">3</span></a>
+                    <span class="badge badge-light"><%
+                    	if(session.getAttribute("carrinho") != null){
+                    		Pedido ped = (Pedido)session.getAttribute("carrinho");
+                    		int t = ped.getProdutos().size();
+                    		out.print(t);
+                    	}else{
+                    		out.print(0);
+                    	}
+                    %></span></a>
                     <label>  </label>
                     <a class="nav-link" href="SalvarCliente?operacao=LOGOUT">Sair</a>
                 </form>
@@ -153,14 +161,20 @@
 	        				    				sbRegistro.append("</h5>");
 	        				    				sbRegistro.append("</div>");
 	        				    				sbRegistro.append("<div class='col'>");
-	        				    				sbRegistro.append("<a href='carrinho.html' class='btn btn-success btn-block'>Adicionar ao Carrinho</a>");
+	        				    				sbRegistro.append("<a href='Pedido?txtLivId=");
+	        				    				sbRegistro.append(livro.getId());
+	        				    				sbRegistro.append("&txtTitulo=");
+	        				    				sbRegistro.append(livro.getTitulo());
+	        				    				sbRegistro.append("&txtQtd=1");
+	        				    				sbRegistro.append("&txtSubTotal=");
+	        				    				sbRegistro.append(livro.getPrecoUnit());
+	        				    				sbRegistro.append("&operacao=ADDCARRINHO' class='btn btn-success btn-block'>Adicionar ao Carrinho</a>");
 	        				    				sbRegistro.append("</div>");
 	        				    				sbRegistro.append("</div>");
 	        				    				sbRegistro.append("</div>");
 	        				    				sbRegistro.append("</div>");
 	        				    				sbRegistro.append("</div>");
 	        				    				
-	        				    				System.out.println(sbRegistro.toString());
 	        				    				out.print(sbRegistro.toString());
 	        				 				}
 	        				    		}

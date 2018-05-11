@@ -20,9 +20,11 @@ import LES12018.controle.web.vh.IViewHelper;
 import LES12018.controle.web.vh.impl.ClienteViewHelper;
 import LES12018.controle.web.vh.impl.DadosParaLivroViewHelper;
 import LES12018.controle.web.vh.impl.LivroViewHelper;
+import LES12018.controle.web.vh.impl.PedidoViewHelper;
 import LES12018.core.aplicacao.Resultado;
 import les12018.dominio.EntidadeDominio;
 import les12018.dominio.Livro;
+import les12018.dominio.Pedido;
 
 /**
  * Servlet implementation class Servlet
@@ -42,6 +44,8 @@ public class Servlet extends HttpServlet {
         commands = new HashMap<String, ICommand>();
         
         commands.put("SALVAR", new SalvarCommand());
+        commands.put("ADDCARRINHO", new AlterarCommand());
+        commands.put("REALIZAR-COMPRA", new AlterarCommand());
         commands.put("EXCLUIR", new ExcluirCommand());
         commands.put("ATIVAR", new AtivarCommand());
         commands.put("CONSULTAR", new ConsultarCommand());
@@ -56,6 +60,7 @@ public class Servlet extends HttpServlet {
         vhs.put("/LES12018_web/Livros", new LivroViewHelper());
         vhs.put("/LES12018_web/SalvarCliente", new ClienteViewHelper());
         vhs.put("/LES12018_web/Login", new ClienteViewHelper());
+        vhs.put("/LES12018_web/Pedido", new PedidoViewHelper());
     }
 
     /**

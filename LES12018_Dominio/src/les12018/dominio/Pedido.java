@@ -9,7 +9,14 @@ public class Pedido extends EntidadeDominio{
 	private double Frete;
 	private double ValorTotal;
 	private String FormaDePagamento;
+	private String Status;
 	
+	public String getStatus() {
+		return Status;
+	}
+	public void setStatus(String status) {
+		Status = status;
+	}
 	public ArrayList<Produto> getProdutos() {
 		return Produtos;
 	}

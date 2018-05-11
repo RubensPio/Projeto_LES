@@ -16,6 +16,7 @@ import LES12018.core.aplicacao.Resultado;
 import LES12018.core.impl.dao.ClienteDAO;
 import LES12018.core.impl.dao.DadosParaCadastroDAO;
 import LES12018.core.impl.dao.LivroDAO;
+import LES12018.core.impl.dao.PedidoDAO;
 import LES12018.core.impl.negocio.AlterarEndCobranca;
 import LES12018.core.impl.negocio.CategoriaAtivacao;
 import LES12018.core.impl.negocio.CategoriaInativacao;
@@ -30,6 +31,8 @@ import LES12018.core.impl.negocio.ValidarDadosObrigatoriosEndereco;
 import LES12018.core.impl.negocio.ValidarDadosObrigatoriosLivro;
 import LES12018.core.impl.negocio.ValidarLogin;
 import les12018.dominio.Livro;
+import les12018.dominio.Pedido;
+import les12018.dominio.Produto;
 import les12018.auxiliar.DadosParaCadastro;
 import les12018.dominio.Autor;
 import les12018.dominio.CatAtivacao;
@@ -48,10 +51,12 @@ public class Fachada implements IFachada{
 		LivroDAO livroDAO = new LivroDAO();
 		DadosParaCadastroDAO dadosParaCadastroDAO = new DadosParaCadastroDAO();
 		ClienteDAO clienteDAO = new ClienteDAO();
+		PedidoDAO pedidoDAO = new PedidoDAO();
 		
 		daos.put(Livro.class.getName(), livroDAO);
 		daos.put(DadosParaCadastro.class.getName(), dadosParaCadastroDAO);
 		daos.put(Cliente.class.getName(), clienteDAO);
+		daos.put(Pedido.class.getName(), pedidoDAO);
 		
 		ValidarDadosObrigatoriosLivro vDadosObrigatoriosLivro = new ValidarDadosObrigatoriosLivro();
 		MotivoInativacao mInativacao = new MotivoInativacao();
@@ -191,9 +196,11 @@ public class Fachada implements IFachada{
 		if(msg == null) {
 			IDAO dao = daos.get(nmClasse);
 			try {
+				System.out.println(entidade.getClass().getName());
 				dao.alterar(entidade);
 				List<EntidadeDominio> entidades = new ArrayList<EntidadeDominio>();
 				entidades.add(entidade);
+				System.out.println("kkkoioioioioio");
 				resultado.setEntidades(entidades);
 			} catch (SQLException e) {
 				e.printStackTrace();

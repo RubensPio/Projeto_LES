@@ -351,6 +351,7 @@ public class ClienteViewHelper implements IViewHelper{
 		}
 		
 		if(resultado.getMsg() == null && operacao.equals("LOGOUT")) {
+			System.out.println("entra no logout");
 			request.getSession().invalidate();
 			d = request.getRequestDispatcher("IndexCliente.html");
 		}

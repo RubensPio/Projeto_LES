@@ -37,11 +37,30 @@
                         <div class="navbar-brand">
                             <i class="fa fa-user"></i>
                         </div>                                        
-                        <a class="navbar-brand" href="#">Entre ou Cadastre-se</a>
+                        <%
+							sb = new StringBuilder();
+							sb.append("<a class='navbar-brand' href='SalvarCliente?txtId=");
+							sb.append(cliente.getId());
+							sb.append("&");
+							sb.append("operacao=CONSULTAR'>");
+							sb.append("Bem Vindo, ");
+							sb.append(cliente.getsNome());
+							sb.append("</a>");
+							
+							out.print(sb.toString());
+						%>
                     </div>
                     <a class="btn btn-success btn-sm ml-3" href="carrinho.html">
                     <i class="fa fa-shopping-cart"></i> Carrinho
-                    <span class="badge badge-light">3</span></a>
+                    <span class="badge badge-light"><%
+                    	if(session.getAttribute("carrinho") != null){
+                    		Pedido ped = (Pedido)session.getAttribute("carrinho");
+                    		int t = ped.getProdutos().size();
+                    		out.print(t);
+                    	}else{
+                    		out.print(0);
+                    	}
+                    %></span></a>
                     <label>  </label>
                     <a class="nav-link" href="SalvarCliente?operacao=LOGOUT">Sair</a>
                 </form>

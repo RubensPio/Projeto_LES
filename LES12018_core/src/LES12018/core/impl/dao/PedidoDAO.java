@@ -21,7 +21,7 @@ public class PedidoDAO extends AbstractJdbcDAO{
 	public void salvar(EntidadeDominio entidade) throws SQLException {
 		openConnection();                                       // abre a conexão com o Banco
         PreparedStatement pst = null;
-		Pedido objPedido = new Pedido();
+		Pedido objPedido = (Pedido) entidade;
 		
 		 StringBuilder sql;
 		 if(objPedido != null) {
@@ -87,7 +87,97 @@ public class PedidoDAO extends AbstractJdbcDAO{
 
 	@Override
 	public void alterar(EntidadeDominio entidade) throws SQLException {
-		// TODO Auto-generated method stub
+		openConnection();                                       // abre a conexão com o Banco
+        PreparedStatement pst = null;
+        Pedido objPedido = (Pedido) entidade;
+        StringBuilder sql = new StringBuilder();
+        if(objPedido != null) {
+        	if(objPedido.getStatus() != null) {
+        		try {
+        			connection.setAutoCommit(false);
+        			sql.append("UPDATE tb_pedidos set PED_STATUS=? ");
+        			sql.append("WHERE PED_ID=?");
+        			
+        			pst = connection.prepareStatement(sql.toString());
+        			
+        			pst.setString(1, objPedido.getStatus());
+        			pst.setInt(2, objPedido.getId());
+        			
+        			pst.executeUpdate();
+        			connection.commit();
+        			
+        		}catch (SQLException e) {
+					try {
+						connection.rollback();
+					}catch (SQLException e1) {
+						e1.printStackTrace();
+					}
+					e.printStackTrace();
+				}  finally {
+					try {
+						pst.close();
+						connection.close();
+					} catch (SQLException e) {
+						e.printStackTrace();
+					}
+				}
+        	}else {
+        		try {
+        		for(int i = 0;objPedido.getProdutos().get(i) != null; i++) {
+	        		
+	        			System.out.println("entra no alterar");
+	        			System.out.println(objPedido.getProdutos().get(i).getLivro().getId());
+	        			connection.setAutoCommit(false);
+	        			
+	        			sql = new StringBuilder();
+	        			sql.append("SELECT LVE_QTD FROM tb_livros_estoque");
+	        			sql.append(" WHERE LVE_LIV_ID=?");
+	        			
+	        			pst = connection.prepareStatement(sql.toString());
+	        			
+	        			pst.setInt(1, objPedido.getProdutos().get(i).getLivro().getId());
+	        			System.out.println("pst" + pst.toString());
+	        			ResultSet rs = pst.executeQuery();
+	        			int qtd = 0;
+	        			while(rs.next()){
+	                        qtd = rs.getInt("LVE_QTD");
+	                    }
+	        			
+	        			connection.setAutoCommit(false);
+	        			sql = new StringBuilder();
+	        			
+	        			sql.append("UPDATE tb_livros_estoque set LVE_QTD=? ");
+	        			sql.append("WHERE LVE_LIV_ID=?");
+	        			
+	        			pst = connection.prepareStatement(sql.toString());
+	        			
+	        			int qtdt = qtd-objPedido.getProdutos().get(i).getQuantidade();
+	        			
+	        			pst.setInt(1, qtdt);
+	        			pst.setInt(2, objPedido.getProdutos().get(i).getLivro().getId());
+	        			
+	        			System.out.println(pst.toString());
+	        			pst.executeUpdate();
+	        			connection.commit();
+	        			
+	        		}
+        	}catch (SQLException e) {
+				try {
+					connection.rollback();
+				}catch (SQLException e1) {
+					e1.printStackTrace();
+				}
+				e.printStackTrace();
+			}  finally {
+				try {
+					pst.close();
+					connection.close();
+				} catch (SQLException e) {
+					e.printStackTrace();
+				}
+			}
+    	}
+        }
 		
 	}
 
