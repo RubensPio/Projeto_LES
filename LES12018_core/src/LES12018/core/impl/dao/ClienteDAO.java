@@ -506,7 +506,7 @@ public class ClienteDAO extends AbstractJdbcDAO {
     	if(cliente.getsGenero() != null && cliente.getsGenero().length() > 0)
     		sql.append(" AND CLI_GENERO= '" + cliente.getsGenero() +"'");
     	
-    	if(cliente.getsGenero() != null)
+    	if(cliente.getDtDataNasc() != null)
     		sql.append(" AND CLI_DATA_NASC= '" + cliente.getDtDataNasc() + "'");
     	
     	if(cliente.getsCPF() != null && cliente.getsCPF().length() > 0)

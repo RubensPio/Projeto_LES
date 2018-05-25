@@ -5,12 +5,34 @@ import java.util.ArrayList;
 public class Pedido extends EntidadeDominio{
 	private ArrayList<Produto> Produtos = new ArrayList<Produto>();
 	private Cliente cliente = new Cliente();
+	private Cartao cartao = new Cartao();
 	private Endereco endEntrega = new Endereco();
 	private double Frete;
-	private double ValorTotal;
+	private double ValorTotal = 0;
 	private String FormaDePagamento;
 	private String Status;
+	private CupomPromocional cupomPromocional;
+	private ArrayList<CupomTroca> cuponsTroca;
+	private boolean flgTroca = false;
 	
+	public CupomPromocional getCupomPromocional() {
+		return cupomPromocional;
+	}
+	public void setCupomPromocional(CupomPromocional cupomPromocional) {
+		this.cupomPromocional = cupomPromocional;
+	}
+	public ArrayList<CupomTroca> getCuponsTroca() {
+		return cuponsTroca;
+	}
+	public void setCuponsTroca(ArrayList<CupomTroca> cuponsTroca) {
+		this.cuponsTroca = cuponsTroca;
+	}
+	public Cartao getCartao() {
+		return cartao;
+	}
+	public void setCartao(Cartao cartao) {
+		this.cartao = cartao;
+	}
 	public String getStatus() {
 		return Status;
 	}
@@ -52,6 +74,12 @@ public class Pedido extends EntidadeDominio{
 	}
 	public void setFormaDePagamento(String formaDePagamento) {
 		FormaDePagamento = formaDePagamento;
+	}
+	public boolean isFlgTroca() {
+		return flgTroca;
+	}
+	public void setFlgTroca(boolean flgTroca) {
+		this.flgTroca = flgTroca;
 	}
 	
 	

@@ -24,7 +24,7 @@
     <header>
         <nav class="navbar navbar-expand-md navbar-dark fixed-top bg-orange">
             <div class="container">
-                <a class="navbar-brand" href="IndexCliente.html">
+                <a class="navbar-brand" href="ClienteLogado.jsp">
                 <img src="imagens/logo.png" width="30" height="30" class="d-inline-block align-top" alt=""> TopBooks</a>
                 <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarsExampleDefault" aria-controls="navbarsExampleDefault" aria-expanded="false" aria-label="Toggle navigation">
                     <span class="navbar-toggler-icon"></span>
@@ -57,7 +57,8 @@
                     	}else{
                     		out.print(0);
                     	}
-                    %></span></a>
+                    %></span>
+                    </a>
                     <label>  </label>
                     <a class="nav-brand" href="SalvarCliente?operacao=LOGOUT">Sair</a>
                 </form>
@@ -72,7 +73,7 @@
                         <div class="card bg-light mb-3">
                             <div class="card-header bg-primary text-white text-uppercase bg-orange"><i class="fa fa-shopping-basket"></i> Pedidos</div>
                             <ul class="list-group category_block">
-                                <li class="list-group-item"><a href="pedidos.html">Todos os Pedidos</a></li>
+                                <li class="list-group-item"><a href="Pedido?txtId=<%out.print(cliente.getId());%>&operacao=CONSULTAR">Todos os Pedidos</a></li>
                                 <li class="list-group-item"><a href="pedido-troca.html">Pedidos de Troca</a></li>
                             </ul>
                         </div>

@@ -77,7 +77,7 @@
                         <div class="card bg-light mb-3">
                             <div class="card-header bg-primary text-white text-uppercase bg-orange"><i class="fa fa-shopping-basket"></i> Pedidos</div>
                             <ul class="list-group category_block">
-                                <li class="list-group-item"><a href="pedidos.html">Todos os Pedidos</a></li>
+                                <li class="list-group-item"><a href="Pedido?txtId='<%out.print(cliente.getId());%>'&operacao='CONSULTAR'">Todos os Pedidos</a></li>
                                 <li class="list-group-item"><a href="pedido-troca.html">Pedidos de Troca</a></li>
                             </ul>
                         </div>

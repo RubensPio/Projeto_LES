@@ -1,3 +1,5 @@
+<%@page import="jdk.nashorn.internal.runtime.Undefined"%>
+<%@page import="com.sun.xml.internal.txw2.Document"%>
 <%@page import="LES12018.core.impl.dao.LivroDAO"%>
 <%@page import="LES12018.core.aplicacao.Resultado"%>
 <%@page import="LES12018.core.*"%>
@@ -69,6 +71,8 @@
                     	}
                     %></span>
                         </a>
+                        <label>  </label>
+                    <a class="nav-link" href="SalvarCliente?operacao=LOGOUT">Sair</a>
                 </form>
             </div>
         </nav>
@@ -107,14 +111,17 @@
 		                                    	sb.append("<div class='input-group-prepend'>");
 		                                    	sb.append("<button class='btn btn-outline-secondary' type='button' onclick='DecrementValue(`Num" + i +"`,`"+ liv.getLivro().getPrecoUnit() +"`,`subtotal"+ i +"`)'><i class='fa fa-minus'></i></button>");
 		                                    	sb.append("</div>");
-		                                    	sb.append("<input type='number' class='form-control' min='0' max='100' name='Num"+ i +"' id='Num" + i +"' value='" + liv.getQuantidade() +"' aria-describedby='basic-addon2'>");
+		                                    	sb.append("<input type='number' class='form-control' min='1' max='100' name='Num"+ i +"' id='Num" + i +"' value='" + liv.getQuantidade() +"' aria-describedby='basic-addon2' onchange='UpdateSubTotal(`Num" + i +"`,`"+ liv.getLivro().getPrecoUnit() +"`,`subtotal"+ i +"`)'>");
 		                                    	sb.append("<div class='input-group-append'>");
 		                                    	sb.append("<button class='btn btn-outline-secondary' type='button' onclick='incrementValue(`Num" + i +"`,`"+ liv.getLivro().getPrecoUnit() +"`,`subtotal"+ i +"`)'><i class='fa fa-plus'></i></button>");
 		                                    	sb.append("</div>");
 		                                    	sb.append("</div>");
 		                                    	sb.append("</td>");
 		                                    	sb.append("<td class='text-right'><input type='text' class='form-control' readonly='readonly' id='subtotal"+ i +"' value='"+ liv.getSubtotal() +"'></input></td>");
-		                                    	sb.append("<td class='text-right'><button class='btn btn-sm btn-danger'><i class='fa fa-trash'></i></button></td>");
+		                                    	sb.append("<td class='text-right'><a class='btn btn-sm btn-danger' href='Pedido?");
+		                                    	sb.append("txtLivId=" + liv.getLivro().getId());
+		                                    	sb.append("&operacao=REMOVECARRINHO");
+		                                    	sb.append("'><i class='fa fa-trash'></i></a></td>");
 		                                    	sb.append("</tr>");
 	                                    	}
 	                                    	System.out.println(sb.toString());
@@ -146,9 +153,11 @@
                                             <td class="text-center"><strong>Sub-Total</strong></td>
                                         </tr>
                                         <tr>
-                                            <td class="text-right">Produto:   <% 
-                                            	
-                                            %></td>
+                                        	<% 	
+                                        		sb = new StringBuilder();
+                                        		sb.append("<td class='text-right'>Produto:<input readonly='readonly' id='total' class='form-control' name='total' value='" + carrinho.getValorTotal() + "'></td>");
+                                        		out.print(sb.toString());
+                                        	%>
                                         </tr>
                                         <tr>
                                             <td class="text-right">Frete:     R$ 70,00</td>
@@ -177,23 +186,46 @@
             function incrementValue(name, valor, nome2)
                 {
                     var value = document.getElementById(name).value;
+                    var value2;
                     value = isNaN(value) ? 0 : value;
                     value++;
                     document.getElementById(name).value = value;
-                    document.getElementById(nome2).value = (document.getElementById(nome2).value*1) + (valor*1);
+                    value2 = (document.getElementById(name).value*1) * (valor*1);
+                	document.getElementById(nome2).value = value2.toFixed(2);;
                 }
         </script>
         <script>
             function DecrementValue(name, valor, nome2)
                 {
                     var value = document.getElementById(name).value;
+                    
                     if(value!= 0){
                     	value = isNaN(value) ? 0 : value;
                     	value--;
                     	document.getElementById(name).value = value;
-                    	document.getElementById(nome2).value = (document.getElementById(nome2).value*1) - (valor*1);
+                    	value2 = (document.getElementById(name).value*1) * (valor*1);
+                    	document.getElementById(nome2).value = value2.toFixed(2);;
                     }
                 } 
+        </script>
+        <script>
+        	function UpdateSubTotal(name, valor, name2) {
+        		alert("hsaushu");
+    			var value = document.getElementById(name).value;
+    			var value2;
+    			value2 = (document.getElementById(name).value*1) * (valor*1);
+        		document.getElementById(nome2).value = value2.toFixed(2);
+			}
+        </script>
+        <script>
+        	function UpdateTotal(){
+        		var value = 0;
+        		for(var i=1; document.getElementById("subtotal"+i) != null; i++){
+        			value += document.getElementById("subtotal"+i);
+        			alert("subtotal"+i);
+        		}
+        		document.getElementById(total).value = value;
+        	}
         </script>
     </body>
 </html>

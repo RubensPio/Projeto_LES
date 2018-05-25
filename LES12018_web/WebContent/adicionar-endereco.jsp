@@ -75,7 +75,7 @@
                         <div class="card bg-light mb-3">
                             <div class="card-header bg-primary text-white text-uppercase bg-orange"><i class="fa fa-shopping-basket"></i> Pedidos</div>
                             <ul class="list-group category_block">
-                                <li class="list-group-item"><a href="pedidos.html">Todos os Pedidos</a></li>
+                                <li class="list-group-item"><a href="Pedido?txtId='<%out.print(cliente.getId());%>'&operacao='CONSULTAR'">Todos os Pedidos</a></li>
                                 <li class="list-group-item"><a href="pedido-troca.html">Pedidos de Troca</a></li>
                             </ul>
                         </div>
@@ -122,14 +122,14 @@
                             <div class="row">
                                     <div class="card-header form-control text-white text-uppercase bg-orange"><i class="fa fa-map-marker"></i> Adicionar Endereco</div>
                             </div>
-                            <form action="SalvarCliente" method="post">
+                            <form action="SalvarCliente" method="get">
                                 <div class="row">
 	                                <div class="col-md-12">
 	                                	<div class="row">
 	                                		<div class="col-md-2">
 					                           <%
 					                            	sb = new StringBuilder();
-					                            	sb.append("<input class='form-control' type'text' readonly='readonly' name='txtId' value='");
+					                            	sb.append("<input type='hidden' name='txtId' value='");
 					                            	sb.append(cliente.getId());
 					                            	sb.append("'>");
 					                            	
@@ -233,6 +233,7 @@
                                             <div class="col-md-4"></div>
                                             <div class="col-md-4">
                                                 <button type="submit" class="btn btn-success btn-block" name="operacao" value="SALVAR">Salvar</button>
+                                                <input type="hidden" name="target" value="ClienteLogado.jsp">
                                             </div>
                                         </div>
                                     </div>

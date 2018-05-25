@@ -38,7 +38,7 @@
 	<div class="limiter">
 		<div class="container-login100" style="background-image: url('images/biblioteca.jpg');">
 			<div class="wrap-login100">
-				<form action="Login" class="login100-form validate-form">
+				<form action="Login" class="login100-form validate-form" method="post">
 					<span class="login100-form-logo">
 						<i class="fa fa-user"></i>
 					</span>

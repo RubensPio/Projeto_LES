@@ -154,6 +154,7 @@ public class Fachada implements IFachada{
 				dao.excluir(entidade);
 				List<EntidadeDominio> entidades = new ArrayList<EntidadeDominio>();
 				entidades.add(entidade);
+				System.out.println(entidades.get(0).getClass().getName());
 				resultado.setEntidades(entidades);
 			} catch (SQLException e) {
 				e.printStackTrace();
@@ -196,11 +197,9 @@ public class Fachada implements IFachada{
 		if(msg == null) {
 			IDAO dao = daos.get(nmClasse);
 			try {
-				System.out.println(entidade.getClass().getName());
 				dao.alterar(entidade);
 				List<EntidadeDominio> entidades = new ArrayList<EntidadeDominio>();
 				entidades.add(entidade);
-				System.out.println("kkkoioioioioio");
 				resultado.setEntidades(entidades);
 			} catch (SQLException e) {
 				e.printStackTrace();

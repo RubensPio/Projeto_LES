@@ -26,6 +26,8 @@ public class ValidarLogin implements IStrategy{
 						cliente.setsNome(cli.getsNome());
 						cliente.setId(cli.getId());
 						cliente.setIsAdmin(cli.getIsAdmin());
+						cliente.setCartoes(cli.getCartoes());
+						cliente.setEnderecos(cli.getEnderecos());
 						return null;
 					}else {
 						System.out.println("Passa pelo else");

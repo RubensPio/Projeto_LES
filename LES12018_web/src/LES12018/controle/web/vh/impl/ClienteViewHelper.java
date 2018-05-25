@@ -175,21 +175,22 @@ public class ClienteViewHelper implements IViewHelper{
 				// TODO: handle exception
 			}
 			
-			if(operacao.equals("SALVAR") || operacao.equals("LOGIN"))
+			if(operacao.equals("SALVAR") && request.getParameter("txtId") == null || operacao.equals("LOGIN"))
 				end.setFlgCobranca(true);
 			
 			try {
 				end.setNome(request.getParameter("txtNomeEnd"));
-				end.setPais(request.getParameter("txtpais"));
+				end.setPais(request.getParameter("ddlpais"));
+				System.out.println(request.getParameter("ddlpais"));
 				end.setCEP(request.getParameter("txtcep"));
 				end.setBairro(request.getParameter("txtBairro"));
 				end.setTipoLogradouro(request.getParameter("ddlTipoLogr"));
 				end.setTipoResidencia(request.getParameter("ddlTipoRes"));
-				end.setComp(request.getParameter("txtcomp"));
 				end.setLogradouro(request.getParameter("txtrua"));
 				end.setNumerologradouro(request.getParameter("txtnum"));
 				end.setEstado(request.getParameter("ddlestado"));
 				end.setCidade(request.getParameter("ddlcidade"));
+				
 				cliente.setEnderecos(new ArrayList<Endereco>());
 				cliente.getEnderecos().add(end);
 				
@@ -276,6 +277,7 @@ public class ClienteViewHelper implements IViewHelper{
 				}
 			}
 		}
+		
 		return cliente;
 	}
 

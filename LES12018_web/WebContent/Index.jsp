@@ -37,7 +37,15 @@
 			  <div class="collapse navbar-collapse" id="navbarNav">
 			    <ul class="navbar-nav">
 			      <li class="nav-item">
-			        <a class="nav-link" href="../FormLivro">Gerenciar Pedidos </a>
+			       	<%
+						sb = new StringBuilder();
+						sb.append("<a class='nav-link' href='Pedido?");
+						sb.append("operacao=CONSULTAR-ADMIN'>");
+						sb.append("Gerenciar Pedidos");
+						sb.append("</a>");
+						
+						out.print(sb.toString());
+					%>
 			      </li>
 			      <li class="nav-item">
 			        <%

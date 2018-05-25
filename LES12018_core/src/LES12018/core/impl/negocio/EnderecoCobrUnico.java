@@ -31,7 +31,6 @@ public class EnderecoCobrUnico implements IStrategy{
 				}
 			}
 		}
-		System.out.println("Passa na regra de cobranca");
 		return null;
 	}
 

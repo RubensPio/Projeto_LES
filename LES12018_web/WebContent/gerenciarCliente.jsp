@@ -10,7 +10,7 @@
 		<link rel="stylesheet" href="css/bootstrap.css">
 		<link rel="shortcut icon" href="imagens/logo_6ce_icon.ico" type="image/x-icon">
 		<meta charset="UTF-8">
-    	<title>Clientes</title>
+    	<title>TopBooks</title>
 	</head>
 	<%
 			Resultado resultado = (Resultado) session.getAttribute("resultado");

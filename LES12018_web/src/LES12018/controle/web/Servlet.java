@@ -46,10 +46,16 @@ public class Servlet extends HttpServlet {
         commands.put("SALVAR", new SalvarCommand());
         commands.put("ADDCARRINHO", new AlterarCommand());
         commands.put("REALIZAR-COMPRA", new AlterarCommand());
+        commands.put("REMOVECARRINHO", new ExcluirCommand());
+        commands.put("REALIZAR-TROCA", new SalvarCommand());
+        commands.put("CONSULTAR-ADMIN", new ConsultarCommand());
+        commands.put("FINALIZARCOMPRA", new SalvarCommand());
         commands.put("EXCLUIR", new ExcluirCommand());
         commands.put("ATIVAR", new AtivarCommand());
         commands.put("CONSULTAR", new ConsultarCommand());
         commands.put("VISUALIZAR", new VisualizarCommand());
+        commands.put("VISUALIZAR-ADMIN", new VisualizarCommand());
+        commands.put("VISUALIZAR-TROCA", new VisualizarCommand());
         commands.put("ALTERAR", new AlterarCommand());
         commands.put("LOGAR", new LogarCommand());
         
@@ -113,7 +119,6 @@ public class Servlet extends HttpServlet {
 		try {
 			resultado = command.execute(entidade);
 		}catch (Exception e) {
-			
 		}
 		/*
 		 * Executa o método setView do view helper específico para definir como deverá ser apresentado 
