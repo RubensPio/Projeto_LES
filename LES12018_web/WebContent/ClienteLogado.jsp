@@ -59,7 +59,7 @@
 						%>
 						</div>
                     </div>
-                    <a class="btn btn-success btn-sm ml-3" href="carrinho.jsp">
+                    <a class="btn btn-success btn-sm ml-3" href="SalvarCliente?txtId=<%out.print(cliente.getId());%>&operacao=CONSULTAR-COMPRA">
                     <i class="fa fa-shopping-cart"></i> Carrinho
                     <span class="badge badge-light"><%
                     	if(session.getAttribute("carrinho") != null){

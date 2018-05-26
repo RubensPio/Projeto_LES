@@ -49,6 +49,10 @@ public class Servlet extends HttpServlet {
         commands.put("REMOVECARRINHO", new ExcluirCommand());
         commands.put("REALIZAR-TROCA", new SalvarCommand());
         commands.put("CONSULTAR-ADMIN", new ConsultarCommand());
+        commands.put("CONSULTAR-TROCA", new ConsultarCommand());
+        commands.put("CONSULTAR-TROCAS-ADMIN", new ConsultarCommand());
+        commands.put("CONSULTAR-CUPOM", new ConsultarCommand());
+        commands.put("CONSULTAR-COMPRA", new ConsultarCommand());
         commands.put("FINALIZARCOMPRA", new SalvarCommand());
         commands.put("EXCLUIR", new ExcluirCommand());
         commands.put("ATIVAR", new AtivarCommand());
@@ -57,6 +61,7 @@ public class Servlet extends HttpServlet {
         commands.put("VISUALIZAR-ADMIN", new VisualizarCommand());
         commands.put("VISUALIZAR-TROCA", new VisualizarCommand());
         commands.put("ALTERAR", new AlterarCommand());
+        commands.put("ALTERAR-CUPOM", new AlterarCommand());
         commands.put("LOGAR", new LogarCommand());
         
         vhs = new HashMap<String, IViewHelper>();

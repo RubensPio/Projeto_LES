@@ -34,8 +34,8 @@ public class ClienteDAO extends AbstractJdbcDAO {
                 // Concatena em uma String a Query que insere na tabela de cliente
                 sql = new StringBuilder();
                 sql.append("INSERT INTO tb_clientes(CLI_NOME, CLI_GENERO, CLI_DATA_NASC, CLI_CPF, CLI_EMAIL, CLI_SENHA, CLI_TELEFONE"
-    					+ ", CLI_isADMIN, CLI_ATIVO)");
-    			sql.append("VALUES (?,?,?,?,?,?,?,?,?)");
+    					+ ", CLI_isADMIN, CLI_ATIVO, CLI_DATA_CAD)");
+    			sql.append("VALUES (?,?,?,?,?,?,?,?,?,sysdate())");
     			
     			pst = connection.prepareStatement(sql.toString(), Statement.RETURN_GENERATED_KEYS);
     			
@@ -485,16 +485,17 @@ public class ClienteDAO extends AbstractJdbcDAO {
     	PreparedStatement pst = null;
     	PreparedStatement pst2 = null;
     	
-    	int atual = 0;
     	Cliente cliente = (Cliente) entidade;
     	List<EntidadeDominio> clientes = new ArrayList<EntidadeDominio>();
     	StringBuilder sql = new StringBuilder();
     	
     	sql.append("SELECT * FROM tb_clientes AS cliente");
-    	//sql.append(" LEFT JOIN tb_cartoes AS cartao");
-    	//sql.append(" ON(cliente.CLI_ID = cartao.CAR_CLI_ID)");
-    	//sql.append(" LEFT JOIN tb_enderecos AS endereco");
-    	//sql.append(" ON(cliente.CLI_ID = endereco.END_CLI_ID)");
+    	sql.append(" LEFT JOIN tb_cartoes AS cartao");
+    	sql.append(" ON(cliente.CLI_ID = cartao.CAR_CLI_ID)");
+    	sql.append(" LEFT JOIN tb_enderecos AS endereco");
+    	sql.append(" ON(cliente.CLI_ID = endereco.END_CLI_ID)");
+    	sql.append(" LEFT JOIN tb_cupom_troca AS troca");
+    	sql.append(" ON(cliente.CLI_ID = troca.CPT_CLI_ID)");
     	sql.append(" WHERE 1=1");
     	
     	if(cliente.getsNome() != null && cliente.getsNome().length() > 0)
@@ -555,6 +556,8 @@ public class ClienteDAO extends AbstractJdbcDAO {
     	} catch (Exception e) {
     	    //erro
     	}
+    	
+    	sql.append(" GROUP BY CLI_ID");
     	
     	try {
 			
@@ -633,10 +636,29 @@ public class ClienteDAO extends AbstractJdbcDAO {
 	    				else
 	    					break;
 	    			}
+	    			
+	    			sql = new StringBuilder();
+	    			sql.append("SELECT * FROM tb_cupom_troca WHERE CPT_CLI_ID = ?");
+	    			
+	    			pst2 = connection.prepareStatement(sql.toString());
+	    			pst2.setInt(1, cli.getId());
+	    			System.out.println(pst2.toString());
+	    			rs2 = pst2.executeQuery();
+	    			
+	    			for(i = 0; rs2.next(); i++) {
+	    				
+	    				if(cli.getId() == rs2.getInt("CPT_CLI_ID")) {
+	    					
+	    					cli.getCupons().add(new CupomTroca());
+	    					cli.getCupons().get(i).setId(rs2.getInt("CPT_ID"));
+	    					cli.getCupons().get(i).setValor(rs2.getDouble("CPT_VALOR"));
+	    					System.out.println(cli.getCupons().get(i).getValor());
+	    				}
+	    				else
+	    					break;
+	    			}
 	    		}
-    			if(cli.getId() != atual)
-    				clientes.add(cli);
-    			atual = rs.getInt("CLI_ID");
+    			clientes.add(cli);
     		}
 		} catch (Exception e) {
 			e.printStackTrace();

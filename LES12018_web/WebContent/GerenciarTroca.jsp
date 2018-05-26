@@ -60,7 +60,7 @@
 					%>
 			      </li>
 			      <li class="nav-item">
-			        <a class="nav-link" href="#">Gerenciar Trocas</a>
+			        <a class="nav-link" href="Pedido?txtTroca=true&operacao=CONSULTAR-TROCAS-ADMIN">Gerenciar Trocas</a>
 			      </li>
 			      <li class="nav-item">
 			      	<a class="nav-link" href="gerenciarCliente.jsp">Gerenciar Cliente</a>
@@ -122,11 +122,11 @@
                                 <input id="txtRanking" class="form-control" type="text" name="txtNumLogradouro" placeholder="Ex: 487">   
                             </div>
                         </div>
-   						<input type="hidden" name="txtTroca" value="false">
+   						<input type="hidden" name="txtTroca" value="true">
                         <div class="row">
                             <div class="col-md-3">
                                 <label></label><br>
-                                <button type='submit' class='btn btn-success btn-lg btn-block bg-orange' value="CONSULTAR-ADMIN" name='operacao'>FILTRAR</button>
+                                <button type='submit' class='btn btn-success btn-lg btn-block bg-orange' value="CONSULTAR-TROCA" name='operacao'>FILTRAR</button>
                             </div> 
                         </div>
                         <br>
@@ -160,19 +160,9 @@
 							    		sbLink = new StringBuilder();
 					    				
 					    				sbRegistro.append("<tr>");
-					    				System.out.println(ped.getFormaDePagamento());
-					    				sbLink.append("<a href=Pedido?");
-						    				sbLink.append("txtId=");
-						    				sbLink.append(ped.getId());
-						    				sbLink.append("&");
-						    				sbLink.append("operacao=");
-						    				sbLink.append("VISUALIZARPEDIDO-ADMIN");
-					    				sbLink.append(">");
 					    				
 					    				sbRegistro.append("<td>");
-					    				sbRegistro.append(sbLink.toString());
 					    				sbRegistro.append(ped.getId());
-					    				sbRegistro.append("<a/>");
 					    				sbRegistro.append("</td>");
 					    				
 					    				sbRegistro.append("<td>");
@@ -189,7 +179,7 @@
 					    				sbRegistro.append(ped.getCliente().getsNome());
 					    				sbRegistro.append("</td>");
 					    				
-					    				if(ped.getStatus().equals("Esperando Aprovação")){
+					    				if(ped.getStatus().equals("Em troca")){
 					    					sbRegistro.append("<td>");
 					    					sbRegistro.append("<a class='btn btn-success btn-sm'"); 
 						    				sbRegistro.append("href='Pedido?txtId=");
@@ -203,10 +193,12 @@
 						    				sbRegistro.append("<a class='btn btn-success btn-sm'"); 
 						    				sbRegistro.append("href='Pedido?txtId=");
 						    				sbRegistro.append(ped.getId());
+						    				sbRegistro.append("&txtTroca=true");
+						    				sbRegistro.append("&txtCliId="+ped.getCliente().getId());
+						    				sbRegistro.append("&txtValorTotal="+ped.getValorTotal());
+						    				sbRegistro.append("&txtStatus=Em processamento");
 						    				sbRegistro.append("&");
-						    				sbRegistro.append("txtStatus=Em processamento");
-						    				sbRegistro.append("&");
-						    				sbRegistro.append("operacao=ALTERAR'>");
+						    				sbRegistro.append("operacao=ALTERAR-CUPOM'>");
 						    				sbRegistro.append("Aprovar</a>");
 						    				sbRegistro.append("</td>");
 					    				}else if(ped.getStatus().equals("Em processamento")){

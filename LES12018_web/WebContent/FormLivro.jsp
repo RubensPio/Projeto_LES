@@ -166,7 +166,7 @@
 											%>
 										</select>
 										<div class="invalid-feedback">
-							                  Escolha um Grupo de Previficaï¿½ï¿½o.
+							                  Escolha um Grupo de Previficação.
 							            </div>
 									</div>
 								</div>
@@ -177,12 +177,12 @@
 										</div>
 										
 										<div>
-											<label id="col-md mb-3" class="titulos-label label-altern"> <strong>Cï¿½digo de Barras</strong></label><br>
+											<label id="col-md mb-3" class="titulos-label label-altern"> <strong>Código de Barras</strong></label><br>
 											<input id="txtCodBarras" class="form-control" type="text" name="txtCodBarras" value="${empty livro ? '' : livro.getCodBarras()}" placeholder="Ex: 7898357410015" required>
 										</div>
 										
 										<div class="col-sm mb-3">
-											<label id="label-edicao" class="titulos-label label-altern2 separador"> <strong>Ediï¿½ï¿½o</strong></label><br>
+											<label id="label-edicao" class="titulos-label label-altern2 separador"> <strong>Edição</strong></label><br>
 											<input id="txtEdicao" class="form-control" type="text" name="txtEdicao" value="${empty livro ? '' : livro.getEdicao()}" placeholder="Ex: 1ï¿½ Ediï¿½ï¿½o" required>
 										</div>
 										
@@ -192,7 +192,7 @@
 										</div>
 										
 										<div>
-											<label id="col-sm mb-3" class="titulos-label label-altern2 no-space-break"> <strong>Nï¿½mero de Pï¿½ginas</strong> </label> <br>
+											<label id="col-sm mb-3" class="titulos-label label-altern2 no-space-break"> <strong>Número de Páginas</strong> </label> <br>
 											<input id ="txtNumPaginas"class="form-control" type="text" name="txtNumPaginas" value="${empty livro ? '' : livro.getNumPaginas()}" required></input>
 										</div>				
 									</div>

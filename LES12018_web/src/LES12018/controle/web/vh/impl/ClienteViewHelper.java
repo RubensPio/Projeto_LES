@@ -181,7 +181,6 @@ public class ClienteViewHelper implements IViewHelper{
 			try {
 				end.setNome(request.getParameter("txtNomeEnd"));
 				end.setPais(request.getParameter("ddlpais"));
-				System.out.println(request.getParameter("ddlpais"));
 				end.setCEP(request.getParameter("txtcep"));
 				end.setBairro(request.getParameter("txtBairro"));
 				end.setTipoLogradouro(request.getParameter("ddlTipoLogr"));
@@ -291,7 +290,6 @@ public class ClienteViewHelper implements IViewHelper{
 		if(resultado.getMsg()== null) {
 			if(operacao.equals("SALVAR")) {
 				request.getSession().setAttribute("resultado", resultado);
-				System.out.println(resultado.getMsg());
 				try {
 					target = request.getParameter("target");
 				}catch (Exception e) {
@@ -350,6 +348,18 @@ public class ClienteViewHelper implements IViewHelper{
 		
 		if(resultado.getMsg() == null && operacao.equals("ATIVAR")) {
 			d = request.getRequestDispatcher("gerenciarCliente.jsp");
+		}
+		
+		if(resultado.getMsg() == null && operacao.equals("CONSULTAR-CUPOM")) {
+			request.getSession().setAttribute("resultado", resultado);
+			
+			d = request.getRequestDispatcher("cupons.jsp");
+		}
+		
+		if(resultado.getMsg() == null && operacao.equals("CONSULTAR-COMPRA")) {
+			request.getSession().setAttribute("resultado", resultado);
+			
+			d = request.getRequestDispatcher("carrinho.jsp");
 		}
 		
 		if(resultado.getMsg() == null && operacao.equals("LOGOUT")) {

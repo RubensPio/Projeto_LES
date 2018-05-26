@@ -61,7 +61,7 @@
 					%>
 			      </li>
 			      <li class="nav-item">
-			        <a class="nav-link" href="#">Gerenciar Trocas</a>
+			        <a class="nav-link" href="Pedido?txtTroca=true&operacao=CONSULTAR-TROCAS-ADMIN">Gerenciar Trocas</a>
 			      </li>
 			      <li class="nav-item">
 			      	<a class="nav-link" href="gerenciarCliente.jsp">Gerenciar Cliente</a>

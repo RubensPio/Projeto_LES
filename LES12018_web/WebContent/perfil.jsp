@@ -47,7 +47,7 @@
 							out.print(sb.toString());
 						%>
                     </div>
-                    <a class="btn btn-success btn-sm ml-3" href="carrinho.html">
+                    <a class="btn btn-success btn-sm ml-3" href="SalvarCliente?txtId=<%out.print(cliente.getId());%>&operacao=CONSULTAR-COMPRA">
                     <i class="fa fa-shopping-cart"></i> Carrinho
                     <span class="badge badge-light"><%
                     	if(session.getAttribute("carrinho") != null){
@@ -74,11 +74,11 @@
                             <div class="card-header bg-primary text-white text-uppercase bg-orange"><i class="fa fa-shopping-basket"></i> Pedidos</div>
                             <ul class="list-group category_block">
                                 <li class="list-group-item"><a href="Pedido?txtId=<%out.print(cliente.getId());%>&operacao=CONSULTAR">Todos os Pedidos</a></li>
-                                <li class="list-group-item"><a href="pedido-troca.html">Pedidos de Troca</a></li>
+                                <li class="list-group-item"><a href="Pedido?txtId=<%out.print(cliente.getId());%>&txtTroca=<%out.print("true");%>&operacao=CONSULTAR-TROCA">Pedidos de Troca</a></li>
                             </ul>
                         </div>
                         <div class="card bg-light mb-3">
-                                <div class="card-header bg-primary text-white text-uppercase bg-orange"><i class="fa fa-male"></i> Dados</div>
+                                <div class="card-header bg-primary text-white text-uppercase bg-orange"><i class="fa fa-male"></i> Conta</div>
                                 <ul class="list-group category_block">
                                     <li class="list-group-item">
                                     	<%
@@ -107,6 +107,7 @@
 											out.print(sb.toString());
 										%>
 									</li>
+									<li class="list-group-item"><a href="SalvarCliente?txtId=<%out.print(cliente.getId());%>&operacao=CONSULTAR-CUPOM">Cupons de Troca</a></li>
                                 </ul>
                         </div>
                         <div class="card bg-light mb-3">

@@ -120,7 +120,7 @@
                     </div>
                     <div class="col bg-light rounded box-shadow">
                             <div class="row">
-                                    <div class="card-header form-control text-white text-uppercase bg-orange"><i class="fa fa-truck"></i> Pedidos</div>
+                                    <div class="card-header form-control text-white text-uppercase bg-orange"><i class="fa fa-truck"></i> Trocas</div>
                             </div>
                             <div class="row justify-content-end">
 				                <div class="col-12">
@@ -164,10 +164,10 @@
 				                                <label id="label-categoria"> <strong>Num Logradouro</strong> </label> <br>
 				                                <input id="txtRanking" class="form-control" type="text" name="txtNumLogradouro" placeholder="Ex: 487">   
 				                            </div>
-				                            <input type="hidden" name="txtTroca" value="false">
+				                            <input type="hidden" name="txtTroca" value="true">
 				                            <div class="col-md-3">
 				                                <label></label><br>
-				                                <button type='submit' class='btn btn-success btn-lg btn-block bg-orange' value="CONSULTAR" name='operacao'>FILTRAR</button>
+				                                <button type='submit' class='btn btn-success btn-lg btn-block bg-orange' value="CONSULTAR-TROCA" name='operacao'>FILTRAR</button>
 				                            </div>
 				                        </div>
 				                        <br>
@@ -181,7 +181,6 @@
 				                            <th scope="col">ID do Pedido</th>
 				                            <th scope="col">Data</th>
 				                            <th scope="col">Status</th>
-				                            <th scope="col">Pagamento</th>
 				                            <th scope="col">Valor Total</th>
 				                        </tr>
 				                    </thead>
@@ -225,18 +224,8 @@
 									    				sbRegistro.append(ped.getStatus());
 									    				sbRegistro.append("</td>");
 									    				
-									    				sbRegistro.append("<td>");
-									    				if(ped.getFormaDePagamento().equals("CA")){
-									    					sbRegistro.append("Cartão");
-									    				}else if(ped.getFormaDePagamento().equals("CP")){
-									    					sbRegistro.append("Cupom");
-									    				}else{
-									    					sbRegistro.append("Cartão + Cupom");
-									    				}
-									    				sbRegistro.append("</td>");
-									    				
 									    				sbRegistro.append("<td>R$ ");
-									    				sbRegistro.append(ped.getValorTotal() + ped.getFrete());
+									    				sbRegistro.append(ped.getValorTotal());
 									    				sbRegistro.append("</td>");
 									    				
 									    				sbRegistro.append("</tr>");

@@ -41,8 +41,8 @@ public class LivroDAO extends AbstractJdbcDAO {
 			sql.append("INSERT INTO tb_livros(LIV_TITULO, LIV_ANO,"
 					+ " LIV_EDICAO, LIV_ISBN, LIV_NUMPAG, LIV_SINOPSE, LIV_ALTURA,"
 					+ " LIV_LARGURA, LIV_PESO, LIV_PROFUNDIDADE, LIV_CODBARRAS,"
-					+ " LIV_ISATIVO, LIV_AUT_ID, LIV_EDI_ID, LIV_GRP_ID, LIV_DATACADASTRO)");
-			sql.append(" VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)");
+					+ " LIV_ISATIVO, LIV_AUT_ID, LIV_EDI_ID, LIV_GRP_ID, LIV_DATA_CAD)");
+			sql.append(" VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,sysdate())");
 			
 			pst = connection.prepareStatement(sql.toString());
 			
@@ -61,7 +61,6 @@ public class LivroDAO extends AbstractJdbcDAO {
 			pst.setInt(13, livro.getAutor().getId());
 			pst.setInt(14, livro.getEditora().getId());
 			pst.setInt(15, livro.getGP().getId());
-			pst.setDate(16, (Date) livro.getDtCadastro());
 			
 			pst.executeUpdate();
 			

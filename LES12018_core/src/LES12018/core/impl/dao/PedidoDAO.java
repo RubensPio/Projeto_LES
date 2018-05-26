@@ -31,13 +31,16 @@ public class PedidoDAO extends AbstractJdbcDAO{
 		Pedido ped = new Pedido();
 		CupomPromocional cpP = new CupomPromocional();
 		ArrayList<CupomTroca> cpT = new ArrayList<CupomTroca>();
+		double ValorDesconto=0;
+		double total=0;
+		boolean flg=false;
 		CupomTroca cp;
 		ResultSet rs;
 		StringBuilder sql;
 		 if(objPedido != null) {
 			 if(!objPedido.isFlgTroca()) {
 				 try {
-					 if(objPedido.getCupomPromocional() != null) {
+					 if(objPedido.getCupomPromocional().getId() != null) {
 						 connection.setAutoCommit(false);
 			             sql = new StringBuilder();
 			             
@@ -53,29 +56,69 @@ public class PedidoDAO extends AbstractJdbcDAO{
 			            	cpP.setId(rs.getInt("CPD_ID")); 
 			            	cpP.setValor(rs.getDouble("CPD_VALOR"));
 			             }
-					 }else if(objPedido.getCuponsTroca() != null) {
-						 connection.setAutoCommit(false);
-			             sql = new StringBuilder();
-			             
-			             sql.append("SELECT * FROM tb_cupom_troca WHERE CPT_CLI_ID=?");
-			             
-			             pst = connection.prepareStatement(sql.toString());
-			             
-			             pst.setInt(1, objPedido.getCliente().getId());
-			             
-			             rs = pst.executeQuery();
-			             
-			             while(rs.next()) {
-			            	cp = new CupomTroca();
-			            	cp.setId(rs.getInt("CPT_ID"));
-			            	cp.setValor(rs.getDouble("CPT_VALOR"));
-			            	cpT.add(cp);
-			             }
 					 }
 					 
 					 if(cpP.getId() != null) {
-						 double ValorDesconto = objPedido.getValorTotal() * (1-(cpP.getValor()/100));
+						 ValorDesconto = objPedido.getValorTotal() * (1-(cpP.getValor()/100));
 						 objPedido.setValorTotal(ValorDesconto);
+					 }
+					 
+					 if(objPedido.getCuponsTroca() != null) {
+						 ValorDesconto = 0;
+						 for(CupomTroca cup:objPedido.getCuponsTroca()) {
+							 if(cup.getValor() > objPedido.getValorTotal()) {
+								 cup.setFlgUsado(true);
+								 flg = true;
+								 break;
+							 }
+						 }
+						 if(!flg) {
+							 for(CupomTroca cup:objPedido.getCuponsTroca()) {
+								 if(cup.getValor()+ValorDesconto < objPedido.getValorTotal()) {
+									 ValorDesconto += cup.getValor();
+									 cup.setFlgUsado(true);
+								 }else {
+									 ValorDesconto += cup.getValor();
+									 cup.setFlgUsado(true);
+									 break;
+								 }
+							 }
+						 }
+						 
+						 for(CupomTroca cup:objPedido.getCuponsTroca()) {
+							 if(cup.isFlgUsado()) {
+								 connection.setAutoCommit(false);
+								 sql = new StringBuilder();
+								 
+								 sql.append("DELETE FROM tb_cupom_troca WHERE CPT_ID=?");
+								 
+								 pst = connection.prepareStatement(sql.toString());
+								 
+								 pst.setInt(1, cup.getId());
+								 
+								 pst.executeUpdate();
+								 connection.commit();
+							 }
+						 }
+						 
+						 total = ValorDesconto-objPedido.getValorTotal();
+						 
+						 System.out.println(total);
+						 if(total != 0) {
+							 connection.setAutoCommit(false);
+							 sql = new StringBuilder();
+							 
+							 sql.append("INSERT INTO tb_cupom_troca(CPT_CLI_ID, CPT_VALOR) ");
+							 sql.append("VALUES(?,?)");
+							 
+							 pst = connection.prepareStatement(sql.toString());
+							 
+							 pst.setInt(1, objPedido.getCliente().getId());
+							 pst.setDouble(2, total);
+							 
+							 pst.executeUpdate();
+							 connection.commit();
+						 }
 					 }
 					 
 					 connection.setAutoCommit(false);
@@ -95,6 +138,7 @@ public class PedidoDAO extends AbstractJdbcDAO{
 		             pst.setString(7, objPedido.getEndEntrega().getNumerologradouro());
 		             pst.setString(8, objPedido.getStatus());
 		             
+		             System.out.println(pst.toString());
 		             pst.executeUpdate();
 		             
 		             rs = pst.getGeneratedKeys();
@@ -205,7 +249,7 @@ public class PedidoDAO extends AbstractJdbcDAO{
 						 
 						 pst = connection.prepareStatement(sql.toString());
 						 
-						 double total = pedvalor-objPedido.getValorTotal();
+						 total = pedvalor-objPedido.getValorTotal();
 						 
 						 pst.setDouble(1, total);
 						 pst.setInt(2, objPedido.getId());
@@ -268,15 +312,21 @@ public class PedidoDAO extends AbstractJdbcDAO{
 			    		}
 					 }else {
 						 try {
-			        			connection.setAutoCommit(false);
-			        			sql.append("UPDATE tb_pedidos set PED_STATUS=? ");
+			        			
+							 	connection.setAutoCommit(false);
+			        			
+							 	sql = new StringBuilder();
+							 	
+			        			sql.append("UPDATE tb_pedidos set PED_STATUS=? PED_FLG_TROCA=?");
 			        			sql.append("WHERE PED_ID=?");
 			        			
 			        			pst = connection.prepareStatement(sql.toString());
 			        			
 			        			pst.setString(1, "Em troca");
-			        			pst.setInt(2, objPedido.getId());
+			        			pst.setBoolean(2, true);
+			        			pst.setInt(3, objPedido.getId());
 			        			
+			        			System.out.println(pst.toString());
 			        			pst.executeUpdate();
 			        			connection.commit();
 			        			
@@ -323,7 +373,50 @@ public class PedidoDAO extends AbstractJdbcDAO{
         Pedido objPedido = (Pedido) entidade;
         StringBuilder sql = new StringBuilder();
         if(objPedido != null) {
-        	if(objPedido.getStatus() != null) {
+        	if(objPedido.isFlgTroca()) {
+        		try {
+        			connection.setAutoCommit(false);
+        			sql.append("UPDATE tb_pedidos set PED_STATUS=? ");
+        			sql.append("WHERE PED_ID=?");
+        			
+        			pst = connection.prepareStatement(sql.toString());
+        			
+        			pst.setString(1, objPedido.getStatus());
+        			pst.setInt(2, objPedido.getId());
+        			
+        			pst.executeUpdate();
+        			connection.commit();
+        			
+        			connection.setAutoCommit(false);
+        			
+        			sql = new StringBuilder();
+        			sql.append("INSERT INTO tb_cupom_troca(CPT_CLI_ID, CPT_VALOR) ");
+        			sql.append("VALUES(?,?)");
+        			
+        			pst = connection.prepareStatement(sql.toString());
+        			
+        			pst.setInt(1, objPedido.getCliente().getId());
+        			pst.setDouble(2, objPedido.getValorTotal());
+        			
+        			pst.executeUpdate();
+        			connection.commit();
+        			
+        		}catch (SQLException e) {
+					try {
+						connection.rollback();
+					}catch (SQLException e1) {
+						e1.printStackTrace();
+					}
+					e.printStackTrace();
+				}  finally {
+					try {
+						pst.close();
+						connection.close();
+					} catch (SQLException e) {
+						e.printStackTrace();
+					}
+				}
+        	}else if(objPedido.getStatus() != null) {
         		try {
         			connection.setAutoCommit(false);
         			sql.append("UPDATE tb_pedidos set PED_STATUS=? ");
@@ -568,18 +661,25 @@ public class PedidoDAO extends AbstractJdbcDAO{
     	}
     	
     	if(ped.getDtCadastro() != null) {
-    		sql.append(" AND PED_DATA=" + ped.getDtCadastro());
+    		sql.append(" AND PED_DATA='" + ped.getDtCadastro()+"'");
     	}
     	
     	if(ped.getCliente().getId() != null && ped.getCliente().getId() < 0) {
     		sql.append(" AND PED_CLI_ID='"+ ped.getCliente().getId() +"'");
     	}
     	
-    	sql.append("GROUP BY PED_ID");
+    	if(ped.isFlgTroca()) {
+    		sql.append(" AND PED_FLG_TROCA = 1");
+    	}else if(!ped.isFlgTroca()){
+    		sql.append(" AND PED_FLG_TROCA = 0");
+    	}
+    	
+    	sql.append(" GROUP BY PED_ID");
     	
     	try {
     		openConnection();
     		pst = connection.prepareStatement(sql.toString());
+    		System.out.println(pst.toString());
     		ResultSet rs = pst.executeQuery();
     		ResultSet rs2;
     		

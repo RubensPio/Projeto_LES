@@ -15,6 +15,7 @@ public class Cliente extends EntidadeDominio{
 	private String sTelefone;
 	private ArrayList<Endereco> enderecos = new ArrayList<Endereco>();
 	private ArrayList<Cartao> cartoes= new ArrayList<Cartao>();
+	private ArrayList<CupomTroca> cupons = new ArrayList<CupomTroca>();
 	private Boolean isAdmin;
 	private Boolean flgAtivo;
 	
@@ -95,5 +96,11 @@ public class Cliente extends EntidadeDominio{
 	}
 	public void setFlgAtivo(Boolean flgAtivo) {
 		this.flgAtivo = flgAtivo;
+	}
+	public ArrayList<CupomTroca> getCupons() {
+		return cupons;
+	}
+	public void setCupons(ArrayList<CupomTroca> cupons) {
+		this.cupons = cupons;
 	}
 }

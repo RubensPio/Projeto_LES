@@ -49,7 +49,7 @@
 						%>
                     </div>
                     </div>
-                    <a class="btn btn-success btn-sm ml-3" href="carrinho.html">
+                    <a class="btn btn-success btn-sm ml-3" href="SalvarCliente?txtId=<%out.print(cliente.getId());%>&operacao=CONSULTAR-COMPRA">
                     <i class="fa fa-shopping-cart"></i> Carrinho
                     <span class="badge badge-light"><%
                     	if(session.getAttribute("carrinho") != null){
@@ -108,6 +108,7 @@
 											out.print(sb.toString());
 										%>
 									</li>
+									<li class="list-group-item"><a href="SalvarCliente?txtId=<%out.print(cliente.getId());%>&operacao=CONSULTAR-CUPOM">Cupons de Troca</a></li>
                                 </ul>
                         </div>
                         <div class="card bg-light mb-3">

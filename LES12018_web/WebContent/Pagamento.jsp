@@ -27,22 +27,11 @@
 			ArrayList<Cartao>Cartoes = new ArrayList<Cartao>();
 			ArrayList<Endereco>Enderecos = new ArrayList<Endereco>();
 			
-			try{
-				Resultado resultado2 = (Resultado) session.getAttribute("resultado");
-				List<EntidadeDominio> Clien = resultado2.getEntidades();
-				
-				Cliente cliente2 = (Cliente)Clien.get(0);
-				if(!cliente.getEnderecos().equals(cliente2.getEnderecos())){
-					System.out.println(cliente2.getEnderecos().get(2));
-					Enderecos = cliente2.getEnderecos();
-				}
-				
-				if(!cliente.getCartoes().equals(cliente2.getCartoes())){
-					Cartoes = cliente2.getCartoes();
-				}
-			}catch(Exception e){
-				
-			}
+			
+			Resultado resultado2 = (Resultado) session.getAttribute("resultado");
+			List<EntidadeDominio> Clien = resultado2.getEntidades();
+			
+			Cliente cliente2 = (Cliente)Clien.get(0);
 			
 			Pedido carrinho = new Pedido();
 			
@@ -84,7 +73,7 @@
 							
 							out.print(sb.toString());
 						%>
-                    <a class="btn btn-success btn-sm ml-3" href="carrinho.html">
+                    <a class="btn btn-success btn-sm ml-3" href="SalvarCliente?txtId=<%out.print(cliente.getId());%>&operacao=CONSULTAR-COMPRA">
                     <i class="fa fa-shopping-cart"></i> Carrinho
                     <span class="badge badge-light"><%
                     	if(session.getAttribute("carrinho") != null){
@@ -357,24 +346,25 @@
 	                                        </li>
 	                                    </div>
 	                                    <div id="CupomTroca" style="display: none;">
-	                                        <li id="cupT" class="list-group-item">
+	                                        <div id="cupT" class="col-12">
 	                                            <div class="row">
 	                                                <div class="col-md-6">
-	                                                    <select class="custom-select">
-	                                                        <option>Selecione</option>
-	                                                        <option>Cupom de troca 1</option>
-	                                                        <option>Cupom de troca 2</option>
+	                                                    <select class="form-control" name="ddlCupons" multiple>
+	                                                       	<%
+	                                                       		for(CupomTroca cp:cliente2.getCupons()){
+	                                                       			sb = new StringBuilder();
+	                                                       			
+	                                                       			sb.append("<option value='"+cp.getId()+";"+cp.getValor()+"'>");
+	                                                       			sb.append("Cupom "+cp.getId()+": R$ "+cp.getValor());
+	                                                       			sb.append("</option>");
+	                                                       			System.out.print(sb.toString());
+	                                                       			out.print(sb.toString());
+	                                                       		}
+	                                                       	%>
 	                                                    </select>
 	                                                </div>
 	                                            </div><br>
-	                                        </li>
-	                                        <li class="list-group-item">
-	                                            <div class="row">
-	                                                <div class="col-md-3">
-	                                                    <button class="btn btn-success bg-orange" onclick="addCupom()"><i class="fa fa-plus"></i></button>
-	                                                </div>
-	                                            </div>
-	                                        </li>
+	                                        </div>
 	                                    </div>
 	                                </div>
 	                            </ul>
@@ -392,14 +382,13 @@
 	                                    </div>
 	                                    <div class="col-md-9">
 	                                        <h5 class="text-right">Compra: <label><%out.print(carrinho.getValorTotal()); %></label></h5>
-	                                        <h5 class="text-right">Cupom: -R$ 50,90</h5>
 	                                    </div>
 	                                </div>
 	                            </li>
 	                            <li class="list-group-item">
 	                                <div class="row">
 	                                    <div class="col-md-12">
-	                                        <h5 class="text-right">R$ 245,90</h5>
+	                                        <h5 class="text-right">R$ <%out.print(carrinho.getFrete()+carrinho.getValorTotal()); %></h5>
 	                                    </div>
 	                                </div>
 	                            </li>
@@ -463,29 +452,5 @@
         <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
 		<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.0/umd/popper.min.js" integrity="sha384-cs/chFZiN24E4KMATLdqdvsezGxaGsi4hLGOzlXwp5UZB1LY//20VyM2taTB4QvJ" crossorigin="anonymous"></script>
 		<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.0/js/bootstrap.min.js" integrity="sha384-uefMccjFJAIv6A+rW+L4AHf99KvxDjWSu1z9VI8SKNVmz4sk7buKt/6v9KI65qnm" crossorigin="anonymous"></script>
-        
-        <!--<script>
-            function blockNewCartao(){
-                var option = document.getElementById("cartaoao").value;
-
-                document.getElementById("newCartao").value.style.display = "inline";
-
-                if(option != "0"){
-                    document.getElementById("newCartao").value.style.display = "none";
-                }
-            }
-        </script>
-        <script>
-            function blockNewEndereco(){
-                var option = document.getElementById("enderecoco").value;
-
-                document.getElementById("newEndereco").value.style.display = "inline";
-                print();
-                if(option != "0"){
-                    print();
-                    document.getElementById("newEndereco").value.style.display = "none";
-                }
-            }
-        </script>-->
     </body>
 </html>

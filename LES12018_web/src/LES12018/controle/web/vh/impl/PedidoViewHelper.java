@@ -20,6 +20,7 @@ import LES12018.core.impl.dao.ClienteDAO;
 import les12018.dominio.Cartao;
 import les12018.dominio.Cliente;
 import les12018.dominio.CupomPromocional;
+import les12018.dominio.CupomTroca;
 import les12018.dominio.Endereco;
 import les12018.dominio.EntidadeDominio;
 import les12018.dominio.Livro;
@@ -33,6 +34,8 @@ public class PedidoViewHelper implements IViewHelper{
 		String operacao = request.getParameter("operacao");
 		System.out.println(operacao);
 		Pedido pedido = new Pedido();
+		boolean flgTroca;
+		CupomTroca cpt = new CupomTroca();
 		Resultado resultado = (Resultado) request.getSession().getAttribute("login");
 		List<EntidadeDominio> Cli = resultado.getEntidades();		
 		Cliente cliente = (Cliente)Cli.get(0);
@@ -165,9 +168,32 @@ public class PedidoViewHelper implements IViewHelper{
 			}
 			
 			try {
-				if(request.getParameter("txtCupomPromocional") != null) {
+				if(request.getParameter("txtCupomPromocional") != null || !request.getParameter("txtCupomPromocional").trim().equals("")) {
 					pedido.setCupomPromocional(new CupomPromocional());
 					pedido.getCupomPromocional().setId(Integer.parseInt(request.getParameter("txtCupomPromocional")));
+				}
+			}catch (Exception e) {
+				// TODO: handle exception
+			}
+			String[] cupons=null;
+			try {
+				cupons = request.getParameterValues("ddlCupons");
+			}catch (Exception e) {
+				// TODO: handle exception
+			}
+			System.out.println(cupons[0]);
+			try {
+				String array[] = new String[2];
+				pedido.setCuponsTroca(new ArrayList<CupomTroca>());
+				for(String cup:cupons) {
+					array = cup.split(";");
+					System.out.println(array[1]);
+					cpt = new CupomTroca();
+					cpt.setId(Integer.parseInt(array[0]));
+					cpt.setValor(Double.parseDouble(array[1]));
+					System.out.println(cpt.getId());
+					System.out.println(cpt.getValor());
+					pedido.getCuponsTroca().add(cpt);
 				}
 			}catch (Exception e) {
 				// TODO: handle exception
@@ -196,7 +222,7 @@ public class PedidoViewHelper implements IViewHelper{
 			pedido.setCartao(cart);
 			
 			return pedido;
-		}else if(operacao.equals("CONSULTAR-ADMIN") || operacao.equals("CONSULTAR")) {
+		}else if(operacao.equals("CONSULTAR-ADMIN") || operacao.equals("CONSULTAR") || operacao.equals("CONSULTAR-TROCA") || operacao.equals("CONSULTAR-TROCAS-ADMIN")) {
 			Pedido ped = new Pedido();
 			try {
 				ped.setId(Integer.parseInt(request.getParameter("txtId")));
@@ -212,6 +238,18 @@ public class PedidoViewHelper implements IViewHelper{
 				ped.setEndEntrega(new Endereco());
 				ped.getEndEntrega().setCEP(request.getParameter("txtCEP"));
 				ped.getEndEntrega().setNumerologradouro(request.getParameter("txtNumLogradouro"));
+			}catch (Exception e) {
+				// TODO: handle exception
+			}
+			
+			try {
+				flgTroca = request.getParameter("txtTroca").equals("true") ? true:false;
+			}catch(Exception e) {
+				flgTroca = false;
+			}
+			
+			try {
+				ped.setFlgTroca(flgTroca);
 			}catch (Exception e) {
 				// TODO: handle exception
 			}
@@ -243,7 +281,6 @@ public class PedidoViewHelper implements IViewHelper{
 					}
 				}
 			}
-			System.out.println(pedido.getValorTotal());
 			pedido.setValorTotal(total);
 			pedido.setFlgTroca(true);
 			
@@ -258,7 +295,26 @@ public class PedidoViewHelper implements IViewHelper{
 					pedido = (Pedido)ped;
 				}
 			}
+		}else if(operacao.equals("ALTERAR-CUPOM")) {
+			pedido.setStatus(request.getParameter("txtStatus"));
+			try {
+				flgTroca = request.getParameter("txtTroca").equals("true") ? true:false;
+			}catch(Exception e) {
+				flgTroca = false;
+			}
+			
+			try {
+				pedido.setFlgTroca(flgTroca);
+			}catch (Exception e) {
+				// TODO: handle exception
+			}
+			pedido.setId(Integer.parseInt(request.getParameter("txtId")));
+			pedido.getCliente().setId(Integer.parseInt(request.getParameter("txtCliId")));
+			pedido.setValorTotal(Double.parseDouble(request.getParameter("txtValorTotal")));
+			
+			return pedido;
 		}
+		
 		return pedido;
 	}
 
@@ -350,6 +406,22 @@ public class PedidoViewHelper implements IViewHelper{
 			request.getSession().setAttribute("pedidos", resultado);
 			
 			d = request.getRequestDispatcher("pedidos.jsp");
+		}
+		
+		if(resultado.getMsg() == null && operacao.equals("CONSULTAR-TROCA")) {
+			request.getSession().setAttribute("pedidos", resultado);
+			
+			d = request.getRequestDispatcher("trocas.jsp");
+		}
+		
+		if(resultado.getMsg() == null && operacao.equals("CONSULTAR-TROCAS-ADMIN")) {
+			request.getSession().setAttribute("pedidos", resultado);
+			
+			d = request.getRequestDispatcher("GerenciarTroca.jsp");
+		}
+		
+		if(resultado.getMsg() == null && operacao.equals("ALTERAR-CUPOM")) {
+			d = request.getRequestDispatcher("Index.jsp");
 		}
 		
 		if(resultado.getMsg() == null && operacao.equals("ALTERAR")) {

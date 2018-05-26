@@ -59,7 +59,7 @@
 							out.print(sb.toString());
 						%>
                     </div>
-                        <a class="btn btn-success btn-sm ml-3" href="carrinho.jsp">
+                        <a class="btn btn-success btn-sm ml-3" href="SalvarCliente?txtId=<%out.print(cliente.getId());%>&operacao=CONSULTAR-COMPRA">
                             <i class="fa fa-shopping-cart"></i> Carrinho
                             <span class="badge badge-light"><%
                     	if(session.getAttribute("carrinho") != null){
@@ -155,7 +155,12 @@
                                         <tr>
                                         	<% 	
                                         		sb = new StringBuilder();
-                                        		sb.append("<td class='text-right'>Produto:<input readonly='readonly' id='total' class='form-control' name='total' value='" + carrinho.getValorTotal() + "'></td>");
+                                        		sb.append("<td class='text-right'>Produto:<input readonly='readonly' id='total' class='form-control' name='total' value='");
+                                        		if(carrinho != null)
+                                        			sb.append(carrinho.getValorTotal());
+                                        		else
+                                        			sb.append("0");
+                                        		sb.append("'></td>");
                                         		out.print(sb.toString());
                                         	%>
                                         </tr>
