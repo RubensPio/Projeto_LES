@@ -14,9 +14,24 @@
         <!--<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">-->
         <link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet" integrity="sha384-wvfXpqpZZVQGK6TAh5PVlGOfQNHSoD2xbE+QkPxCAFlNEevoEH3Sl0sibVcOQVnN" crossorigin="anonymous">
         <link rel="stylesheet" href="css/bootstrap.css">
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
         <link rel="shortcut icon" href="imagens/logo_6ce_icon.ico" type="image/x-icon">
         <meta charset="UTF-8">
         <title>TopBooks</title>
+        <script>
+			$(document).ready(function(){
+			    $("#but").click(function(){
+			        $(this).hide();
+			    });
+			});
+		</script>
+		<script>
+			$(document).ready(function(){
+			    $("#but").click(function(){
+			        $("#cartolin").clone().appendTo("#cartoes");
+			    });
+			});
+		</script>
     </head>
      <%
 			Resultado resultado = (Resultado) session.getAttribute("login");
@@ -227,13 +242,24 @@
 	                                <div id="cartao" style="display: none;">
 	                                    <div class="card-header bg-primary text-white text-uppercase bg-orange"><i class="fa fa-credit-card"></i> Cartão</div>
 	                                    <li class="list-group-item">
-	                                        <div class="row">
+	                                    	<div class="row">
+	                                           <div class="col-md-12">
+	                                               <div class="custom-control custom-checkbox">
+	                                                   <input type="checkbox" class="custom-control-input" id="customCheck3" name="ckbCalcular" value="true">
+	                                                   <label class="custom-control-label" for="customCheck3">Salvar como novo cartão ?</label>
+	                                               </div>
+	                                           </div>
+	                                           <div class="col-sm-3">
+	                                            	<a class="btn btn-success" id="but"><i class="fa fa-plus"></i></a>
+	                                            </div>
+	                                        </div>
+	                                        <div class="row" id="cartolin">
 	                                            <div class="col-6">
 	                                            <%
 			                                    	sb = new StringBuilder();
 			                                    	i=0;
 			                                    	
-			                                    	sb.append("<select id='enderecoco' name='ddlCartoes' class='custom-select d-block' onchange='blockNewEndereco()'>");
+			                                    	sb.append("<select id='cartolin' name='ddlCartoes' class='custom-select d-block' onchange='blockNewEndereco()'>");
 			                                    	sb.append("<option value='0'>Selecione</option>");
 			                                    	for(Cartao cart:Cartoes){
 			                                    		i++;
@@ -246,7 +272,11 @@
 			                                    	out.print(sb.toString());
 	                                    		%>
 	                                            </div>
+	                                            <div class="col-md-3">
+	                                            	<input class="form-control" type="number" min="0" name="valorApagar" placeholder="valor a pagar">
+	                                            </div>
 	                                        </div>
+	                                        <div class="row" id="cartoes"></div>
 	                                    </li>
 	                                    <div id="newCartao" style="display: inline;">
 	                                        <li class="list-group-item">
@@ -308,7 +338,7 @@
 	                                            <div class="row">
 	                                                <div class="col-md-12">
 	                                                    <div class="custom-control custom-checkbox">
-	                                                        <input type="checkbox" class="custom-control-input" id="customCheck2" name="ckbSalvarCartao">
+	                                                        <input type="checkbox" class="custom-control-input" id="customCheck2" name="ckbSalvarCartao" value="true">
 	                                                        <label class="custom-control-label" for="customCheck2">Salvar como novo cartão ?</label>
 	                                                    </div>
 	                                                </div>
@@ -435,17 +465,6 @@
                     document.getElementById("CupomTroca").style.display ="inline";
                 }else if(option == "CP"){
                     document.getElementById("CupomPromocional").style.display ="inline";
-                }
-            }
-        </script>
-        <script>
-            function addCupom(){
-                var option = document.getElementById("cupompon").value;
-                var numoption = document.getElementById("cupompon").length;
-                if(option == "CT"){
-                    document.getElementById("cupT").innerHTML += '<div class="row"><div class="col-md-6"><select class="custom-select"><option>Selecione</option><option>Cupom de troca 1</option><option>Cupom de troca 2</option></select></div></div><br>';
-                } else if(option == "CP"){
-                    document.getElementById("cupP").innerHTML += '<div class="row"><div class="col-md-6"><select class="custom-select"><option>Selecione</option><option>Cupom Promocional 1</option><option>Cupom Promocional 2</option></select></div></div><br>';
                 }
             }
         </script>

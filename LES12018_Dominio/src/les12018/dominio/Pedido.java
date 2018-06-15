@@ -5,7 +5,7 @@ import java.util.ArrayList;
 public class Pedido extends EntidadeDominio{
 	private ArrayList<Produto> Produtos = new ArrayList<Produto>();
 	private Cliente cliente = new Cliente();
-	private Cartao cartao = new Cartao();
+	private ArrayList<Cartao> cartao = new ArrayList<Cartao>();
 	private Endereco endEntrega = new Endereco();
 	private double Frete;
 	private double ValorTotal = 0;
@@ -27,12 +27,7 @@ public class Pedido extends EntidadeDominio{
 	public void setCuponsTroca(ArrayList<CupomTroca> cuponsTroca) {
 		this.cuponsTroca = cuponsTroca;
 	}
-	public Cartao getCartao() {
-		return cartao;
-	}
-	public void setCartao(Cartao cartao) {
-		this.cartao = cartao;
-	}
+	
 	public String getStatus() {
 		return Status;
 	}
@@ -80,6 +75,12 @@ public class Pedido extends EntidadeDominio{
 	}
 	public void setFlgTroca(boolean flgTroca) {
 		this.flgTroca = flgTroca;
+	}
+	public ArrayList<Cartao> getCartao() {
+		return cartao;
+	}
+	public void setCartao(ArrayList<Cartao> cartao) {
+		this.cartao = cartao;
 	}
 	
 	

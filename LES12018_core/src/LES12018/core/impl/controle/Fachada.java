@@ -15,6 +15,7 @@ import LES12018.core.IStrategy;
 import LES12018.core.aplicacao.Resultado;
 import LES12018.core.impl.dao.ClienteDAO;
 import LES12018.core.impl.dao.DadosParaCadastroDAO;
+import LES12018.core.impl.dao.GraficoDAO;
 import LES12018.core.impl.dao.LivroDAO;
 import LES12018.core.impl.dao.PedidoDAO;
 import LES12018.core.impl.negocio.AlterarEndCobranca;
@@ -25,6 +26,7 @@ import LES12018.core.impl.negocio.LivroCategoria;
 import LES12018.core.impl.negocio.MotivoAtivacao;
 import LES12018.core.impl.negocio.MotivoInativacao;
 import LES12018.core.impl.negocio.MudarSenha;
+import LES12018.core.impl.negocio.RegraCompraCupom;
 import LES12018.core.impl.negocio.ValidarDadosObrigatoriosCartao;
 import LES12018.core.impl.negocio.ValidarDadosObrigatoriosCliente;
 import LES12018.core.impl.negocio.ValidarDadosObrigatoriosEndereco;
@@ -37,6 +39,7 @@ import les12018.auxiliar.DadosParaCadastro;
 import les12018.dominio.Autor;
 import les12018.dominio.CatAtivacao;
 import les12018.dominio.Cliente;
+import les12018.dominio.DadosParaGrafico;
 import les12018.dominio.EntidadeDominio;
 
 public class Fachada implements IFachada{
@@ -52,11 +55,13 @@ public class Fachada implements IFachada{
 		DadosParaCadastroDAO dadosParaCadastroDAO = new DadosParaCadastroDAO();
 		ClienteDAO clienteDAO = new ClienteDAO();
 		PedidoDAO pedidoDAO = new PedidoDAO();
+		GraficoDAO graficoDAO = new GraficoDAO();
 		
 		daos.put(Livro.class.getName(), livroDAO);
 		daos.put(DadosParaCadastro.class.getName(), dadosParaCadastroDAO);
 		daos.put(Cliente.class.getName(), clienteDAO);
 		daos.put(Pedido.class.getName(), pedidoDAO);
+		daos.put(DadosParaGrafico.class.getName(), graficoDAO);
 		
 		ValidarDadosObrigatoriosLivro vDadosObrigatoriosLivro = new ValidarDadosObrigatoriosLivro();
 		MotivoInativacao mInativacao = new MotivoInativacao();
@@ -71,6 +76,7 @@ public class Fachada implements IFachada{
 		EnderecoCobrUnico EndCobUnico = new EnderecoCobrUnico();
 		AlterarEndCobranca AltEndCob = new AlterarEndCobranca();
 		MudarSenha MudarSenha = new MudarSenha();
+		RegraCompraCupom CompraCupDis = new RegraCompraCupom();
 		
 		List<IStrategy> rnsSalvarLivro = new ArrayList<IStrategy>();
 		
@@ -103,8 +109,13 @@ public class Fachada implements IFachada{
 		rnsAlterar.add(AltEndCob);
 		rnsAlterar.add(MudarSenha);
 		
+		List<IStrategy> rnsCompra = new ArrayList<IStrategy>();
+		
+		rnsCompra.add(CompraCupDis);
+		
 		Map<String, List<IStrategy>> rnsLivro = new HashMap<String, List<IStrategy>>();
 		Map<String, List<IStrategy>> rnsCliente = new HashMap<String, List<IStrategy>>();
+		Map<String, List<IStrategy>> rnsPedido = new HashMap<String, List<IStrategy>>();
 		
 		rnsLivro.put("SALVAR", rnsSalvarLivro);
 		rnsLivro.put("EXCLUIR", rnsInativarLivro);
@@ -114,8 +125,11 @@ public class Fachada implements IFachada{
 		rnsCliente.put("SALVAR", rnsCadastro);
 		rnsCliente.put("ALTERAR", rnsAlterar);
 		
+		rnsPedido.put("SALVAR", rnsCompra);
+		
 		rns.put(Livro.class.getName(), rnsLivro);
 		rns.put(Cliente.class.getName(), rnsCliente);
+		rns.put(Produto.class.getName(), rnsPedido);
 	}
 
 	@Override
@@ -123,7 +137,6 @@ public class Fachada implements IFachada{
 		resultado = new Resultado();
 		String nmClasse = entidade.getClass().getName();
 		String msg = executarRegras(entidade, "SALVAR");
-		
 		if(msg == null) {
 			IDAO dao = daos.get(nmClasse);
 			try {

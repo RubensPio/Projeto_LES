@@ -39,8 +39,27 @@ public class LivroViewHelper implements IViewHelper{
 		} catch (Exception e) {
 			//TODO: handle exception
 		}
-		
-		if(operacao.equals("ATIVAR") || operacao.equals("EXCLUIR")){
+		if(operacao.equals("ADICIONAR-AO-ESTOQUE")) {
+			double preco = Double.parseDouble(request.getParameter("preco"));
+			int qtd = Integer.parseInt(request.getParameter("qtdEstoque")) + Integer.parseInt(request.getParameter("qtdEsto"));
+			
+			livro.setId(Integer.parseInt(request.getParameter("txtId")));
+			livro.setQtdEstoque(qtd);
+			livro.setPreco(preco);
+			livro.setPrecoUnit(preco/Integer.parseInt(request.getParameter("qtdEstoque")));
+			
+			return livro;
+		} else if(operacao.equals("REMOVER-ESTOQUE")) {
+			int qtd = Integer.parseInt(request.getParameter("qtdEsto")) - Integer.parseInt(request.getParameter("qtdEstoque"));
+			if(qtd >= 0) {
+				livro.setId(Integer.parseInt(request.getParameter("txtId")));
+				livro.setQtdEstoque(qtd);
+				
+				return livro;
+			}else {
+				return null;
+			}
+		}else if(operacao.equals("ATIVAR") || operacao.equals("EXCLUIR")){
 			livro.setInativacao(new Inativacao());
 			livro.setAtivacao(new Ativacao());
 			livro.getAtivacao().setCategoria(new CatAtivacao());
@@ -224,7 +243,11 @@ public class LivroViewHelper implements IViewHelper{
 			request.getSession().setAttribute("livro", null);
 			d = request.getRequestDispatcher("Index.jsp");
 		}
-
+		
+		if(resultado.getMsg() == null && operacao.equals("CONSULTAR-ESTOQUE")) {
+			request.getSession().setAttribute("livros", resultado);
+			d = request.getRequestDispatcher("GerenciarEstoque.jsp");
+		}
 		
 		if(resultado.getMsg() == null && operacao.equals("CONSULTAR")) {
 			

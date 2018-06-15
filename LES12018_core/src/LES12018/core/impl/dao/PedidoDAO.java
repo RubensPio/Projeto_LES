@@ -63,18 +63,20 @@ public class PedidoDAO extends AbstractJdbcDAO{
 						 objPedido.setValorTotal(ValorDesconto);
 					 }
 					 
-					 if(objPedido.getCuponsTroca() != null) {
+					 if(objPedido.getCuponsTroca().size() > 0) {
 						 ValorDesconto = 0;
 						 for(CupomTroca cup:objPedido.getCuponsTroca()) {
 							 if(cup.getValor() > objPedido.getValorTotal()) {
+								 ValorDesconto = cup.getValor();
 								 cup.setFlgUsado(true);
 								 flg = true;
 								 break;
 							 }
 						 }
+						 System.out.println(ValorDesconto);
 						 if(!flg) {
 							 for(CupomTroca cup:objPedido.getCuponsTroca()) {
-								 if(cup.getValor()+ValorDesconto < objPedido.getValorTotal()) {
+								 if(cup.getValor()+ValorDesconto <= objPedido.getValorTotal()) {
 									 ValorDesconto += cup.getValor();
 									 cup.setFlgUsado(true);
 								 }else {
@@ -96,6 +98,7 @@ public class PedidoDAO extends AbstractJdbcDAO{
 								 
 								 pst.setInt(1, cup.getId());
 								 
+								 System.out.println(pst.toString());
 								 pst.executeUpdate();
 								 connection.commit();
 							 }
@@ -104,7 +107,7 @@ public class PedidoDAO extends AbstractJdbcDAO{
 						 total = ValorDesconto-objPedido.getValorTotal();
 						 
 						 System.out.println(total);
-						 if(total != 0) {
+						 if(total != 0 && objPedido.getCartao().size() > 0) {
 							 connection.setAutoCommit(false);
 							 sql = new StringBuilder();
 							 
@@ -124,8 +127,8 @@ public class PedidoDAO extends AbstractJdbcDAO{
 					 connection.setAutoCommit(false);
 		             sql = new StringBuilder();
 		             
-		             sql.append("INSERT into tb_pedidos(PED_VALORTOTAL, PED_CLI_ID, PED_METODOPAG, PED_FRETE, PED_DATA, PED_CAR_NUM_CARTAO, PED_END_CEP, PED_END_NUM_LOGRADOURO, PED_STATUS) ");
-		             sql.append("VALUES(?,?,?,?,sysdate(),?,?,?,?)");
+		             sql.append("INSERT into tb_pedidos(PED_VALORTOTAL, PED_CLI_ID, PED_METODOPAG, PED_FRETE, PED_DATA, PED_END_CEP, PED_END_NUM_LOGRADOURO, PED_STATUS) ");
+		             sql.append("VALUES(?,?,?,?,sysdate(),?,?,?)");
 		             
 		             pst = connection.prepareStatement(sql.toString(), Statement.RETURN_GENERATED_KEYS);
 		             
@@ -133,10 +136,9 @@ public class PedidoDAO extends AbstractJdbcDAO{
 		             pst.setInt(2, objPedido.getCliente().getId());
 		             pst.setString(3, objPedido.getFormaDePagamento());
 		             pst.setDouble(4, objPedido.getFrete());
-		             pst.setString(5, objPedido.getCartao().getsNumCartao());
-		             pst.setString(6, objPedido.getEndEntrega().getCEP());
-		             pst.setString(7, objPedido.getEndEntrega().getNumerologradouro());
-		             pst.setString(8, objPedido.getStatus());
+		             pst.setString(5, objPedido.getEndEntrega().getCEP());
+		             pst.setString(6, objPedido.getEndEntrega().getNumerologradouro());
+		             pst.setString(7, objPedido.getStatus());
 		             
 		             System.out.println(pst.toString());
 		             pst.executeUpdate();
@@ -166,6 +168,24 @@ public class PedidoDAO extends AbstractJdbcDAO{
 						pst.setInt(4, prod.getQuantidade());
 						
 						pst.executeUpdate();
+						connection.commit();
+		    		}
+		    		
+		    		for(Cartao cart:objPedido.getCartao()) {
+		    			connection.setAutoCommit(false);
+		    			
+		    			sql = new StringBuilder();
+						sql.append("INSERT INTO tb_cartoes_pedido(CPD_PED_ID, CPD_CAR_NUM_CARTAO, CPR_VALOR_PAGO)");
+						sql.append("VALUES(?,?,?)");
+						
+						pst = connection.prepareStatement(sql.toString());
+						
+						pst.setInt(1, objPedido.getId());
+						pst.setString(2, cart.getsNumCartao());
+						pst.setDouble(3, cart.getValorPago());
+						
+						pst.executeUpdate();
+						System.out.println(pst.toString());
 						connection.commit();
 		    		}
 				 }catch (SQLException e) {
@@ -262,8 +282,8 @@ public class PedidoDAO extends AbstractJdbcDAO{
 						 connection.setAutoCommit(false);
 						 sql = new StringBuilder();
 						 
-						 sql.append("INSERT into tb_pedidos(PED_VALORTOTAL, PED_CLI_ID, PED_METODOPAG, PED_FRETE, PED_DATA, PED_CAR_NUM_CARTAO, PED_END_CEP, PED_END_NUM_LOGRADOURO, PED_STATUS, PED_ID_TROCA) ");
-			             sql.append("VALUES(?,?,?,?,sysdate(),?,?,?,?,?)");
+						 sql.append("INSERT into tb_pedidos(PED_VALORTOTAL, PED_CLI_ID, PED_METODOPAG, PED_FRETE, PED_DATA, PED_END_CEP, PED_END_NUM_LOGRADOURO, PED_STATUS, PED_ID_TROCA) ");
+			             sql.append("VALUES(?,?,?,?,sysdate(),?,?,?,?)");
 			             
 			             pst = connection.prepareStatement(sql.toString(), Statement.RETURN_GENERATED_KEYS);
 			             
@@ -271,11 +291,10 @@ public class PedidoDAO extends AbstractJdbcDAO{
 			             pst.setInt(2, objPedido.getCliente().getId());
 			             pst.setString(3, objPedido.getFormaDePagamento());
 			             pst.setDouble(4, objPedido.getFrete());
-			             pst.setString(5, objPedido.getCartao().getsNumCartao());
-			             pst.setString(6, objPedido.getEndEntrega().getCEP());
-			             pst.setString(7, objPedido.getEndEntrega().getNumerologradouro());
-			             pst.setString(8, "Em troca");
-			             pst.setInt(9, objPedido.getId());
+			             pst.setString(5, objPedido.getEndEntrega().getCEP());
+			             pst.setString(6, objPedido.getEndEntrega().getNumerologradouro());
+			             pst.setString(7, "Em troca");
+			             pst.setInt(8, objPedido.getId());
 			             
 			             System.out.println(pst.toString());
 			             pst.executeUpdate();
@@ -310,6 +329,23 @@ public class PedidoDAO extends AbstractJdbcDAO{
 								connection.commit();
 			    			}
 			    		}
+			    		
+			    		for(Cartao cart:objPedido.getCartao()) {
+			    			connection.setAutoCommit(false);
+			    			
+			    			sql = new StringBuilder();
+							sql.append("INSERT INTO tb_cartoes_pedido(CPD_PED_ID, CPD_CAR_NUM_CARTAO, CPR_VALOR_PAGO)");
+							sql.append("VALUES(?,?,?)");
+							
+							pst = connection.prepareStatement(sql.toString());
+							
+							pst.setInt(1, objPedido.getId());
+							pst.setString(2, cart.getsNumCartao());
+							pst.setDouble(3, cart.getValorPago());
+							
+							pst.executeUpdate();
+							connection.commit();
+			    		}
 					 }else {
 						 try {
 			        			
@@ -317,7 +353,7 @@ public class PedidoDAO extends AbstractJdbcDAO{
 			        			
 							 	sql = new StringBuilder();
 							 	
-			        			sql.append("UPDATE tb_pedidos set PED_STATUS=? PED_FLG_TROCA=?");
+			        			sql.append("UPDATE tb_pedidos set PED_STATUS=?, PED_FLG_TROCA=? ");
 			        			sql.append("WHERE PED_ID=?");
 			        			
 			        			pst = connection.prepareStatement(sql.toString());
@@ -387,19 +423,21 @@ public class PedidoDAO extends AbstractJdbcDAO{
         			pst.executeUpdate();
         			connection.commit();
         			
-        			connection.setAutoCommit(false);
-        			
-        			sql = new StringBuilder();
-        			sql.append("INSERT INTO tb_cupom_troca(CPT_CLI_ID, CPT_VALOR) ");
-        			sql.append("VALUES(?,?)");
-        			
-        			pst = connection.prepareStatement(sql.toString());
-        			
-        			pst.setInt(1, objPedido.getCliente().getId());
-        			pst.setDouble(2, objPedido.getValorTotal());
-        			
-        			pst.executeUpdate();
-        			connection.commit();
+        			if(objPedido.getStatus().equals("Em processamento")) {
+        				connection.setAutoCommit(false);
+            			
+            			sql = new StringBuilder();
+            			sql.append("INSERT INTO tb_cupom_troca(CPT_CLI_ID, CPT_VALOR) ");
+            			sql.append("VALUES(?,?)");
+            			
+            			pst = connection.prepareStatement(sql.toString());
+            			
+            			pst.setInt(1, objPedido.getCliente().getId());
+            			pst.setDouble(2, objPedido.getValorTotal());
+            			
+            			pst.executeUpdate();
+            			connection.commit();
+        			}
         			
         		}catch (SQLException e) {
 					try {
@@ -619,21 +657,21 @@ public class PedidoDAO extends AbstractJdbcDAO{
 	public List<EntidadeDominio> consultar(EntidadeDominio entidade) throws SQLException {
 		PreparedStatement pst = null;
     	PreparedStatement pst2 = null;
-    	
-    	int atual = 0;
     	Pedido ped = (Pedido) entidade;
     	List<EntidadeDominio> pedidos = new ArrayList<EntidadeDominio>();
     	StringBuilder sql = new StringBuilder();
     	
     	sql.append("SELECT * FROM tb_pedidos AS pedido");
-    	sql.append(" LEFT JOIN tb_cartoes AS cartao ");
-    	sql.append("ON cartao.CAR_NUM_CARTAO = pedido.PED_CAR_NUM_CARTAO");
     	sql.append(" LEFT JOIN tb_enderecos as endereco ");
     	sql.append("ON endereco.END_CEP = pedido.PED_END_CEP AND endereco.END_NUM_LOGRADOURO = pedido.PED_END_NUM_LOGRADOURO");
     	sql.append(" LEFT JOIN tb_clientes as cliente ");
     	sql.append("ON cliente.CLI_ID = pedido.PED_CLI_ID");
     	sql.append(" LEFT JOIN tb_item_pedido as item ");
     	sql.append("ON item.ITP_PED_ID = pedido.PED_ID ");
+    	sql.append(" LEFT JOIN tb_cartoes_pedido as cartoes ");
+    	sql.append("ON cartoes.CPD_PED_ID = pedido.PED_ID");
+    	sql.append(" LEFT JOIN tb_cartoes AS cartao ");
+    	sql.append("ON cartao.CAR_NUM_CARTAO = cartoes.CPD_CAR_NUM_CARTAO");
     	sql.append(" WHERE 1=1 ");
     	
     	if(ped.getValorTotal() > 0) {
@@ -648,8 +686,8 @@ public class PedidoDAO extends AbstractJdbcDAO{
     		sql.append(" AND PED_METODOPAG='" + ped.getFormaDePagamento()+"'");
     	}
     	
-    	if(ped.getCartao().getsNumCartao() != null && ped.getCartao().getsNumCartao().length() > 0) {
-    		sql.append(" AND PED_CAR_NUM_CARTAO LIKE '" + ped.getCartao().getsNumCartao() +"%'");
+    	if(ped.getCartao().get(0).getsNumCartao() != null && ped.getCartao().get(0).getsNumCartao().length() > 0) {
+    		sql.append(" AND CPD_CAR_NUM_CARTAO LIKE '" + ped.getCartao().get(0).getsNumCartao() +"%'");
     	}
     	
     	if(ped.getEndEntrega().getCEP() != null && ped.getEndEntrega().getCEP().length() > 0) {
@@ -676,6 +714,7 @@ public class PedidoDAO extends AbstractJdbcDAO{
     	
     	sql.append(" GROUP BY PED_ID");
     	
+    	
     	try {
     		openConnection();
     		pst = connection.prepareStatement(sql.toString());
@@ -691,12 +730,6 @@ public class PedidoDAO extends AbstractJdbcDAO{
     			pedido.setFrete(rs.getDouble("PED_FRETE"));
     			pedido.setFormaDePagamento(rs.getString("PED_METODOPAG"));
     			pedido.setDtCadastro(rs.getDate("PED_DATA"));
-    			pedido.setCartao(new Cartao());
-    			pedido.getCartao().setsNumCartao(rs.getString("PED_CAR_NUM_CARTAO"));
-    			pedido.getCartao().setsNomeTitular(rs.getString("CAR_NOME_TITULAR"));
-    			pedido.getCartao().setsCodSeguranca(rs.getString("CAR_CVV"));
-    			pedido.getCartao().setsBandeira(rs.getString("CAR_BANDEIRA"));
-    			pedido.getCartao().setDtDataVal(rs.getString("CAR_DT_VALIDADE"));
     			pedido.setEndEntrega(new Endereco());
     			pedido.getEndEntrega().setCEP(rs.getString("PED_END_CEP"));
     			pedido.getEndEntrega().setNumerologradouro(rs.getString("PED_END_NUM_LOGRADOURO"));
@@ -739,6 +772,25 @@ public class PedidoDAO extends AbstractJdbcDAO{
     					pedido.getProdutos().get(i).getLivro().setQtdEstoque(rs2.getInt("LVE_PRECO_UNIT"));
     				}
     			}
+    			
+    			sql = new StringBuilder();
+    			sql.append("SELECT * FROM tb_cartoes_pedido as cartpedido LEFT JOIN tb_cartoes AS cartao "); 
+    			sql.append("ON cartao.CAR_NUM_CARTAO = cartpedido.CPD_CAR_NUM_CARTAO WHERE CPD_PED_ID=?");
+    			
+    			pst2 = connection.prepareStatement(sql.toString());
+    			pst2.setInt(1, pedido.getId());
+    			
+    			rs2 = pst2.executeQuery();
+    			
+    			for(i = 0; rs2.next(); i++) {
+    				pedido.getCartao().add(new Cartao());
+    				pedido.getCartao().get(i).setsNumCartao(rs.getString("CPD_CAR_NUM_CARTAO"));
+        			pedido.getCartao().get(i).setsNomeTitular(rs.getString("CAR_NOME_TITULAR"));
+        			pedido.getCartao().get(i).setsCodSeguranca(rs.getString("CAR_CVV"));
+        			pedido.getCartao().get(i).setsBandeira(rs.getString("CAR_BANDEIRA"));
+        			pedido.getCartao().get(i).setDtDataVal(rs.getString("CAR_DT_VALIDADE"));
+    			}
+    			
     			System.out.println(pedido.getId());
     			pedidos.add(pedido);
     		}

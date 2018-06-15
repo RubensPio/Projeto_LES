@@ -143,4 +143,10 @@ public class DadosParaCadastroDAO extends AbstractJdbcDAO{
 		return null;
 	}
 
+	@Override
+	public void ativar(EntidadeDominio entidade) throws SQLException {
+		// TODO Auto-generated method stub
+		
+	}
+
 }

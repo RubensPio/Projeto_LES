@@ -42,4 +42,8 @@
 		<servlet-name>Servlet</servlet-name>
 		<url-pattern>/Pedido</url-pattern>
 	</servlet-mapping>
+	<servlet-mapping>
+		<servlet-name>Servlet</servlet-name>
+		<url-pattern>/Grafico</url-pattern>
+	</servlet-mapping>
 </web-app>

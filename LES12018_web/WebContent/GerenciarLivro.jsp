@@ -320,7 +320,7 @@
 			}
 		</script>
 
-<form action='SalvarCliente' method="post">	
+<form action='SalvarLivro' method="post">	
 <div class="modal fade" id="ModalInativar" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
  <div class="modal-dialog" role="document">
     <div class="modal-content">
@@ -339,11 +339,11 @@
 	      	</div>
 			<div class="row">
 				<div class="col-md mb-3">
-					<label id="label-sinopse" class=""> <strong>Motivo de Inativaï¿½ï¿½o</strong> </label>
+					<label id="label-sinopse" class=""> <strong>Motivo de Inativação</strong> </label>
 					<textarea name="txtMotivoInativ" class="form-control"></textarea>
 				</div>
 				<div class="col-md mb-3">
-					<label id="label-categoria" class="col-md-6 mb-3"> <strong>Categoria de Inativaï¿½ï¿½o</strong> </label> <br>
+					<label id="label-categoria" class="col-md-6 mb-3"> <strong>Categoria de Inativação</strong> </label> <br>
 						<select class="custom-select d-block" id="ddlCatInativ" name="ddlCatInativ" placeholder="Autor">
 							<option value="0">Escolha...</option>
 								<%
@@ -395,7 +395,7 @@
 					<textarea name="txtMotivoAti" class="form-control"></textarea>
 				</div>
 				<div class="col-md mb-6">
-					<label id="label-categoria" class="col-md-6 mb-3"> <strong>Categoria de Ativaï¿½ï¿½o</strong> </label> <br>
+					<label id="label-categoria" class="col-md-6 mb-3"> <strong>Categoria de Ativação</strong> </label> <br>
 						<select class="custom-select d-block" id="ddlCatAtiv" name="ddlCatAtiv">
 							<option value="0">Escolha...</option>
 								<%

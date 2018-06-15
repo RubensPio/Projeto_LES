@@ -19,6 +19,7 @@ import LES12018.controle.web.command.impl.VisualizarCommand;
 import LES12018.controle.web.vh.IViewHelper;
 import LES12018.controle.web.vh.impl.ClienteViewHelper;
 import LES12018.controle.web.vh.impl.DadosParaLivroViewHelper;
+import LES12018.controle.web.vh.impl.GraficoViewHelper;
 import LES12018.controle.web.vh.impl.LivroViewHelper;
 import LES12018.controle.web.vh.impl.PedidoViewHelper;
 import LES12018.core.aplicacao.Resultado;
@@ -53,6 +54,8 @@ public class Servlet extends HttpServlet {
         commands.put("CONSULTAR-TROCAS-ADMIN", new ConsultarCommand());
         commands.put("CONSULTAR-CUPOM", new ConsultarCommand());
         commands.put("CONSULTAR-COMPRA", new ConsultarCommand());
+        commands.put("CONSULTAR-ESTOQUE", new ConsultarCommand());
+        commands.put("GRAFICO", new ConsultarCommand());
         commands.put("FINALIZARCOMPRA", new SalvarCommand());
         commands.put("EXCLUIR", new ExcluirCommand());
         commands.put("ATIVAR", new AtivarCommand());
@@ -62,6 +65,8 @@ public class Servlet extends HttpServlet {
         commands.put("VISUALIZAR-TROCA", new VisualizarCommand());
         commands.put("ALTERAR", new AlterarCommand());
         commands.put("ALTERAR-CUPOM", new AlterarCommand());
+        commands.put("ADICIONAR-AO-ESTOQUE", new AlterarCommand());
+        commands.put("REMOVER-ESTOQUE", new AlterarCommand());
         commands.put("LOGAR", new LogarCommand());
         
         vhs = new HashMap<String, IViewHelper>();
@@ -72,6 +77,7 @@ public class Servlet extends HttpServlet {
         vhs.put("/LES12018_web/SalvarCliente", new ClienteViewHelper());
         vhs.put("/LES12018_web/Login", new ClienteViewHelper());
         vhs.put("/LES12018_web/Pedido", new PedidoViewHelper());
+        vhs.put("/LES12018_web/Grafico", new GraficoViewHelper());
     }
 
     /**

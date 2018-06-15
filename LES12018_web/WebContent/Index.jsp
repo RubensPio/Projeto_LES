@@ -61,6 +61,19 @@
 					%>
 			      </li>
 			      <li class="nav-item">
+			        <%
+						sb = new StringBuilder();
+						sb.append("<a class='nav-link' href='DadosParaLivro?");
+						sb.append("target=GerenciarEstoque.jsp");
+						sb.append("&");
+						sb.append("operacao=CONSULTAR'>");
+						sb.append("Gerenciar Estoque");
+						sb.append("</a>");
+						
+						out.print(sb.toString());
+					%>
+			      </li>
+			      <li class="nav-item">
 			        <a class="nav-link" href="Pedido?txtTroca=true&operacao=CONSULTAR-TROCAS-ADMIN">Gerenciar Trocas</a>
 			      </li>
 			      <li class="nav-item">

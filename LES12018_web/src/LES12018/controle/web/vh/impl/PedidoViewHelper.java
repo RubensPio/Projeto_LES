@@ -13,6 +13,7 @@ import javax.swing.plaf.synth.SynthSeparatorUI;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 
 import LES12018.controle.web.vh.IViewHelper;
 import LES12018.core.aplicacao.Resultado;
@@ -139,6 +140,7 @@ public class PedidoViewHelper implements IViewHelper{
 			Cliente cli = new Cliente();
 			Cliente cliC = new Cliente();
 			Cartao cart = new Cartao();
+			ArrayList<Cartao> cartoes = new ArrayList<Cartao>();
 			Endereco end = new Endereco();
 			cli.setId(cliente.getId());
 			cliC.setId(cliente.getId());
@@ -181,23 +183,20 @@ public class PedidoViewHelper implements IViewHelper{
 			}catch (Exception e) {
 				// TODO: handle exception
 			}
-			System.out.println(cupons[0]);
 			try {
 				String array[] = new String[2];
 				pedido.setCuponsTroca(new ArrayList<CupomTroca>());
 				for(String cup:cupons) {
 					array = cup.split(";");
-					System.out.println(array[1]);
 					cpt = new CupomTroca();
 					cpt.setId(Integer.parseInt(array[0]));
 					cpt.setValor(Double.parseDouble(array[1]));
-					System.out.println(cpt.getId());
-					System.out.println(cpt.getValor());
 					pedido.getCuponsTroca().add(cpt);
 				}
 			}catch (Exception e) {
 				// TODO: handle exception
 			}
+
 			pedido.setCliente(cli);
 			pedido.setStatus("Esperando Aprovação");
 			pedido.setEndEntrega(end);
@@ -205,7 +204,28 @@ public class PedidoViewHelper implements IViewHelper{
 			pedido.setFormaDePagamento(request.getParameter("ddlMetodoPagamento"));
 			
 			if(!request.getParameter("ddlCartoes").equals("0")) {
+				ArrayList<String>valores = new ArrayList<String>();
 				cart.setsNumCartao(request.getParameter("ddlCartoes"));
+				Map<String,String[]> parmMap = request.getParameterMap();
+				for(String cartao:parmMap.get("ddlCartoes")) {
+					cart = new Cartao();
+					cart.setsNumCartao(cartao);
+					cartoes.add(cart);
+				}
+				
+				if(cartoes.size() > 1){
+					for(String valor:parmMap.get("valorApagar")) {
+						valores.add(valor);
+						System.out.println(valor);
+					}
+					
+					for(int i = 0;i < cartoes.size(); i++) {
+						cartoes.get(i).setValorPago(Double.parseDouble(valores.get(i)));
+						System.out.println(cartoes.get(i).getValorPago());
+					}
+				}else {
+					cartoes.get(0).setValorPago(pedido.getValorTotal()+pedido.getFrete());
+				}
 			}else {
 				cart.setsNumCartao(request.getParameter("txtNumCartao"));
 				cart.setsCodSeguranca(request.getParameter("txtCodSeg"));
@@ -218,12 +238,15 @@ public class PedidoViewHelper implements IViewHelper{
 					ClienteDAO clidao = new ClienteDAO();
 					clidao.salvar(cliC);
 				}
+				cart.setValorPago(pedido.getValorTotal()+pedido.getFrete());
+				cartoes.add(cart);
 			}
-			pedido.setCartao(cart);
+			pedido.setCartao(cartoes);
 			
 			return pedido;
 		}else if(operacao.equals("CONSULTAR-ADMIN") || operacao.equals("CONSULTAR") || operacao.equals("CONSULTAR-TROCA") || operacao.equals("CONSULTAR-TROCAS-ADMIN")) {
 			Pedido ped = new Pedido();
+			
 			try {
 				ped.setId(Integer.parseInt(request.getParameter("txtId")));
 			}catch (Exception e) {
@@ -233,15 +256,15 @@ public class PedidoViewHelper implements IViewHelper{
 			try {
 				ped.setStatus(request.getParameter("txtStatusP"));
 				ped.setFormaDePagamento(request.getParameter("txtFormPagamento"));
-				ped.setCartao(new Cartao());
-				ped.getCartao().setsNumCartao(request.getParameter("txtNumCartao"));
+				ped.getCartao().add(new Cartao());
+				ped.getCartao().get(0).setsNumCartao(request.getParameter("txtNumCartao"));
 				ped.setEndEntrega(new Endereco());
 				ped.getEndEntrega().setCEP(request.getParameter("txtCEP"));
 				ped.getEndEntrega().setNumerologradouro(request.getParameter("txtNumLogradouro"));
 			}catch (Exception e) {
 				// TODO: handle exception
 			}
-			
+		
 			try {
 				flgTroca = request.getParameter("txtTroca").equals("true") ? true:false;
 			}catch(Exception e) {
@@ -428,6 +451,11 @@ public class PedidoViewHelper implements IViewHelper{
 			request.getSession().setAttribute("pedido", null);
 			
 			d = request.getRequestDispatcher("Index.jsp");
+		}
+		
+		if(resultado.getMsg() != null && operacao.equals("FINALIZARCOMPRA")) {
+			
+			d = request.getRequestDispatcher("carrinho.jsp");
 		}
 		
 		/*if(resultado.getMsg() != null) {

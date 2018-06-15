@@ -110,83 +110,145 @@ public class LivroDAO extends AbstractJdbcDAO {
 		openConnection();
 		PreparedStatement pst = null;
 		Livro livro = (Livro)entidade;
-		System.out.println(livro.getId());
-		try {
-			connection.setAutoCommit(false);
-			
-			StringBuilder sql = new StringBuilder();
-			sql.append("UPDATE tb_livros SET LIV_TITULO=?, LIV_ANO=?, LIV_EDICAO=?, LIV_ISBN=?, LIV_CODBARRAS=?,");
-			sql.append("LIV_NUMPAG=?, LIV_SINOPSE=?, LIV_ALTURA=?, LIV_LARGURA=?, LIV_PESO=?, ");
-			sql.append("LIV_PROFUNDIDADE=?, LIV_AUT_ID=?, ");
-			sql.append("LIV_EDI_ID=?, LIV_GRP_ID=? ");
-			sql.append("WHERE LIV_ID=?");
-			
-			pst = connection.prepareStatement(sql.toString());
-			pst.setString(1, livro.getTitulo());
-			pst.setString(2, livro.getAnoPub());
-			pst.setString(3, livro.getEdicao());
-			pst.setString(4, livro.getISBN());
-			pst.setString(5, livro.getCodBarras());
-			pst.setString(6, livro.getNumPaginas());
-			pst.setString(7, livro.getSinopse());
-			pst.setDouble(8, livro.getAltura());
-			pst.setDouble(9, livro.getLargura());
-			pst.setDouble(10, livro.getPeso());
-			pst.setDouble(11, livro.getProfundidade());
-			pst.setInt(12, livro.getAutor().getId());
-			pst.setInt(13, livro.getEditora().getId());
-			pst.setInt(14, livro.getGP().getId());
-			pst.setInt(15, livro.getId());
-			
-			System.out.println(pst.toString());
-			
-			pst.executeUpdate();
-			
-			connection.commit();
-			
-			if(livro.getCategorias() != null) {
-				sql = new StringBuilder();
-				sql.append("DELETE FROM tb_contem WHERE CON_LIV_ID=?");
+		
+		if(livro.getTitulo() != null) {
+			try {
+				connection.setAutoCommit(false);
+				
+				StringBuilder sql = new StringBuilder();
+				sql.append("UPDATE tb_livros SET LIV_TITULO=?, LIV_ANO=?, LIV_EDICAO=?, LIV_ISBN=?, LIV_CODBARRAS=?,");
+				sql.append("LIV_NUMPAG=?, LIV_SINOPSE=?, LIV_ALTURA=?, LIV_LARGURA=?, LIV_PESO=?, ");
+				sql.append("LIV_PROFUNDIDADE=?, LIV_AUT_ID=?, ");
+				sql.append("LIV_EDI_ID=?, LIV_GRP_ID=? ");
+				sql.append("WHERE LIV_ID=?");
+				
+				pst = connection.prepareStatement(sql.toString());
+				pst.setString(1, livro.getTitulo());
+				pst.setString(2, livro.getAnoPub());
+				pst.setString(3, livro.getEdicao());
+				pst.setString(4, livro.getISBN());
+				pst.setString(5, livro.getCodBarras());
+				pst.setString(6, livro.getNumPaginas());
+				pst.setString(7, livro.getSinopse());
+				pst.setDouble(8, livro.getAltura());
+				pst.setDouble(9, livro.getLargura());
+				pst.setDouble(10, livro.getPeso());
+				pst.setDouble(11, livro.getProfundidade());
+				pst.setInt(12, livro.getAutor().getId());
+				pst.setInt(13, livro.getEditora().getId());
+				pst.setInt(14, livro.getGP().getId());
+				pst.setInt(15, livro.getId());
+				
+				System.out.println(pst.toString());
+				
+				pst.executeUpdate();
+				
+				connection.commit();
+				
+				if(livro.getCategorias() != null) {
+					sql = new StringBuilder();
+					sql.append("DELETE FROM tb_contem WHERE CON_LIV_ID=?");
+					pst = connection.prepareStatement(sql.toString());
+					
+					pst.setInt(1, livro.getId());
+					
+					pst.executeUpdate();
+					connection.commit();
+					
+					for(Categoria categoria:livro.getCategorias()) {
+						try {
+						sql = new StringBuilder();
+						sql.append("INSERT INTO tb_contem(CON_LIV_ID, CON_CAT_ID) ");
+						sql.append("VALUES (?,?)");
+						
+						pst = connection.prepareStatement(sql.toString());
+						
+						pst.setInt(1, livro.getId());
+						pst.setInt(2, categoria.getId());
+						
+						pst.executeUpdate();
+						
+						connection.commit();
+						}catch(Exception e) {
+							
+						}
+					}
+			}
+				
+			} catch (SQLException e) {
+				try {
+					connection.rollback();
+				}catch (SQLException e1) {
+					e1.printStackTrace();
+				}
+				e.printStackTrace();
+			}  finally {
+				try {
+					pst.close();
+					connection.close();
+				} catch (SQLException e) {
+					e.printStackTrace();
+				}
+			}
+		}else {
+			try {
+				connection.setAutoCommit(false);
+				
+				StringBuilder sql = new StringBuilder();
+				sql.append("SELECT * FROM tb_livros_estoque WHERE LVE_LIV_ID=?");
+				
 				pst = connection.prepareStatement(sql.toString());
 				
 				pst.setInt(1, livro.getId());
 				
-				pst.executeUpdate();
-				connection.commit();
+				ResultSet resultSet = pst.executeQuery();
 				
-				for(Categoria categoria:livro.getCategorias()) {
-					try {
+				if(resultSet.next()) {
 					sql = new StringBuilder();
-					sql.append("INSERT INTO tb_contem(CON_LIV_ID, CON_CAT_ID) ");
-					sql.append("VALUES (?,?)");
+					sql.append("UPDATE tb_livros_estoque SET LVE_QTD=?, LVE_PRECO=?, LVE_LIV_ID=?, LVE_PRECO_UNIT=?");
+					sql.append("WHERE LVE_LIV_ID=?");
 					
 					pst = connection.prepareStatement(sql.toString());
 					
-					pst.setInt(1, livro.getId());
-					pst.setInt(2, categoria.getId());
+					pst.setInt(1, livro.getQtdEstoque());
+					pst.setDouble(2, livro.getPreco());
+					pst.setInt(3, livro.getId());
+					pst.setDouble(4, livro.getPrecoUnit());
+					pst.setInt(5, livro.getId());
+					pst.executeUpdate();
+					
+					connection.commit();
+					
+				}else {
+					sql = new StringBuilder();
+					sql.append("INSERT INTO tb_livros_estoque (LVE_QTD, LVE_PRECO, LVE_LIV_ID, LVE_PRECO_UNIT) VALUES (?, ?, ?, ?)");
+					
+					pst = connection.prepareStatement(sql.toString());
+					
+					pst.setInt(1, livro.getQtdEstoque());
+					pst.setDouble(2, livro.getPreco());
+					pst.setInt(3, livro.getId());
+					pst.setDouble(4, livro.getPrecoUnit());
 					
 					pst.executeUpdate();
 					
 					connection.commit();
-					}catch(Exception e) {
-						
-					}
 				}
-		}
-			
-		} catch (SQLException e) {
-			try {
-				connection.rollback();
-			}catch (SQLException e1) {
-				e1.printStackTrace();
-			}
-			e.printStackTrace();
-		}  finally {
-			try {
-				pst.close();
-				connection.close();
+				
 			} catch (SQLException e) {
+				try {
+					connection.rollback();
+				}catch (SQLException e1) {
+					e1.printStackTrace();
+				}
 				e.printStackTrace();
+			}  finally {
+				try {
+					pst.close();
+					connection.close();
+				} catch (SQLException e) {
+					e.printStackTrace();
+				}
 			}
 		}
 	}
@@ -428,7 +490,7 @@ public class LivroDAO extends AbstractJdbcDAO {
 				li.setAtivo(rs.getBoolean("LIV_ISATIVO"));
 				li.setQtdEstoque(rs.getInt("LVE_QTD"));
 				li.setPrecoUnit(rs.getDouble("LVE_PRECO_UNIT"));
-				System.out.println(li.getTitulo());
+				System.out.println(li.getQtdEstoque());
 				sql = new StringBuilder();
 				sql.append("SELECT * FROM (SELECT * FROM tb_contem as CON ");
 				sql.append("LEFT JOIN tb_livros as Livro ");

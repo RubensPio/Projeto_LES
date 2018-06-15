@@ -8,6 +8,7 @@ public class Cartao extends EntidadeDominio{
 	private String sNomeTitular;
 	private String sBandeira;
 	private String dtDataVal;
+	private double valorPago;
 	
 	public String getsNumCartao() {
 		return sNumCartao;
@@ -38,6 +39,12 @@ public class Cartao extends EntidadeDominio{
 	}
 	public void setDtDataVal(String dtDataVal) {
 		this.dtDataVal = dtDataVal;
+	}
+	public double getValorPago() {
+		return valorPago;
+	}
+	public void setValorPago(double valorPago) {
+		this.valorPago = valorPago;
 	}
 	
 }
