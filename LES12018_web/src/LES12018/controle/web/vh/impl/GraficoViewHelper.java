@@ -18,9 +18,23 @@ public class GraficoViewHelper implements IViewHelper {
 	@Override
 	public EntidadeDominio getEntidade(HttpServletRequest request) {
 		DadosParaGrafico dadosParaGrafico = new DadosParaGrafico();
+		try {
+			dadosParaGrafico.setDataInicial(Date.valueOf(request.getParameter("StartDate")));
+		}catch (Exception e) {
+			// TODO: handle exception
+		}
+	
+		try {
+			dadosParaGrafico.setDataFinal(Date.valueOf(request.getParameter("FinalDate")));
+		}catch (Exception e) {
+			
+		}
 		
-		dadosParaGrafico.setDataInicial(Date.valueOf(request.getParameter("StartDate")));
-		dadosParaGrafico.setDataFinal(Date.valueOf(request.getParameter("FinalDate")));
+		if(dadosParaGrafico.getDataInicial().after( dadosParaGrafico.getDataFinal())) {
+			Date auxiliar = dadosParaGrafico.getDataInicial();
+			dadosParaGrafico.setDataInicial(dadosParaGrafico.getDataFinal());
+			dadosParaGrafico.setDataFinal(auxiliar);
+		}
 		
 		return dadosParaGrafico;
 	}

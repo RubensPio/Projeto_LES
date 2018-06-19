@@ -77,7 +77,7 @@
 				    }
 				%>
 				<div class="text-center p-t-90">
-					<a href='cadastroCliente.jsp'>Registrar-se</button>	
+					<a id="registrar" href='cadastroCliente.jsp'>Registrar-se</a>	
 				</div>
 			</div>
 		</div>

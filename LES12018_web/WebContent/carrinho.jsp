@@ -48,7 +48,7 @@
                         </div>                                        
                             <%
 							sb = new StringBuilder();
-							sb.append("<a class='navbar-brand' href='SalvarCliente?txtId=");
+							sb.append("<a id='perfil' class='navbar-brand' href='SalvarCliente?txtId=");
 							sb.append(cliente.getId());
 							sb.append("&");
 							sb.append("operacao=CONSULTAR'>");
@@ -113,7 +113,7 @@
 		                                    	sb.append("</div>");
 		                                    	sb.append("<input type='number' class='form-control' min='1' max='100' name='Num"+ i +"' id='Num" + i +"' value='" + liv.getQuantidade() +"' aria-describedby='basic-addon2' onchange='UpdateSubTotal(`Num" + i +"`,`"+ liv.getLivro().getPrecoUnit() +"`,`subtotal"+ i +"`)'>");
 		                                    	sb.append("<div class='input-group-append'>");
-		                                    	sb.append("<button class='btn btn-outline-secondary' type='button' onclick='incrementValue(`Num" + i +"`,`"+ liv.getLivro().getPrecoUnit() +"`,`subtotal"+ i +"`)'><i class='fa fa-plus'></i></button>");
+		                                    	sb.append("<button id='aumentar' class='btn btn-outline-secondary' type='button' onclick='incrementValue(`Num" + i +"`,`"+ liv.getLivro().getPrecoUnit() +"`,`subtotal"+ i +"`)'><i class='fa fa-plus'></i></button>");
 		                                    	sb.append("</div>");
 		                                    	sb.append("</div>");
 		                                    	sb.append("</td>");
@@ -180,7 +180,7 @@
                                     <a href="ClienteLogado.jsp" class="btn btn-block btn-light">Continue a Comprar</a>
                                 </div>
                                 <div class="col-sm-12 col-md-6 text-uppercase text-right">
-                                    <button class="btn btn-lg btn-block btn-success text-uppercase" name="operacao" value="REALIZAR-COMPRA">Comprar</button>
+                                    <button id="comprar" class="btn btn-lg btn-block btn-success text-uppercase" name="operacao" value="REALIZAR-COMPRA">Comprar</button>
                                 </div>
                             </div>
                         </div>

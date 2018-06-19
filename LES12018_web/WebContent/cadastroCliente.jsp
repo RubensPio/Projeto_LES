@@ -141,7 +141,7 @@
 		                            <div class="col-md-3">
 		                                    <label for="cidade"><span class="req"> </span> Cidade *  </label> 
 		                                        <select class="form-control" type="text" name="ddlcidade" id = "cidade" required>
-		                                            <option value="São Paulo">São Paulo</option> 
+		                                            <option value="SP">São Paulo</option> 
 		                                        </select>
 		                                            <div id="errLast"></div>
 		                            </div>

@@ -70,12 +70,12 @@
     <body style="background-color: #f4e8e3"><br>
         <div class="container">
                 <div class="row">
-                     <div class="col-12 col-sm-3">
+                     <div class="col-12 col-sm-3"><!-- aqui -->
                         <div class="card bg-light mb-3">
                             <div class="card-header bg-primary text-white text-uppercase bg-orange"><i class="fa fa-shopping-basket"></i> Pedidos</div>
                             <ul class="list-group category_block">
-                                <li class="list-group-item"><a href="Pedido?txtId='<%out.print(cliente.getId());%>'">Todos os Pedidos</a></li>
-                                <li class="list-group-item"><a href="pedido-troca.html">Pedidos de Troca</a></li>
+                                <li class="list-group-item"><a id="pedidos"href="Pedido?txtId=<%out.print(cliente.getId());%>&operacao=CONSULTAR">Todos os Pedidos</a></li>
+                                <li class="list-group-item"><a id="trocas"href="Pedido?txtId=<%out.print(cliente.getId());%>&txtTroca=<%out.print("true");%>&operacao=CONSULTAR-TROCA">Pedidos de Troca</a></li>
                             </ul>
                         </div>
                         <div class="card bg-light mb-3">
@@ -117,7 +117,7 @@
                                     <li class="list-group-item"><a href="notificacao.html">Ver Notificacao</a></li>
                                 </ul>
                         </div>
-                    </div>
+                    </div><!-- aqui -->
                     <div class="col bg-light rounded box-shadow">
                             <div class="row">
                                     <div class="card-header form-control text-white text-uppercase bg-orange"><i class="fa fa-truck"></i> Trocas</div>

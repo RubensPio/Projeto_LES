@@ -248,7 +248,7 @@ public class PedidoViewHelper implements IViewHelper{
 			Pedido ped = new Pedido();
 			
 			try {
-				ped.setId(Integer.parseInt(request.getParameter("txtId")));
+				ped.getCliente().setId(Integer.parseInt(request.getParameter("txtId")));
 			}catch (Exception e) {
 				// TODO: handle exception
 			}

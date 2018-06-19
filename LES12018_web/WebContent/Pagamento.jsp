@@ -66,7 +66,7 @@
     <header>
         <nav class="navbar navbar-expand-md navbar-dark fixed-top bg-orange">
             <div class="container">
-                <a class="navbar-brand" href="IndexCliente.html">
+                <a class="navbar-brand" href="IndexLogado.jsp">
                 <img src="imagens/logo.png" width="30" height="30" class="d-inline-block align-top" alt=""> TopBooks</a>
                 <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarsExampleDefault" aria-controls="navbarsExampleDefault" aria-expanded="false" aria-label="Toggle navigation">
                     <span class="navbar-toggler-icon"></span>
@@ -273,7 +273,7 @@
 	                                    		%>
 	                                            </div>
 	                                            <div class="col-md-3">
-	                                            	<input class="form-control" type="number" min="0" name="valorApagar" placeholder="valor a pagar">
+	                                            	<input class="form-control" type="number" step="any" min="0" name="valorApagar" placeholder="valor a pagar">
 	                                            </div>
 	                                        </div>
 	                                        <div class="row" id="cartoes"></div>
@@ -299,7 +299,7 @@
 	                                                                    <input type="radio" name="btnBandeira" id="btnBandeira" autocomplete="off" value="visa" checked><h1><i class="fa fa-cc-visa"></i></h1>
 	                                                                </label>
 	                                                                <label class="btn btn-secondary bg-orange">
-	                                                                    <input type="radio" name="btnBandeira" id="btnBandeira" autocomplete="off" value="mastercard"><h1><i class="fa fa-cc-mastercard"></i></h1>
+	                                                                    <input type="radio" name="btnBandeira" id="btnBandeira" autocomplete="off" value="mastercard"><h1><i id="iconMaster" class="fa fa-cc-mastercard"></i></h1>
 	                                                                </label>
 	                                                                <label class="btn btn-secondary bg-orange">
 	                                                                    <input type="radio" name="btnBandeira" id="btnBandeira" autocomplete="off" value="amex"><h1><i class="fa fa-cc-amex"></i></h1>
@@ -339,7 +339,7 @@
 	                                                <div class="col-md-12">
 	                                                    <div class="custom-control custom-checkbox">
 	                                                        <input type="checkbox" class="custom-control-input" id="customCheck2" name="ckbSalvarCartao" value="true">
-	                                                        <label class="custom-control-label" for="customCheck2">Salvar como novo cartão ?</label>
+	                                                        <label id="checkbox-salvar" class="custom-control-label" for="customCheck2">Salvar como novo cartão ?</label>
 	                                                    </div>
 	                                                </div>
 	                                            </div>
@@ -430,11 +430,11 @@
 	                    <div class="col-md-12">
 	                        <div class="row">
 	                            <div class="col-md-4">
-	                                <a href="IndexCliente.html" class="btn btn-block">Cancelar</a>
+	                                <a href="ClienteLogado.jsp" class="btn btn-block">Cancelar</a>
 	                            </div>
 	                            <div class="col-md-4"></div>
 	                            <div class="col-md-4">
-	                                <button name="operacao" value="FINALIZARCOMPRA" class="btn btn-success btn-block">Comprar</button>
+	                                <button id="finalizar-compra" name="operacao" value="FINALIZARCOMPRA" class="btn btn-success btn-block">Comprar</button>
 	                            </div>
 	                        </div>
 	                    </div>

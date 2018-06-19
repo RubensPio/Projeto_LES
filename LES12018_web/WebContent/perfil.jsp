@@ -73,8 +73,8 @@
                         <div class="card bg-light mb-3">
                             <div class="card-header bg-primary text-white text-uppercase bg-orange"><i class="fa fa-shopping-basket"></i> Pedidos</div>
                             <ul class="list-group category_block">
-                                <li class="list-group-item"><a href="Pedido?txtId=<%out.print(cliente.getId());%>&operacao=CONSULTAR">Todos os Pedidos</a></li>
-                                <li class="list-group-item"><a href="Pedido?txtId=<%out.print(cliente.getId());%>&txtTroca=<%out.print("true");%>&operacao=CONSULTAR-TROCA">Pedidos de Troca</a></li>
+                                <li class="list-group-item"><a id="pedidos"href="Pedido?txtId=<%out.print(cliente.getId());%>&operacao=CONSULTAR">Todos os Pedidos</a></li>
+                                <li class="list-group-item"><a id="trocas"href="Pedido?txtId=<%out.print(cliente.getId());%>&txtTroca=<%out.print("true");%>&operacao=CONSULTAR-TROCA">Pedidos de Troca</a></li>
                             </ul>
                         </div>
                         <div class="card bg-light mb-3">

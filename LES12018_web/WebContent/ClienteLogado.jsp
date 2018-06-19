@@ -36,7 +36,7 @@
 	<header>
 		<nav class="navbar navbar-expand-md navbar-dark fixed-top bg-orange">
             <div class="container">
-                <a class="navbar-brand" href="IndexClienteLogado.html">
+                <a class="navbar-brand" href="ClienteLogado.jsp">
                 <img src="imagens/logo.png" width="30" height="30" class="d-inline-block align-top" alt=""> TopBooks</a>
                 <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarsExampleDefault" aria-controls="navbarsExampleDefault" aria-expanded="false" aria-label="Toggle navigation">
                     <span class="navbar-toggler-icon"></span>
@@ -47,7 +47,7 @@
                             <i class="fa fa-user"></i>
                         <%
 							sb = new StringBuilder();
-							sb.append("<a class='navbar-brand' href='SalvarCliente?txtId=");
+							sb.append("<a id='perfil' class='navbar-brand' href='SalvarCliente?txtId=");
 							sb.append(cliente.getId());
 							sb.append("&");
 							sb.append("operacao=CONSULTAR'>");
@@ -59,7 +59,7 @@
 						%>
 						</div>
                     </div>
-                    <a class="btn btn-success btn-sm ml-3" href="SalvarCliente?txtId=<%out.print(cliente.getId());%>&operacao=CONSULTAR-COMPRA">
+                    <a id="carrinho" class="btn btn-success btn-sm ml-3" href="SalvarCliente?txtId=<%out.print(cliente.getId());%>&operacao=CONSULTAR-COMPRA">
                     <i class="fa fa-shopping-cart"></i> Carrinho
                     <span class="badge badge-light"><%
                     	if(session.getAttribute("carrinho") != null){
@@ -108,7 +108,7 @@
                                     <li class="list-group-item"><input id="txtLargura" class="form-control" type="text" name="txtLargura" placeholder="Largura"></li>
                                     <li class="list-group-item"><input id="txtProfundidade" class="form-control" type="text" name="txtProfundidade" placeholder="Profundidade"></li>
                                     <li class="list-group-item"><input id="txtPeso" class="form-control" type="text" name="txtPeso" placeholder="Peso"></li>
-                                    <li class="list-group-item"><button class="btn btn-success btn-block" name="operacao" value="CONSULTAR"><i class="fa fa-search"></i></button>
+                                    <li class="list-group-item"><button id="buscar"class="btn btn-success btn-block" name="operacao" value="CONSULTAR"><i class="fa fa-search"></i></button>
                                     	<input type="hidden" name="target" value="ClienteLogado.jsp">
                                     </li>
                                 </ul>
@@ -161,7 +161,9 @@
 	        				    				sbRegistro.append("</h5>");
 	        				    				sbRegistro.append("</div>");
 	        				    				sbRegistro.append("<div class='col'>");
-	        				    				sbRegistro.append("<a href='Pedido?txtLivId=");
+	        				    				sbRegistro.append("<a id='");
+	        				    				sbRegistro.append(livro.getId());
+	        				    				sbRegistro.append("' href='Pedido?txtLivId=");
 	        				    				sbRegistro.append(livro.getId());
 	        				    				sbRegistro.append("&txtTitulo=");
 	        				    				sbRegistro.append(livro.getTitulo());
