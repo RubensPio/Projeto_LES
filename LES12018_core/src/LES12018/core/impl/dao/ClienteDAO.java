@@ -26,9 +26,9 @@ public class ClienteDAO extends AbstractJdbcDAO {
         System.out.println("kkk entra no salvar");
         System.out.println(obCliente.getCartoes().get(0).getsNumCartao());
         StringBuilder sql;
+        try {
         if (obCliente.getId() == null){                        // se o ID de cliente for nulo, quer dizer que não está cadastrado, entao é uma chamada de cadastro de novo cliente 
         	System.out.println("Cadastrar Cliente");
-            try {
                 connection.setAutoCommit(false);
 
                 // Concatena em uma String a Query que insere na tabela de cliente
@@ -89,26 +89,10 @@ public class ClienteDAO extends AbstractJdbcDAO {
                     
                 connection.commit();
     
-            } catch (SQLException e) {
-                try {
-                    connection.rollback();
-                } catch (Exception e1) {
-                    e1.printStackTrace();
-                }
-                e.printStackTrace();
-            } finally {
-                try {
-                    pst.close();
-                    connection.close();
-                 } catch (SQLException e) {
-                     e.printStackTrace();
-                 }
-            }
+      
         }
 
         if (obCliente.getId() != null && obCliente.getCartoes().get(0).getsNumCartao() != null) {                     // indica que o cliente já existe e deseja adicionar um novo cartão
-
-            try {
                 connection.setAutoCommit(false);
     
                 for (Cartao cartao : obCliente.getCartoes()) {
@@ -131,26 +115,10 @@ public class ClienteDAO extends AbstractJdbcDAO {
                     pst.executeUpdate();
                     connection.commit();
                 }
-            } catch (SQLException e) {
-                try {
-                    connection.rollback();
-                } catch (Exception e1) {
-                    e1.printStackTrace();
-                }
-                e.printStackTrace();
-            } finally {
-                try {
-                    pst.close();
-                    connection.close();
-                 } catch (SQLException e) {
-                     e.printStackTrace();
-                 }
-            }
+            
         }
 
-        if (obCliente.getId() != null && obCliente.getEnderecos().get(0).getCEP() != null) {                               //indica que a operação desejada é de cadastrar um endereço novo
-
-            try {
+        if (obCliente.getId() != null && obCliente.getEnderecos().size() == 0) {                               //indica que a operação desejada é de cadastrar um endereço novo
                 connection.setAutoCommit(false);
     
                 for (Endereco endereco : obCliente.getEnderecos()) {
@@ -179,22 +147,24 @@ public class ClienteDAO extends AbstractJdbcDAO {
                     System.out.println(pst.toString());
                     pst.executeUpdate();
                     connection.commit();
-                }    
-            } catch (SQLException e) {
-                try {
-                    connection.rollback();
-                } catch (Exception e1) {
-                    e1.printStackTrace();
-                }
-                e.printStackTrace();
-            } finally {
-                try {
-                    pst.close();
-                    connection.close();
-                 } catch (SQLException e) {
-                     e.printStackTrace();
-                 }
+                    
+            } 
+        }
+        }catch (SQLException e) {
+            try {
+                connection.rollback();
+            } catch (Exception e1) {
+                e1.printStackTrace();
             }
+            e.printStackTrace();
+        } finally {
+            try {
+                pst.close();
+                connection.close();
+                connection = null;
+             } catch (SQLException e) {
+                 e.printStackTrace();
+             }
         }
     }
 

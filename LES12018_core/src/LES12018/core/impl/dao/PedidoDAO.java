@@ -104,10 +104,10 @@ public class PedidoDAO extends AbstractJdbcDAO{
 							 }
 						 }
 						 
-						 total = ValorDesconto-objPedido.getValorTotal();
-						 
+						 total = objPedido.getValorTotal()+objPedido.getFrete()-ValorDesconto;
+						
 						 System.out.println(total);
-						 if(total != 0 && objPedido.getCartao().size() > 0) {
+						 if(total < 0) {
 							 connection.setAutoCommit(false);
 							 sql = new StringBuilder();
 							 
@@ -117,7 +117,7 @@ public class PedidoDAO extends AbstractJdbcDAO{
 							 pst = connection.prepareStatement(sql.toString());
 							 
 							 pst.setInt(1, objPedido.getCliente().getId());
-							 pst.setDouble(2, total);
+							 pst.setDouble(2, total*(-1));
 							 
 							 pst.executeUpdate();
 							 connection.commit();
@@ -174,6 +174,8 @@ public class PedidoDAO extends AbstractJdbcDAO{
 		    		for(Cartao cart:objPedido.getCartao()) {
 		    			connection.setAutoCommit(false);
 		    			
+		    			double subto = objPedido.getFrete()/objPedido.getCartao().size();
+		    			
 		    			sql = new StringBuilder();
 						sql.append("INSERT INTO tb_cartoes_pedido(CPD_PED_ID, CPD_CAR_NUM_CARTAO, CPR_VALOR_PAGO)");
 						sql.append("VALUES(?,?,?)");
@@ -182,7 +184,14 @@ public class PedidoDAO extends AbstractJdbcDAO{
 						
 						pst.setInt(1, objPedido.getId());
 						pst.setString(2, cart.getsNumCartao());
-						pst.setDouble(3, cart.getValorPago());
+						if(total > 0 && ped.getCuponsTroca().size() > 0) {
+							pst.setDouble(3, total);
+							total = 0;
+						}else if(total < 0) {
+							pst.setDouble(3, total);
+						}else {
+							pst.setDouble(3, cart.getValorPago()+subto);
+						}
 						
 						pst.executeUpdate();
 						System.out.println(pst.toString());
@@ -701,8 +710,9 @@ public class PedidoDAO extends AbstractJdbcDAO{
     	if(ped.getDtCadastro() != null) {
     		sql.append(" AND PED_DATA='" + ped.getDtCadastro()+"'");
     	}
+    	System.out.println(ped.getCliente().getId());
     	
-    	if(ped.getCliente().getId() != null && ped.getCliente().getId() < 0) {
+    	if(ped.getCliente().getId() != null && ped.getCliente().getId() > 0) {
     		sql.append(" AND PED_CLI_ID='"+ ped.getCliente().getId() +"'");
     	}
     	
@@ -791,7 +801,6 @@ public class PedidoDAO extends AbstractJdbcDAO{
         			pedido.getCartao().get(i).setDtDataVal(rs.getString("CAR_DT_VALIDADE"));
     			}
     			
-    			System.out.println(pedido.getId());
     			pedidos.add(pedido);
     		}
     	}catch (Exception e) {
